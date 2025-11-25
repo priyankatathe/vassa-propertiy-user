@@ -65,3 +65,4 @@ const RouteToOwnership = () => {
 };
 
 export default RouteToOwnership;
+  
