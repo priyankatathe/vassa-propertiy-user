@@ -13,7 +13,7 @@ const HeroSection = () => {
     <motion.div
       className="relative w-full h-screen bg-cover bg-center overflow-hidden flex items-center"
       style={{
-        backgroundImage: `url('./1.png')`,
+        backgroundImage: `url('./1.webp')`,
       }}
     >
       {/* ⭐ BORDER LINES — EXACTLY LIKE YOUR IMAGE */}

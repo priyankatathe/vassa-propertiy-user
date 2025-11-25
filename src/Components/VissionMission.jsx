@@ -8,7 +8,7 @@ const VisionMission = () => {
         {/* IMAGE TOP */}
         <div className="w-full">
           <img
-            src="/187.png"
+            src="/187.webp"
             alt="vision"
             className="h-[400px] sm:h-[450px] md:h-[500px] object-cover rounded-md"
           />

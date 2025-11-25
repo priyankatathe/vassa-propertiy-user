@@ -25,7 +25,7 @@ const RouteToOwnership = () => {
           }}
           className="absolute"
         >
-          <img src="/21.png" alt="Discover" className="w-36 sm:w-44" />
+          <img src="/21.webp" alt="Discover" className="w-36 sm:w-44" />
           <p className="absolute inset-0 flex items-center justify-center text-gray-400 font-semibold">
             Discover
           </p>

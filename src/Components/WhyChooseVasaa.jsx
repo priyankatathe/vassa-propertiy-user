@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../public/logo.png";
+import logo from "../../public/logo.webp";
 import { FaHome, FaLeaf, FaShieldAlt, FaGem, FaRegLightbulb } from "react-icons/fa";
 import { RiHome7Fill, RiSofaLine } from "react-icons/ri";
 import { CiLock } from "react-icons/ci";
@@ -35,7 +35,7 @@ const WhyChooseVassa = () => {
         {/* LEFT – IMAGE WITH LOGO CENTERED ON IMAGE */}
         <div className="relative">
           <img
-            src="/c1.png"
+            src="/c1.webp"
             alt="Property"
             className="w-full h-[260px] sm:h-[300px] md:h-[360px] lg:h-[420px] object-cover rounded-xl shadow-lg"
           />

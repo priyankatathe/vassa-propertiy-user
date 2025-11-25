@@ -1,7 +1,7 @@
 import React from "react";
 // Replace these with your actual image paths
-import stamp from "../../public/stamp.png";
-import propertyImg from "../../public/11.png";
+import stamp from "../../public/stamp.webp";
+import propertyImg from "../../public/11.webp";
 
 const PropertyDreamToReality = () => {
   return (

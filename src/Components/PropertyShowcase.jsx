@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const PropertyShowcase = () => {
-  const images = ["/c1.png", "/c2.png", "/c3.png"];
+  const images = ["/c1.webp", "/c2.webp", "/c3.webp"];
   const [index, setIndex] = useState(0);
 
   const next = () => setIndex((i) => (i + 1) % images.length);

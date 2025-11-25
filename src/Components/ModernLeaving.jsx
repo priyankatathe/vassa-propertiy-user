@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import houseIcon from "../../public/house.png";
-import c1 from "../../public/c1.png";
-import c2 from "../../public/c2.png";
-import c3 from "../../public/c3.png";
-import c4 from "../../public/c4.png";
+import houseIcon from "../../public/house.webp";
+import c1 from "../../public/c1.webp";
+import c2 from "../../public/c2.webp";
+import c3 from "../../public/c3.webp";
+import c4 from "../../public/c4.webp";
 import { MdArrowOutward } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
 

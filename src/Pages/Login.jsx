@@ -163,7 +163,7 @@ const Login = ({ closeModal, openRegister }) => {
 
                 <div className="bg-[#851524] text-white rounded-2xl flex flex-col justify-center p-8 md:p-12 overflow-y-auto">
                     <div className="flex flex-col items-center gap-2 mb-6">
-                        <img src="/logo.png" alt="logo" className="w-30 h-20" />
+                        <img src="/logo.webp" alt="logo" className="w-30 h-20" />
                     </div>
 
                     <p className="text-sm text-center text-gray-300 mb-6">

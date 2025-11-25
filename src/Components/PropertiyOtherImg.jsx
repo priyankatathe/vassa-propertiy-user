@@ -5,7 +5,7 @@ const PropertiyOtherImg = ({ property, startIndex = 0, onClose }) => {
   const images =
     property.Other_images && property.Other_images.length > 0
       ? property.Other_images
-      : [property.specifications?.kitchenImage || "/Rectangle 135.png"];
+      : [property.specifications?.kitchenImage || "/Rectangle 135.webp"];
 
   const [currentIndex, setCurrentIndex] = useState(startIndex);
 

@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
 
-import rowhouseImg from "../../public/p4.png";
-import villaImg from "../../public/p3.png";
-import luxuryImg from "../../public/p2.png";
-import farmImg from "../../public/p1.png";
+import rowhouseImg from "../../public/p4.webp";
+import villaImg from "../../public/p3.webp";
+import luxuryImg from "../../public/p2.webp";
+import farmImg from "../../public/p1.webp";
 
 const HomeCarousell = () => {
     const slides = [

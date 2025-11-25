@@ -229,7 +229,7 @@ const removeOtherImage = (index) => {
  <section
   className="relative bg-cover bg-center  bg-no-repeat min-h-screen py-12 px-4 sm:px-6 lg:px-16 font-manrope"
   style={{
-    backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/propbg.jpg')`,
+    backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/propbg.webp')`,
   }}
 >
       <Navbar />

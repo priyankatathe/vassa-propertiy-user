@@ -57,7 +57,7 @@ const FindHomeHeroSection = ({ shrunk }) => {
 
         ${isSticky ? "sticky top-0 left-0 z-50" : ""}
       `}
-      style={{ backgroundImage: `url('./findhome.png')` }}
+      style={{ backgroundImage: `url('./findhome.webp')` }}
     >
       {/* Navbar */}
       <div className="absolute top-0 left-0 w-full z-20">

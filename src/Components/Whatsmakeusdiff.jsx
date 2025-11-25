@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import sampleImg from "/100.jpg";
+import sampleImg from "/100.webp";
 import { ArrowDown } from "lucide-react";
 
 const WhatMakeUsDiffernt = ({ section1Ref, scrollToBottom }) => {

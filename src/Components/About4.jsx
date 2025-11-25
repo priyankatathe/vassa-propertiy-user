@@ -1,5 +1,5 @@
 import React from "react";
-import bgImage from "/about4bg.jpg"; // Your image path
+import bgImage from "/about4bg.webp"; // Your image path
 
 const About4 = () => {
   const buttons = [

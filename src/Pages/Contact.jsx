@@ -41,7 +41,7 @@ const ContactUs = () => {
   return (
     <section
       className="relative bg-cover bg-center bg-no-repeat min-h-screen flex flex-col"
-      style={{ backgroundImage: "url('/contact.jpg')" }}
+      style={{ backgroundImage: "url('/contact.webp')" }}
     >
       {/* Navbar */}
       <div className="w-full z-20">

@@ -1,5 +1,5 @@
 import React from "react";
-import HouseImg from "/house.png"; // <-- your house image
+import HouseImg from "/house.webp"; // <-- your house image
 
 const DreamHomeCTA = () => {
   return (

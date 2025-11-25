@@ -58,25 +58,49 @@ const Navbar = () => {
             ${isHeroPage && !scrolled ? "text-white" : "text-black"}`}
         >
           <li>
-            <Link to="/about" className="hover:text-yellow-400 transition-colors duration-200">
+            <Link
+              to="/about"
+              className={`hover:text-yellow-400 font-bold transition-colors duration-200
+      ${location.pathname === "/about" ? "text-yellow-400" : ""}
+    `}
+            >
               About Us
             </Link>
           </li>
+
           <li>
-            <Link to="/find-home" className="hover:text-yellow-400 transition-colors duration-200">
+            <Link
+              to="/find-home"
+              className={`hover:text-yellow-400 font-bold transition-colors duration-200
+      ${location.pathname === "/find-home" ? "text-yellow-400" : ""}
+    `}
+            >
               Find Home
             </Link>
           </li>
+
           <li>
-            <Link to="/contact" className="hover:text-yellow-400 transition-colors duration-200">
+            <Link
+              to="/contact"
+              className={`hover:text-yellow-400 font-bold transition-colors duration-200
+      ${location.pathname === "/contact" ? "text-yellow-400" : ""}
+    `}
+            >
               Contact
             </Link>
           </li>
+
           <li>
-            <Link to="/list" className="hover:text-yellow-400 transition-colors duration-200">
+            <Link
+              to="/list"
+              className={`hover:text-yellow-400 font-bold transition-colors duration-200
+      ${location.pathname === "/list" ? "text-yellow-400" : ""}
+    `}
+            >
               List Properties
             </Link>
           </li>
+
         </ul>
 
         {/* Right Buttons */}
