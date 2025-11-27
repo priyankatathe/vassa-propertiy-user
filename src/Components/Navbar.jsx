@@ -15,7 +15,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
   const location = useLocation(); // <-- Get current page path
-
+  const user = JSON.parse(localStorage.getItem("user"));
   const isHeroPage = location.pathname === "/"; // <-- check if we are on hero page
 
   useEffect(() => {
@@ -30,6 +30,8 @@ const Navbar = () => {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHeroPage]);
+
+
 
   return (
     <nav
@@ -105,13 +107,18 @@ const Navbar = () => {
 
         {/* Right Buttons */}
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => setOpenLogin(true)}
-            className="hidden md:flex items-center gap-2 bg-yellow-400 border border-[#851524] text-white px-4 py-2 rounded-full font-semibold hover:bg-yellow-500 transition"
-          >
-            <FaUserLock className="text-[#851524]" /> Login
-          </button>
-
+          {user?.user?.name ? (
+            <div className="flex items-center gap-2 bg-yellow-400 border border-[#851524] text-black px-4 py-2 rounded-full font-semibold cursor-pointer">
+              <FaUserLock className="text-[#851524]" /> {user.user.name}
+            </div>
+          ) : (
+            <button
+              onClick={() => setOpenLogin(true)}
+              className="flex items-center gap-2 bg-yellow-400 border border-[#851524] text-white px-4 py-2 rounded-full font-semibold hover:bg-yellow-500 transition"
+            >
+              <FaUserLock className="text-[#851524]" /> Login
+            </button>
+          )}
           {/* Mobile Toggle */}
           <button
             className={`${isHeroPage && !scrolled ? "text-white" : "text-black"} md:hidden`}
@@ -120,6 +127,7 @@ const Navbar = () => {
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
+
       </div>
 
       {/* Mobile Menu */}
@@ -139,16 +147,20 @@ const Navbar = () => {
               List Properties
             </Link>
 
-            <button
-              onClick={() => {
-                setOpenLogin(true);
-                setMobileMenuOpen(false);
-              }}
-              className="mt-8 w-full max-w-sm mx-auto bg-yellow-400 text-black font-bold py-4 rounded-full hover:bg-yellow-500 transition shadow-2xl flex items-center justify-center gap-3"
-            >
-              <FaUserLock size={24} />
-              Login
-            </button>
+            {!user?.user?.name && (
+              <button
+                onClick={() => {
+                  setOpenLogin(true);
+                  setMobileMenuOpen(false);
+                }}
+                className="mt-8 w-full max-w-sm mx-auto bg-yellow-400 text-black font-bold py-4 rounded-full hover:bg-yellow-500 transition shadow-2xl flex items-center justify-center gap-3"
+              >
+                <FaUserLock size={24} />
+                Login
+              </button>
+            )}
+
+
           </div>
         </div>
       )}

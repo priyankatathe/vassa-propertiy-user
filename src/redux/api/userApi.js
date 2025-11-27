@@ -18,15 +18,17 @@ export const userApi = createApi({
                 invalidatesTags: ["user"],
             }),
             sendOtp: builder.mutation({
-                query: userData => {
-                    return {
-                        url: "/send/otp",
-                        method: "POST",
-                        body: userData
-                    }
-                },
+                query: userData => ({
+                    url: "/send/otp",
+                    method: "POST",
+                    body: JSON.stringify(userData),          // <-- FORCE JSON STRING
+                    headers: {
+                        "Content-Type": "application/json",    // <-- FIXES COOKIE ISSUE
+                    },
+                }),
                 invalidatesTags: ["user"],
             }),
+
             RegisterUser: builder.mutation({
                 query: userData => {
                     return {

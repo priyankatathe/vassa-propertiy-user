@@ -143,10 +143,10 @@ const Login = ({ closeModal, openRegister }) => {
 
     return (
         <div className="fixed inset-0 z-[9999] font-manrope flex items-center justify-center">
-           <div
-  className="absolute inset-0 bg-black/70 backdrop-blur-md"
-  onClick={closeModal}
-/>
+            <div
+                className="absolute inset-0 bg-black/70 backdrop-blur-md"
+                onClick={closeModal}
+            />
 
 
             <div className="relative bg-white rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-2 w-full h-[650px] max-w-5xl shadow-xl p-2 animate__animated animate__zoomIn">
@@ -158,7 +158,7 @@ const Login = ({ closeModal, openRegister }) => {
                 </button>
 
                 <div className="hidden md:block p-1">
-                    <img src="/home.jpg" alt="login-left" className="w-full h-full rounded-2xl object-cover" />
+                    <img src="/home.webp" alt="login-left" className="w-full h-full rounded-2xl object-cover" />
                 </div>
 
                 <div className="bg-[#851524] text-white rounded-2xl flex flex-col justify-center p-8 md:p-12 overflow-y-auto">

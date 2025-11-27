@@ -28,25 +28,6 @@ const authSlice = createSlice({
                 localStorage.removeItem("user");
             }
         )
-    // .addMatcher(
-    //     userApi.endpoints.updateProfile.matchFulfilled,
-    //     (state, { payload }) => {
-    //         console.log("Updated user payload:", payload);
-
-    //         // since backend sends user: updatedUserData
-    //         const updatedUser = payload?.user;
-
-    //         // update redux state
-    //         state.user = { ...state.user, data: updatedUser };
-
-    //         // persist in localStorage
-    //         localStorage.setItem(
-    //             "user",
-    //             JSON.stringify({ ...state.user, data: updatedUser })
-    //         );
-    //     }
-    // )
-
 
 })
 

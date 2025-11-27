@@ -1,6 +1,5 @@
 
-
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../Components/Navbar";
 import { LuUpload, LuX } from "react-icons/lu";
 import { IoIosArrowRoundDown } from "react-icons/io";
@@ -8,6 +7,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useAddPropertiesMutation } from "../redux/api/listPropertiApi";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 // Corrected Schema (otherImage duplicate removed + proper mixed/array)
 const schema = yup.object({
@@ -30,7 +31,7 @@ const schema = yup.object({
     .required("Listing Type is required"),
   amenities: yup
     .object()
-    .test("at-least-one", "Select at least one amenity", (value) => 
+    .test("at-least-one", "Select at least one amenity", (value) =>
       Object.values(value || {}).some(v => v === true)
     ),
   state: yup.string().required("State is required"),
@@ -70,6 +71,7 @@ const steps = [
 ];
 
 const ListProperty = () => {
+
   const [currentStep, setCurrentStep] = useState(0);
   const [addProperties, { isLoading, isError, error }] = useAddPropertiesMutation();
 
@@ -130,39 +132,72 @@ const ListProperty = () => {
     }
   };
 
- const handleMultipleImages = (e) => {
-  const files = Array.from(e.target.files);
-  if (files.length === 0) return;
+  const handleMultipleImages = (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
 
-  const newPreviews = files.map((file) => URL.createObjectURL(file));
+    const newPreviews = files.map((file) => URL.createObjectURL(file));
 
-  // Update state
-  setOthersPreview((prev) => [...prev, ...newPreviews]);
-  setOtherFile((prev) => [...prev, ...files]);
+    // Update state
+    setOthersPreview((prev) => [...prev, ...newPreviews]);
+    setOtherFile((prev) => [...prev, ...files]);
 
-  // Correctly set value in RHF
-  const updatedFiles = [...otherFile, ...files];
-  setValue("otherImage", updatedFiles, { shouldValidate: true });
+    // Correctly set value in RHF
+    const updatedFiles = [...otherFile, ...files];
+    setValue("otherImage", updatedFiles, { shouldValidate: true });
 
-  e.target.value = null; // reset input
-};
+    e.target.value = null; // reset input
+  };
 
-const removeOtherImage = (index) => {
-  const updatedFiles = otherFile.filter((_, i) => i !== index);
-  const updatedPreviews = othersPreview.filter((_, i) => i !== index);
+  const removeOtherImage = (index) => {
+    const updatedFiles = otherFile.filter((_, i) => i !== index);
+    const updatedPreviews = othersPreview.filter((_, i) => i !== index);
 
-  setOtherFile(updatedFiles);
-  setOthersPreview(updatedPreviews);
-  setValue("otherImage", updatedFiles, { shouldValidate: true });
-};
+    setOtherFile(updatedFiles);
+    setOthersPreview(updatedPreviews);
+    setValue("otherImage", updatedFiles, { shouldValidate: true });
+  };
 
   const removeImage = (setPreview, setFile, fieldName) => {
     setPreview(null);
     setFile(null);
     setValue(fieldName, null, { shouldValidate: true });
   };
+  // ListProperty component च्या बाहेर किंवा onSubmit च्या आत हे टाका
+  const getUserId = () => {
+    const userData = localStorage.getItem("user");
+
+    if (!userData) return null;
+
+    try {
+      const parsed = JSON.parse(userData);
+
+      // Case 1: { data: { _id: ... } } → तुझ्या current backend चा format
+      if (parsed?.data?._id) return parsed.data._id;
+
+      // Case 2: { user: { _id: ... } } → खूप common format
+      if (parsed?.user?._id) return parsed.user._id;
+
+      // Case 3: direct user object → { _id: ..., name: ... }
+      if (parsed?._id) return parsed._id;
+
+      return null;
+    } catch (e) {
+      console.error("Error parsing user from localStorage", e);
+      return null;
+    }
+  };
+  // const navigate = useNavigate()
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const onSubmit = async (data) => {
+    const userId = getUserId()
+    if (!userId) {
+      alert("Please login first to add a property!");
+      // navigate("/login");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("propertyType", data.type);
@@ -226,12 +261,12 @@ const removeOtherImage = (index) => {
   };
 
   return (
- <section
-  className="relative bg-cover bg-center  bg-no-repeat min-h-screen py-12 px-4 sm:px-6 lg:px-16 font-manrope"
-  style={{
-    backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/propbg.webp')`,
-  }}
->
+    <section
+      className="relative bg-cover bg-center  bg-no-repeat min-h-screen py-12 px-4 sm:px-6 lg:px-16 font-manrope"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/propbg.webp')`,
+      }}
+    >
       <Navbar />
 
       {/* Hero */}
@@ -264,177 +299,172 @@ const removeOtherImage = (index) => {
 
       {/* Form */}
       <div ref={formRef} className="max-w-5xl lg:py-10 mx-auto mt-10">
-     <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
 
-  {/* ==================== STEP 1: Basic Info ==================== */}
-  {currentStep === 0 && (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-      <div className="p-8">
-        <h2 className="text-2xl font-bold mb-6">Basic Information</h2>
-        {/* ← आपका पूरा Basic Info grid यहाँ → */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {[
-            { name: "title", placeholder: "Property Title" },
-            { name: "type", placeholder: "Property Type", options: ["Apartment", "Villa", "House", "Commercial", "Land", "Office"] },
-            { name: "price", placeholder: "Price" },
-            { name: "bedrooms", placeholder: "Number of Bedrooms" },
-            { name: "size", placeholder: "Property Size in Sq.ft" },
-            { name: "bathrooms", placeholder: "Number of Bathrooms" },
-            { name: "furnishingStatus", placeholder: "Furnishing Status", options: ["Furnished", "Semi-Furnished", "Unfurnished"] },
-            { name: "listingType", placeholder: "Listing Type", options: ["Sale", "Rent"] },
-          ].map((field) => (
-            <div key={field.name}>
-              {field.options ? (
-                <select
-                  {...register(field.name)}
-                  className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${
-                    errors[field.name] ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"
-                  }`}
-                >
-                  <option value="">{field.placeholder}</option>
-                  {field.options.map((opt) => (
-                    <option key={opt} value={opt}>{opt}</option>
+          {/* ==================== STEP 1: Basic Info ==================== */}
+          {currentStep === 0 && (
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+              <div className="p-8">
+                <h2 className="text-2xl font-bold mb-6">Basic Information</h2>
+                {/* ← आपका पूरा Basic Info grid यहाँ → */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {[
+                    { name: "title", placeholder: "Property Title" },
+                    { name: "type", placeholder: "Property Type", options: ["Apartment", "Villa", "House", "Commercial", "Land", "Office"] },
+                    { name: "price", placeholder: "Price" },
+                    { name: "bedrooms", placeholder: "Number of Bedrooms" },
+                    { name: "size", placeholder: "Property Size in Sq.ft" },
+                    { name: "bathrooms", placeholder: "Number of Bathrooms" },
+                    { name: "furnishingStatus", placeholder: "Furnishing Status", options: ["Furnished", "Semi-Furnished", "Unfurnished"] },
+                    { name: "listingType", placeholder: "Listing Type", options: ["Sale", "Rent"] },
+                  ].map((field) => (
+                    <div key={field.name}>
+                      {field.options ? (
+                        <select
+                          {...register(field.name)}
+                          className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors[field.name] ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"
+                            }`}
+                        >
+                          <option value="">{field.placeholder}</option>
+                          {field.options.map((opt) => (
+                            <option key={opt} value={opt}>{opt}</option>
+                          ))}
+                        </select>
+                      ) : (
+                        <input
+                          {...register(field.name)}
+                          placeholder={field.placeholder}
+                          className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors[field.name] ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"
+                            }`}
+                        />
+                      )}
+                      {errors[field.name] && <p className="text-red-600 text-sm mt-1">{errors[field.name]?.message}</p>}
+                    </div>
                   ))}
-                </select>
-              ) : (
-                <input
-                  {...register(field.name)}
-                  placeholder={field.placeholder}
-                  className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${
-                    errors[field.name] ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"
-                  }`}
+                </div>
+              </div>
+
+              {/* Buttons inside the same card */}
+              <div className="bg-gray-50 px-8 py-5 flex justify-end">
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-full"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
+
+
+          {/* ==================== STEP 2: Location ==================== */}
+          {currentStep === 1 && (
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+              <div className="p-8">
+                <h2 className="text-2xl font-bold mb-6">Location Details</h2>
+                {/* ← आपका पूरा Location grid यहाँ → */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {["city", "area", "state", "pincode"].map((field, index) => (
+                    <div key={field} className={index === 3 ? "sm:col-span-1" : ""}>
+                      <input
+                        {...register(field)}
+                        placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                        className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors[field] ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"
+                          }`}
+                      />
+                      {errors[field] && <p className="text-red-600 text-sm mt-1">{errors[field].message}</p>}
+                    </div>
+                  ))}
+                  <div className="sm:col-span-2">
+                    <input
+                      {...register("address")}
+                      placeholder="Full Address"
+                      className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors.address ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"
+                        }`}
+                    />
+                    {errors.address && <p className="text-red-600 text-sm mt-1">{errors.address.message}</p>}
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 px-8 py-5 flex justify-between">
+                <button type="button" onClick={handlePrev} className="px-8 py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-full">
+                  Previous
+                </button>
+                <button type="button" onClick={handleNext} className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-full">
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
+
+
+          {/* ==================== STEP 3: Description ==================== */}
+          {currentStep === 2 && (
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+              <div className="p-8">
+                <h2 className="text-2xl font-bold mb-4">Property Description</h2>
+                <textarea
+                  {...register("description")}
+                  placeholder="Write about your property..."
+                  className={`w-full h-32 px-4 py-2 rounded-lg border-2 transition-all resize-none focus:outline-none focus:ring-4 ${errors.description ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"
+                    }`}
                 />
-              )}
-              {errors[field.name] && <p className="text-red-600 text-sm mt-1">{errors[field.name]?.message}</p>}
+                {errors.description && <p className="text-red-600 text-sm mt-1">{errors.description.message}</p>}
+              </div>
+
+              <div className="bg-gray-50 px-8 py-5 flex justify-between">
+                <button type="button" onClick={handlePrev} className="px-8 py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-full">
+                  Previous
+                </button>
+                <button type="button" onClick={handleNext} className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-full">
+                  Next
+                </button>
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Buttons inside the same card */}
-      <div className="bg-gray-50 px-8 py-5 flex justify-end">
-        <button
-          type="button"
-          onClick={handleNext}
-          className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-full"
-        >
-          Next
-        </button>
-      </div>
-    </div>
-  )}
+          )}
 
 
-  {/* ==================== STEP 2: Location ==================== */}
-  {currentStep === 1 && (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-      <div className="p-8">
-        <h2 className="text-2xl font-bold mb-6">Location Details</h2>
-        {/* ← आपका पूरा Location grid यहाँ → */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {["city", "area", "state", "pincode"].map((field, index) => (
-            <div key={field} className={index === 3 ? "sm:col-span-1" : ""}>
-              <input
-                {...register(field)}
-                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${
-                  errors[field] ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"
-                }`}
-              />
-              {errors[field] && <p className="text-red-600 text-sm mt-1">{errors[field].message}</p>}
+          {/* ==================== STEP 4: Amenities ==================== */}
+          {currentStep === 3 && (
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+              <div className="p-8">
+                <h2 className="text-2xl font-bold mb-6">Amenities</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+                  {[
+                    { key: "parking", label: "Parking" },
+                    { key: "lift", label: "Lift" },
+                    { key: "security", label: "Security" },
+                    { key: "waterSupply", label: "Water Supply" },
+                    { key: "gym", label: "Gym" },
+                    { key: "swimmingPool", label: "Swimming Pool" },
+                  ].map((item) => (
+                    <label key={item.key} className="flex items-center gap-3 cursor-pointer">
+                      <input type="checkbox" {...register(`amenities.${item.key}`)} className="w-6 h-6 rounded accent-yellow-500" />
+                      <span className="text-gray-700">{item.label}</span>
+                    </label>
+                  ))}
+                </div>
+                {errors.amenities && <p className="text-red-500 text-sm mt-2">{errors.amenities.message}</p>}
+              </div>
+
+              <div className="bg-gray-50 px-8 py-5 flex justify-between">
+                <button type="button" onClick={handlePrev} className="px-8 py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-full">
+                  Previous
+                </button>
+                <button type="button" onClick={handleNext} className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-full">
+                  Next
+                </button>
+              </div>
             </div>
-          ))}
-          <div className="sm:col-span-2">
-            <input
-              {...register("address")}
-              placeholder="Full Address"
-              className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${
-                errors.address ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"
-              }`}
-            />
-            {errors.address && <p className="text-red-600 text-sm mt-1">{errors.address.message}</p>}
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-gray-50 px-8 py-5 flex justify-between">
-        <button type="button" onClick={handlePrev} className="px-8 py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-full">
-          Previous
-        </button>
-        <button type="button" onClick={handleNext} className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-full">
-          Next
-        </button>
-      </div>
-    </div>
-  )}
+          )}
 
 
-  {/* ==================== STEP 3: Description ==================== */}
-  {currentStep === 2 && (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-      <div className="p-8">
-        <h2 className="text-2xl font-bold mb-4">Property Description</h2>
-        <textarea
-          {...register("description")}
-          placeholder="Write about your property..."
-          className={`w-full h-32 px-4 py-2 rounded-lg border-2 transition-all resize-none focus:outline-none focus:ring-4 ${
-            errors.description ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"
-          }`}
-        />
-        {errors.description && <p className="text-red-600 text-sm mt-1">{errors.description.message}</p>}
-      </div>
-
-      <div className="bg-gray-50 px-8 py-5 flex justify-between">
-        <button type="button" onClick={handlePrev} className="px-8 py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-full">
-          Previous
-        </button>
-        <button type="button" onClick={handleNext} className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-full">
-          Next
-        </button>
-      </div>
-    </div>
-  )}
-
-
-  {/* ==================== STEP 4: Amenities ==================== */}
-  {currentStep === 3 && (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-      <div className="p-8">
-        <h2 className="text-2xl font-bold mb-6">Amenities</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-          {[
-            { key: "parking", label: "Parking" },
-            { key: "lift", label: "Lift" },
-            { key: "security", label: "Security" },
-            { key: "waterSupply", label: "Water Supply" },
-            { key: "gym", label: "Gym" },
-            { key: "swimmingPool", label: "Swimming Pool" },
-          ].map((item) => (
-            <label key={item.key} className="flex items-center gap-3 cursor-pointer">
-              <input type="checkbox" {...register(`amenities.${item.key}`)} className="w-6 h-6 rounded accent-yellow-500" />
-              <span className="text-gray-700">{item.label}</span>
-            </label>
-          ))}
-        </div>
-        {errors.amenities && <p className="text-red-500 text-sm mt-2">{errors.amenities.message}</p>}
-      </div>
-
-      <div className="bg-gray-50 px-8 py-5 flex justify-between">
-        <button type="button" onClick={handlePrev} className="px-8 py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-full">
-          Previous
-        </button>
-        <button type="button" onClick={handleNext} className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-full">
-          Next
-        </button>
-      </div>
-    </div>
-  )}
-
-
-  {/* ==================== STEP 5: Images ==================== */}
-  {currentStep === 4 && (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-       <div className="bg-white rounded-2xl  p-8">
+          {/* ==================== STEP 5: Images ==================== */}
+          {currentStep === 4 && (
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+              <div className="bg-white rounded-2xl  p-8">
                 <h1 className="text-2xl font-bold mb-10">Property Images (Required)</h1>
 
                 {/* 3 Images Side by Side */}
@@ -618,122 +648,121 @@ const removeOtherImage = (index) => {
                 </div>
 
                 {/* Other Images Section — UNTOUCHED */}
-<div className="mb-10">
-  <h2 className="text-lg font-medium mb-4">Other Images *</h2>
+                <div className="mb-10">
+                  <h2 className="text-lg font-medium mb-4">Other Images *</h2>
 
-  <div className="space-y-4">
-    {othersPreview.length > 0 && (
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
-        {othersPreview.map((preview, index) => (
-          <div key={index} className="relative group">
-            <img
-              src={preview}
-              alt={`Other ${index + 1}`}
-              className="w-full h-32 object-cover rounded-lg border-2 border-gray-300"
-            />
-            <button
-              type="button"
-              onClick={() => removeOtherImage(index)}
-              className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-700"
-            >
-              <LuX className="w-4 h-4" />
-            </button>
-          </div>
-        ))}
-      </div>
-    )}
+                  <div className="space-y-4">
+                    {othersPreview.length > 0 && (
+                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
+                        {othersPreview.map((preview, index) => (
+                          <div key={index} className="relative group">
+                            <img
+                              src={preview}
+                              alt={`Other ${index + 1}`}
+                              className="w-full h-32 object-cover rounded-lg border-2 border-gray-300"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => removeOtherImage(index)}
+                              className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-700"
+                            >
+                              <LuX className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
-    <label
-      className={`relative block w-full h-48 border-2 rounded-xl cursor-pointer overflow-hidden transition-all bg-gray-50 hover:border-yellow-400 ${
-        errors.otherImage
-          ? "border-red-500"
-          : othersPreview.length > 0
-          ? "border-green-500"
-          : "border-dashed border-gray-400"
-      }`}
-    >
-      <div className="flex flex-col items-center justify-center h-full text-center px-6">
-        <LuUpload className="w-14 h-14 text-gray-400 mb-4" />
-        <p className="text-gray-700 font-medium">Drop more photos here</p>
-        <p className="text-sm text-gray-500 mt-1">
-          or <span className="text-yellow-600 underline font-medium">Click to select</span>
-        </p>
-        <span className="text-xs text-gray-400 mt-2">You can select multiple images</span>
-      </div>
+                    <label
+                      className={`relative block w-full h-48 border-2 rounded-xl cursor-pointer overflow-hidden transition-all bg-gray-50 hover:border-yellow-400 ${errors.otherImage
+                        ? "border-red-500"
+                        : othersPreview.length > 0
+                          ? "border-green-500"
+                          : "border-dashed border-gray-400"
+                        }`}
+                    >
+                      <div className="flex flex-col items-center justify-center h-full text-center px-6">
+                        <LuUpload className="w-14 h-14 text-gray-400 mb-4" />
+                        <p className="text-gray-700 font-medium">Drop more photos here</p>
+                        <p className="text-sm text-gray-500 mt-1">
+                          or <span className="text-yellow-600 underline font-medium">Click to select</span>
+                        </p>
+                        <span className="text-xs text-gray-400 mt-2">You can select multiple images</span>
+                      </div>
 
-      {/* register हटाया गया है — सिर्फ onChange रहेगा */}
-      <input
-        type="file"
-        accept="image/*"
-        multiple
-        onChange={handleMultipleImages}
-        className="absolute inset-0 opacity-0 cursor-pointer"
-      />
-    </label>
+                      {/* register हटाया गया है — सिर्फ onChange रहेगा */}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handleMultipleImages}
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                      />
+                    </label>
 
-    {errors.otherImage && (
-      <p className="text-red-600 text-sm mt-2">{errors.otherImage.message}</p>
-    )}
-  </div>
-</div>
+                    {errors.otherImage && (
+                      <p className="text-red-600 text-sm mt-2">{errors.otherImage.message}</p>
+                    )}
+                  </div>
+                </div>
               </div>
 
-      <div className="bg-gray-50 px-8 py-5 flex justify-between">
-        <button type="button" onClick={handlePrev} className="px-8 py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-full">
-          Previous
-        </button>
-        <button type="button" onClick={handleNext} className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-full">
-          Next
-        </button>
-      </div>
-    </div>
-  )}
-
-\
+              <div className="bg-gray-50 px-8 py-5 flex justify-between">
+                <button type="button" onClick={handlePrev} className="px-8 py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-full">
+                  Previous
+                </button>
+                <button type="button" onClick={handleNext} className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-full">
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
 
 
-  {/* ==================== STEP 6: Owner Info ==================== */}
-  {currentStep === 5 && (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-      <div className="p-8">
-        <h2 className="text-2xl font-bold mb-6">Owner Information</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <input {...register("ownerName")} placeholder="Name" className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors.ownerName ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"}`} />
-            {errors.ownerName && <p className="text-red-600 text-sm mt-1">{errors.ownerName.message}</p>}
-          </div>
-          <div>
-            <input {...register("ownerEmail")} placeholder="Email" className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors.ownerEmail ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"}`} />
-            {errors.ownerEmail && <p className="text-red-600 text-sm mt-1">{errors.ownerEmail.message}</p>}
-          </div>
-          <div className="sm:col-span-2">
-            <input
-              {...register("ownerPhone")}
-              placeholder="Contact No."
-              maxLength={10}
-              className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors.ownerPhone ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"}`}
-            />
-            {errors.ownerPhone && <p className="text-red-600 text-sm mt-1">{errors.ownerPhone.message}</p>}
-          </div>
-        </div>
-      </div>
 
-      <div className="bg-gray-50 px-8 py-5 flex justify-between">
-        <button type="button" onClick={handlePrev} className="px-8 py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-full">
-          Previous
-        </button>
-        <button
-          type="submit"
-          disabled={isLoading}
-          className={`px-12 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-full flex items-center gap-3 ${isLoading && "opacity-70 cursor-not-allowed"}`}
-        >
-          {isLoading ? "Submitting..." : "Submit Property"}
-        </button>
-      </div>
-    </div>
-  )}
 
-</form>
+          {/* ==================== STEP 6: Owner Info ==================== */}
+          {currentStep === 5 && (
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+              <div className="p-8">
+                <h2 className="text-2xl font-bold mb-6">Owner Information</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <input {...register("ownerName")} placeholder="Name" className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors.ownerName ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"}`} />
+                    {errors.ownerName && <p className="text-red-600 text-sm mt-1">{errors.ownerName.message}</p>}
+                  </div>
+                  <div>
+                    <input {...register("ownerEmail")} placeholder="Email" className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors.ownerEmail ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"}`} />
+                    {errors.ownerEmail && <p className="text-red-600 text-sm mt-1">{errors.ownerEmail.message}</p>}
+                  </div>
+                  <div className="sm:col-span-2">
+                    <input
+                      {...register("ownerPhone")}
+                      placeholder="Contact No."
+                      maxLength={10}
+                      className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors.ownerPhone ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"}`}
+                    />
+                    {errors.ownerPhone && <p className="text-red-600 text-sm mt-1">{errors.ownerPhone.message}</p>}
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 px-8 py-5 flex justify-between">
+                <button type="button" onClick={handlePrev} className="px-8 py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-full">
+                  Previous
+                </button>
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className={`px-12 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-full flex items-center gap-3 ${isLoading && "opacity-70 cursor-not-allowed"}`}
+                >
+                  {isLoading ? "Submitting..." : "Submit Property"}
+                </button>
+              </div>
+            </div>
+          )}
+
+        </form>
 
         {isError && <p className="text-center text-red-600 mt-4">{error?.data?.message || "Something went wrong!"}</p>}
       </div>
@@ -742,6 +771,18 @@ const removeOtherImage = (index) => {
 };
 
 export default ListProperty;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
