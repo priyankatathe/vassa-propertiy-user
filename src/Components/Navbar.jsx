@@ -134,8 +134,8 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div className="md:hidden fixed top-[72px] left-0 w-full bg-black/95 backdrop-blur-lg z-50 overflow-x-hidden">
           <div className="px-8 py-10 space-y-8 text-center">
-            <Link to="/" onClick={() => setMobileMenuOpen(false)} className="block text-xl font-semibold text-white hover:text-yellow-400 transition">
-              Home
+            <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block text-xl font-semibold text-white hover:text-yellow-400 transition">
+              About
             </Link>
             <Link to="/find-home" onClick={() => setMobileMenuOpen(false)} className="block text-xl font-semibold text-white hover:text-yellow-400 transition">
               Find Home

@@ -93,7 +93,7 @@ const Footer = () => {
 
           <div className="flex items-center gap-3 whitespace-nowrap">
             <p>Developed By</p>
-            <img src="/suryatech.png" className="h-12 w-20 object-contain" alt="suryatech" />
+            <img src="/suryatech.webp" className="h-12 w-20 object-contain" alt="suryatech" />
           </div>
         </div>
       </div>

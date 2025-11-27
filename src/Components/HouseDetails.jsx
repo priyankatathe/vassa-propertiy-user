@@ -166,101 +166,112 @@ const HouseDetails = () => {
       <main className="mx-auto px-0 md:px-10 space-y-10">
 
         {/* IMAGE SECTION */}
-        <div className="flex flex-col md:flex-row gap-6">
+      {/* IMAGE SECTION */}
+<div className="flex flex-col md:flex-row gap-6">
 
-          {/* LEFT MAIN SLIDER AREA */}
-          <div className="flex-1 relative mt-6 md:mt-20">
+  {/* LEFT MAIN SLIDER AREA */}
+  <div className="flex-1 relative mt-6 md:mt-20">
 
-            <img
-              src={images[index]}
-              className="rounded-2xl shadow-lg w-full h-64 sm:h-96 md:h-[480px] object-cover"
-            />
+    {/* Main Image */}
+    <img
+      src={images[index]}
+      className="rounded-2xl shadow-lg w-full h-64 sm:h-96 md:h-[480px] object-cover transition-all duration-300"
+    />
 
-            {/* ARROWS */}
-            <div className="absolute top-4 right-4 flex gap-2 md:gap-3">
-              <button
-                onClick={prevImage}
-                className="bg-white shadow-lg p-2 md:p-3 rounded-full hover:bg-gray-100 transition"
-              >
-                <MdArrowBack size={20} md:size={22} />
-              </button>
-              <button
-                onClick={nextImage}
-                className="bg-white shadow-lg p-2 md:p-3 rounded-full hover:bg-gray-100 transition"
-              >
-                <MdArrowForward size={20} md:size={22} />
-              </button>
-            </div>
+    {/* ARROWS */}
+    <div className="absolute top-4 right-4 flex gap-2 md:gap-3 z-50">
+      <button
+        onClick={prevImage}
+        className="bg-white shadow-lg p-2 md:p-3 rounded-full hover:bg-gray-100 transition"
+      >
+        <MdArrowBack size={20} />
+      </button>
+      <button
+        onClick={nextImage}
+        className="bg-white shadow-lg p-2 md:p-3 rounded-full hover:bg-gray-100 transition"
+      >
+        <MdArrowForward size={20} />
+      </button>
+    </div>
 
-            {/* MINI PREVIEW BOX */}
-            <div
-              className="absolute bottom-24 md:bottom-[100px] z-20 bg-white/80 backdrop-blur-xl shadow-xl rounded-2xl flex items-center px-1 py-1 border border-white transition-all duration-1000  ease-in-out
-"
-              style={{ left: miniBoxPosition + 95 }}
-            >
-              <img
-                src={images[index]}
-                className="w-20 sm:w-28 h-12 sm:h-16 rounded-xl object-cover border border-white"
-              />
-            </div>
+    {/* MINI PREVIEW BOX */}
+    <div
+      className="absolute bottom-24 sm:bottom-28 md:bottom-[100px] z-20 bg-white/80 backdrop-blur-xl shadow-xl rounded-2xl flex items-center px-1 py-1 border border-white transition-all duration-700 ease-in-out"
+   style={{
+  left: buttonRefs.current[index]
+    ? buttonRefs.current[index].offsetLeft + 
+      buttonRefs.current[index].offsetWidth / 2 + 
+      (window.innerWidth >= 768 ? 160 : 0) // md breakpoint ~768px
+    : "50%",
+  transform: "translateX(-50%)"
+}}
 
-            {/* CATEGORY TABS */}
-            <div className="absolute bottom-16 md:bottom-10 left-2 md:left-40 flex flex-wrap gap-3 md:gap-10">
-              {categoryNames.map((c, i) => (
-                <button
-                  key={i}
-                  ref={el => buttonRefs.current[i] = el}
-                  onClick={() => setIndex(i)}
-                  className={`
-        px-4 md:px-6 py-1 md:py-2 rounded-full text-sm backdrop-blur-lg border transition
-        ${index === i
-                      ? "bg-white/70 text-black border-white shadow-md font-semibold"  // active: semi-transparent white
-                      : "bg-white/30 text-black border-transparent hover:bg-white/50"  // inactive: more transparent, slight hover
-                    }
-      `}
-                >
-                  {c}
-                </button>
-              ))}
-            </div>
+    >
+      <img
+        src={images[index]}
+        className="w-16 sm:w-20 md:w-28 h-10 sm:h-14 md:h-16 rounded-xl object-cover border border-white transition-all duration-300"
+      />
+    </div>
 
-          </div>
+    {/* CATEGORY TABS */}
+    <div className="absolute bottom-16 sm:bottom-14 md:bottom-10 left-2 md:left-40 flex flex-wrap gap-2 sm:gap-3 md:gap-10">
+      {categoryNames.map((c, i) => (
+        <button
+          key={i}
+          ref={(el) => (buttonRefs.current[i] = el)}
+          onClick={() => setIndex(i)}
+          className={`
+            px-3 sm:px-4 md:px-6 py-1 sm:py-1.5 md:py-2 rounded-full text-xs sm:text-sm md:text-sm backdrop-blur-lg border transition
+            ${index === i
+              ? "bg-white/70 text-black border-white shadow-md font-semibold"
+              : "bg-white/30 text-black border-transparent hover:bg-white/50"
+            }
+          `}
+        >
+          {c}
+        </button>
+      ))}
+    </div>
 
-          {/* RIGHT SIDE SMALL IMAGES */}
-          <div className="flex flex-col gap-4 w-full md:w-1/3 mt-4 md:mt-20">
+  </div>
 
-            <img
-              src={property.specifications?.hallImage || "/Rectangle 134.png"}
-              className="rounded-xl shadow-md h-40 sm:h-52 md:h-[250px] object-cover"
-            />
+  {/* RIGHT SIDE SMALL IMAGES */}
+  <div className="flex flex-col gap-4 w-full md:w-1/3 mt-4 md:mt-20">
 
-            <div className="relative">
-              {property.Other_images && property.Other_images.length > 0 && (
-                <div className="relative cursor-pointer" onClick={() => openCarouselAt(0)}>
-                  <img
-                    src={property.Other_images[0]}
-                    className="rounded-xl w-full shadow-md h-36 sm:h-44 md:h-[210px] object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black/40 rounded-xl flex items-center justify-center">
-                    <p className="text-white text-lg sm:text-xl font-semibold">
-                      +{property.Other_images.length}
-                    </p>
-                  </div>
-                </div>
-              )}
+    <img
+      src={property.specifications?.hallImage || "/Rectangle 134.png"}
+      className="rounded-xl shadow-md h-36 sm:h-44 md:h-[250px] object-cover transition-all duration-300"
+    />
 
-            </div>
-
-          </div>
-          {/* Carousel Modal */}
-          {carouselOpen && (
-            <PropertiyOtherImg
-              property={property}
-              startIndex={carouselIndex}  // यह image से modal open होगी
-              onClose={() => setCarouselOpen(false)}
-            />
-          )}
+    {property.Other_images && property.Other_images.length > 0 && (
+      <div
+        className="relative cursor-pointer"
+        onClick={() => openCarouselAt(0)}
+      >
+        <img
+          src={property.Other_images[0]}
+          className="rounded-xl w-full shadow-md h-32 sm:h-40 md:h-[210px] object-cover transition-all duration-300"
+        />
+        <div className="absolute inset-0 bg-black/40 rounded-xl flex items-center justify-center">
+          <p className="text-white text-base sm:text-lg md:text-xl font-semibold">
+            +{property.Other_images.length}
+          </p>
         </div>
+      </div>
+    )}
+
+  </div>
+
+  {/* Carousel Modal */}
+  {carouselOpen && (
+    <PropertiyOtherImg
+      property={property}
+      startIndex={carouselIndex}  
+      onClose={() => setCarouselOpen(false)}
+    />
+  )}
+
+</div>
 
 
 
@@ -302,7 +313,7 @@ const HouseDetails = () => {
             </p>
 
             <div>
-              <p className="text-black pb-4 md:pb-6 border-b border-[#D9D9D9]">Property Features</p>
+              <p className="text-black pb-4 font-bold md:pb-6 border-b border-[#D9D9D9]">Property Features</p>
 
               <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-5 text-sm mt-4 md:mt-16 text-gray-600">
                 {[
