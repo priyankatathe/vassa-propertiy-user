@@ -282,20 +282,22 @@ const ListProperty = () => {
           </button>
         </div>
       </div>
-
       {/* Progress Bar */}
-      <div className="max-w-5xl mx-auto mt-10  flex justify-center">
-        <div className="flex items-center gap-4">
+      <div className="max-w-5xl mx-auto mt-10 flex justify-center px-4 sm:px-6">
+        <div className="flex items-center gap-2 sm:gap-4 w-full">
           {steps.map((step, i) => (
             <React.Fragment key={i}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${i <= currentStep ? 'bg-yellow-500' : 'bg-gray-400'}`}>
+              <div className={`flex-1 min-w-[30px] sm:min-w-[40px] h-10 rounded-full flex items-center justify-center text-white font-bold ${i <= currentStep ? 'bg-yellow-500' : 'bg-gray-400'}`}>
                 {i + 1}
               </div>
-              {i < steps.length - 1 && <div className={`w-24 h-1 ${i < currentStep ? 'bg-yellow-500' : 'bg-gray-400'}`} />}
+              {i < steps.length - 1 && (
+                <div className={`flex-1 h-1 ${i < currentStep ? 'bg-yellow-500' : 'bg-gray-400'}`}></div>
+              )}
             </React.Fragment>
           ))}
         </div>
       </div>
+
 
       {/* Form */}
       <div ref={formRef} className="max-w-5xl lg:py-10 mx-auto mt-10">
