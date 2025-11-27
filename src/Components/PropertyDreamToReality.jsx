@@ -5,14 +5,13 @@ import propertyImg from "../../public/property.webp";
 
 const PropertyDreamToReality = () => {
   return (
-    <section className="min-h-screen bg-[#FAFAFA] font-manrope py-16 lg:py-24 px-4  md:px-8 lg:px-16 ">
+    <section className="min-h-screen bg-[#FAFAFA] font-manrope py-16 lg:py-24 px-4 sm:px-5 md:px-8 lg:px-16 ">
       <div className="max-w-10xl mx-auto ">
         {/* Main Card */}
         <div className="rounded-3xl overflow-hidden">
           {/* Top: Heading + Small Description */}
-          <div className="grid  grid-cols-1 lg:grid-cols-2 gap-10 items-start text-center lg:text-left">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-10 items-start text-center lg:text-left">
             <div className="text-start">
-            
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-simebold text-gray-900">
                 Turning Property
                 <br className="mb-4" />
@@ -25,18 +24,15 @@ const PropertyDreamToReality = () => {
                   </span>
                 </div>
               </h1>
-
             </div>
 
-
-
-            <div className="flex justify-center items-center mt-20">
+            <div className="flex justify-center items-center mt-10">
               <p className="text-gray-600 text-start text-sm sm:text-base md:text-sm leading-relaxed max-w-lg">
                 Vassa Properties is a trusted real estate company <br /> dedicated to helping you find homes that truly fit your <br /> lifestyle and budget.
               </p>
             </div>
-
           </div>
+
 
           {/* Bottom: Stats + Right Image Card */}
           <div className="mt-12  sm:mt-14 md:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-start">

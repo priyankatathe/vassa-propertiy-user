@@ -11,7 +11,7 @@ const WhatMakeUsDiffernt = ({ section1Ref, scrollToBottom }) => {
       <div className="max-w-10xl mx-auto grid md:grid-cols-3 gap-12 items-center relative">
 
         {/* LEFT TEXT */}
-        <div className="relative md:mb-[500px] mb-10">
+        <div className="relative md:mb-[500px] mb-10 flex flex-col items-center md:items-start text-center md:text-left">
           <p className="text-yellow-400 font-manrope text-base md:text-lg">
             What Makes Us Different
           </p>
@@ -42,7 +42,8 @@ const WhatMakeUsDiffernt = ({ section1Ref, scrollToBottom }) => {
         </div>
 
         {/* RIGHT TEXT */}
-        <div className="relative text-gray-600 leading-relaxed pr-2 md:pr-10 z-20 text-sm sm:text-base">
+        <div className="relative text-gray-600 leading-relaxed pr-2 md:pr-10 z-20 text-sm sm:text-base 
+                        hidden md:block">
           <p>
             we’re not just another real estate platform — we’re your dedicated
             partner in the journey to finding, selling, or renting your dream
@@ -64,6 +65,16 @@ const WhatMakeUsDiffernt = ({ section1Ref, scrollToBottom }) => {
               <ArrowDown size={30} className="sm:text-xl md:text-2xl" />
             </div>
           </div>
+        </div>
+
+        {/* MOBILE ONLY - center texts below image */}
+        <div className="md:hidden mt-6 flex flex-col items-center text-center px-4 gap-4">
+          <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+            we’re not just another real estate platform — we’re your dedicated
+            partner in the journey to finding, selling, or renting your dream
+            space. Our difference lies in the experience we create — one that’s
+            seamless, reliable, and built around you.
+          </p>
         </div>
       </div>
     </section>

@@ -43,7 +43,9 @@ const Footer = () => {
               </div>
 
               {/* Right - Links */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-16 md:gap-20 lg:gap-28 text-sm w-full md:w-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 
+                gap-10 sm:gap-16 md:gap-20 lg:gap-28 
+                text-sm w-full md:w-auto">
 
                 <div>
                   <h3 className="font-semibold text-lg mb-3 text-black">Quick Links</h3>
@@ -79,6 +81,7 @@ const Footer = () => {
 
               </div>
 
+
             </div>
 
           </div>
@@ -87,16 +90,17 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="w-full px-4 lg:px-10 overflow-hidden">
-        <div className="max-w-10xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 px-4 sm:px-6 text-gray-700 text-xs sm:text-sm text-center sm:text-left">
-          <p>©2025 All Rights Reserved</p>
+        <div className="w-full px-4 mt-2  lg:px-10 overflow-hidden">
+<div className="max-w-10xl mx-auto flex flex-col sm:flex-row justify-between items-center  px-4 sm:px-6 text-gray-700 text-xs sm:text-sm text-center sm:text-left">
 
-          <div className="flex items-center gap-3 whitespace-nowrap">
-            <p>Developed By</p>
-            <img src="/suryatech.webp" className="h-12 w-20 object-contain" alt="suryatech" />
+            <p>©2025 All Rights Reserved</p>
+
+            <div className="flex items-center gap-3 whitespace-nowrap">
+              <p>Developed By</p>
+              <img src="/suryatech.webp" className="h-12 w-20 object-contain" alt="suryatech" />
+            </div>
           </div>
         </div>
-      </div>
 
     </div>
   );

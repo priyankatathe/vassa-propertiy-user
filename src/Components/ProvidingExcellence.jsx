@@ -33,7 +33,7 @@ const ProvidingExcellence = () => {
   return (
     <motion.section
       ref={ref}
-      className="py-16 lg:py-20 lg:mb-10 px-4 sm:px-6 md:px-16 lg:px-20 bg-white overflow-hidden"
+      className="py-16 lg:py-20 lg:mb-10 px-5 sm:px-8 md:px-16 lg:px-20 bg-white overflow-hidden"
       initial="hidden"
       animate={controls}
       variants={variants}
@@ -44,7 +44,8 @@ const ProvidingExcellence = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-3xl sm:text-4xl md:text-6xl font-semibold text-black"
+          className="text-3xl sm:text-4xl md:text-6xl font-semibold text-black 
+                     text-center md:text-left w-full md:w-auto"
         >
           Providing <span className="text-[#F8CA13] italic font-playfair">Excellence</span>
           <span className="block mt-2 sm:mt-4">in Every Step</span>

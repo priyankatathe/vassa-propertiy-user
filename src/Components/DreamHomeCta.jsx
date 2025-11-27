@@ -43,14 +43,27 @@ const DreamHomeCTA = () => {
 
           {/* Buttons */}
           <div className="flex flex-wrap gap-4 mt-6 justify-center md:justify-start">
-            <button className="bg-white text-gray-900 font-semibold px-6 py-2 rounded-full shadow hover:shadow-md duration-200">
+            <button
+              className="
+      bg-white text-gray-900 font-semibold 
+      px-6 py-2 rounded-full shadow hover:shadow-md duration-200
+      w-full md:w-auto
+    "
+            >
               Explore Properties
             </button>
 
-            <button className="border border-white text-gray-900 bg-yellow-300 font-semibold px-6 py-2 rounded-full shadow hover:shadow-md duration-200">
+            <button
+              className="
+      border border-white text-gray-900 bg-yellow-300 font-semibold 
+      px-6 py-2 rounded-full shadow hover:shadow-md duration-200
+      w-full md:w-auto
+    "
+            >
               Contact Team
             </button>
           </div>
+
         </div>
 
       </div>

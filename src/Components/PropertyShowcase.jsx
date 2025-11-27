@@ -20,11 +20,24 @@ const PropertyShowcase = () => {
             <div className="flex flex-col md:flex-row md:items-start justify-end">
 
               {/* Left Small Text */}
-              <p className="text-[10px] text-right mt-5 sm:text-xs font-medium md:text-sm text-gray-500 
-                    mb-3 md:mb-0 md:-mr-48 leading-tight">
-                Where design meets comfort, and <br className="hidden md:block " />
+              <p
+                className="
+    text-lg                     /* 🔥 Mobile: बड़ा text */
+    text-right 
+    mt-5 
+    sm:text-lg                /* sm और ऊपर normal size */
+    md:text-sm 
+    font-medium 
+    text-gray-500 
+    mb-3 md:mb-0 
+    md:-mr-48 
+    leading-tight
+  "
+              >
+                Where design meets comfort, and <br className="hidden md:block" />
                 every corner tells a story.
               </p>
+
 
               {/* Right Big Heading */}
               <h1 className="font-manrope  text-black leading-tight 
@@ -116,20 +129,22 @@ const PropertyShowcase = () => {
             </div>
 
             {/* Arrow Buttons */}
-            <div className="w-full flex justify-end gap-3 mt-8 px-10">
+            <div className="w-full flex justify-center sm:justify-end gap-3 mt-8 px-10">
               <button
                 onClick={prev}
-                className="bg-[#851524] p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+                className="bg-[#851524] p-4 rounded-full transition-all duration-300 hover:scale-110"
               >
                 <FaArrowLeft className="text-white text-xl" />
               </button>
+
               <button
                 onClick={next}
-                className="bg-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 border-2 border-gray-300"
+                className="bg-white p-4 rounded-full transition-all duration-300 hover:scale-110 border-2 border-gray-300"
               >
                 <FaArrowRight className="text-gray-800 text-xl" />
               </button>
             </div>
+
           </div>
 
         </div>
