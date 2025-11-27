@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom"; // ⬅️ यहाँ बदलाव
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 
@@ -18,16 +18,14 @@ import ModernCitySection from "./Components/ModernLeaving";
 import PropertyShowcase from "./Components/PropertyShowcase";
 import WhyChooseVassa from "./Components/WhyChooseVasaa";
 import DreamHomeCTA from "./Components/DreamHomeCta";
-import WhatMakeUsDiffernt from "./Components/Whatsmakeusdiff";
 import ProvidingExcellence from "./Components/ProvidingExcellence";
 import VisionMission from "./Components/VissionMission";
 import TotalProperties from "./Components/TotalProperties";
 import HouseDetails from "./Components/HouseDetails";
 
-// ⬇⬇⬇ React Toastify Add
+// React Toastify
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import FindHomeHero from "./Pages/FindHomeHero";
 import About4 from "./Components/About4";
 import HomeCarousell from "./Components/HomeCarousell";
 
@@ -57,7 +55,6 @@ const App = () => {
           element={
             <div className="overflow-hidden bg-white">
               <AboutUs />
-              {/* <WhatMakeUsDiffernt /> */}
               <ProvidingExcellence />
               <VisionMission />
               <About4 />
@@ -66,9 +63,6 @@ const App = () => {
         />
 
         <Route path="/find-home" element={<FindHome />} />
-        {/* <Route path="/find-home" element={<FindHomeHero />} />  */}
-
-
         <Route path="/total-properties" element={<TotalProperties />} />
         <Route path="/house-details" element={<HouseDetails />} />
         <Route path="/contact" element={<ContactUs />} />
@@ -79,7 +73,6 @@ const App = () => {
 
       <Footer />
 
-      {/* 🔥 Toast Container (Required for Toasts to Show) */}
       <ToastContainer
         position="top-center"
         autoClose={1500}

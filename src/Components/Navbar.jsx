@@ -36,7 +36,7 @@ const Navbar = () => {
   return (
     <nav
       className={`w-full fixed font-manrope top-0 left-0 z-50 overflow-x-hidden transition-all duration-300 
-        ${isHeroPage
+          ${isHeroPage
           ? scrolled
             ? "bg-white text-black"
             : "bg-black/0 text-white"
@@ -57,14 +57,14 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <ul
           className={`hidden md:flex items-center gap-16 text-sm font-manrope 
-            ${isHeroPage && !scrolled ? "text-white" : "text-black"}`}
+              ${isHeroPage && !scrolled ? "text-white" : "text-black"}`}
         >
           <li>
             <Link
               to="/about"
               className={`hover:text-yellow-400 font-bold transition-colors duration-200
-      ${location.pathname === "/about" ? "text-yellow-400" : ""}
-    `}
+        ${location.pathname === "/about" ? "text-yellow-400" : ""}
+      `}
             >
               About Us
             </Link>
@@ -74,8 +74,8 @@ const Navbar = () => {
             <Link
               to="/find-home"
               className={`hover:text-yellow-400 font-bold transition-colors duration-200
-      ${location.pathname === "/find-home" ? "text-yellow-400" : ""}
-    `}
+        ${location.pathname === "/find-home" ? "text-yellow-400" : ""}
+      `}
             >
               Find Home
             </Link>
@@ -85,8 +85,8 @@ const Navbar = () => {
             <Link
               to="/contact"
               className={`hover:text-yellow-400 font-bold transition-colors duration-200
-      ${location.pathname === "/contact" ? "text-yellow-400" : ""}
-    `}
+        ${location.pathname === "/contact" ? "text-yellow-400" : ""}
+      `}
             >
               Contact
             </Link>
@@ -96,8 +96,8 @@ const Navbar = () => {
             <Link
               to="/list"
               className={`hover:text-yellow-400 font-bold transition-colors duration-200
-      ${location.pathname === "/list" ? "text-yellow-400" : ""}
-    `}
+        ${location.pathname === "/list" ? "text-yellow-400" : ""}
+      `}
             >
               List Properties
             </Link>

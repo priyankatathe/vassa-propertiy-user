@@ -90,17 +90,17 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-        <div className="w-full px-4 mt-2  lg:px-10 overflow-hidden">
-<div className="max-w-10xl mx-auto flex flex-col sm:flex-row justify-between items-center  px-4 sm:px-6 text-gray-700 text-xs sm:text-sm text-center sm:text-left">
+      <div className="w-full px-4 mt-2  lg:px-10 overflow-hidden">
+        <div className="max-w-10xl mx-auto flex flex-col sm:flex-row justify-between items-center  px-4 sm:px-6 text-gray-700 text-xs sm:text-sm text-center sm:text-left">
 
-            <p>©2025 All Rights Reserved</p>
+          <p>©2025 All Rights Reserved</p>
 
-            <div className="flex items-center gap-3 whitespace-nowrap">
-              <p>Developed By</p>
-              <img src="/suryatech.webp" className="h-12 w-20 object-contain" alt="suryatech" />
-            </div>
+          <div className="flex items-center gap-3 whitespace-nowrap">
+            <p>Developed By</p>
+            <img src="/suryatech.webp" className="h-12 w-20 object-contain" alt="suryatech" />
           </div>
         </div>
+      </div>
 
     </div>
   );

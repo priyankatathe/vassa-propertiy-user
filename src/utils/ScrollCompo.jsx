@@ -7,8 +7,9 @@ import React from "react";
  * @param {string} behavior - 'smooth' or 'auto'
  * @param {string} className - optional custom styles
  * @param {React.ReactNode} children - button content
+ * @param {boolean} asButton - if true, renders <button> instead of <div>
  */
-const ScrollButton = ({ targetRef, offset = 0, behavior = "smooth", className = "", children }) => {
+const ScrollButton = ({ targetRef, offset = 0, behavior = "smooth", className = "", children, asButton = false }) => {
     const handleScroll = () => {
         if (!targetRef?.current) return;
 
@@ -20,6 +21,14 @@ const ScrollButton = ({ targetRef, offset = 0, behavior = "smooth", className = 
         });
     };
 
+    if (asButton) {
+        return (
+            <button type="button" onClick={handleScroll} className={`cursor-pointer ${className}`}>
+                {children}
+            </button>
+        );
+    }
+
     return (
         <div onClick={handleScroll} className={`cursor-pointer ${className}`}>
             {children}
@@ -28,30 +37,3 @@ const ScrollButton = ({ targetRef, offset = 0, behavior = "smooth", className = 
 };
 
 export default ScrollButton;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // utils/scrollTo.js
-// export const scrollToPosition = (targetRef, options = {}) => {
-//     if (!targetRef?.current) return;
-
-//     const { behavior = "smooth", offset = 0 } = options;
-//     const top =
-//         targetRef.current.getBoundingClientRect().top + window.scrollY + offset;
-
-//     window.scrollTo({
-//         top,
-//         behavior,
-//     });
-// };
