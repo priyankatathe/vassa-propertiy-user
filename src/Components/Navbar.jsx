@@ -7,6 +7,8 @@ import whiteLog from "../assets/logo.svg";
 import Login from "../Pages/Login";
 import RegisterUI from "../Pages/Register";
 import { FaUserLock } from "react-icons/fa6";
+import { useLogoutUserMutation } from "../redux/api/userApi";
+import { LuLogOut, LuMail, LuMapPin, LuPhone } from "react-icons/lu";
 
 const Navbar = () => {
   const [openRegister, setOpenRegister] = useState(false);
@@ -18,6 +20,8 @@ const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const isHeroPage = location.pathname === "/"; // <-- check if we are on hero page
 
+  const [userDropdown, setUserDropdown] = useState(false);
+  const [logoutUser, { isLoading }] = useLogoutUserMutation();
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -31,18 +35,33 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHeroPage]);
 
+  const handleLogout = async () => {
+    try {
+      const res = await logoutUser().unwrap();  // API call
+      console.log("Logout success:", res);
+
+      setUserDropdown(false);
+
+      window.location.reload(); // OR navigate("/")
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
+
 
 
   return (
     <nav
-      className={`w-full fixed font-manrope top-0 left-0 z-50 overflow-x-hidden transition-all duration-300 
-          ${isHeroPage
+      className={`w-full fixed font-manrope top-0 left-0 z-50 transition-all duration-300 
+    ${isHeroPage
           ? scrolled
             ? "bg-white text-black"
             : "bg-black/0 text-white"
           : "bg-white text-black"
         }`}
     >
+
       <div className="max-w-10xl mx-auto py-3 flex justify-between items-center px-4 md:px-8 lg:px-16">
 
         {/* Logo */}
@@ -105,13 +124,63 @@ const Navbar = () => {
 
         </ul>
 
-        {/* Right Buttons */}
-        <div className="flex items-center gap-3">
+
+
+        <div className="flex items-center gap-3 relative">
+          {/* USER DROPDOWN */}
           {user?.user?.name ? (
-            <div className="flex items-center gap-2 bg-yellow-400 border border-[#851524] text-black px-4 py-2 rounded-full font-semibold cursor-pointer">
-              <FaUserLock className="text-[#851524]" /> {user.user.name}
+            <div className="relative">
+              {/* Username Button */}
+              <div
+                onClick={() => setUserDropdown((prev) => !prev)}
+                className="flex items-center gap-2 bg-yellow-400 border border-[#851524] text-black px-4 py-2 rounded-full font-semibold cursor-pointer"
+              >
+                <FaUserLock className="text-[#851524]" /> {user.user.name}
+              </div>
+
+              {userDropdown && (
+                <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg overflow-hidden border shadow-lg z-[9999]">
+
+                  {/* Email Display */}
+                  {user.user.email && (
+                    <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-default">
+                      <LuMail className="text-blue-500" size={18} />
+                      {user.user.email}
+                    </div>
+                  )}
+
+                  {/* Contact Display */}
+                  {user.user.contact && (
+                    <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-default">
+                      <LuPhone className="text-green-500" size={18} />
+                      {user.user.contact}
+                    </div>
+                  )}
+
+                  {/* Address Display */}
+                  {user.user.address && (
+                    <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-default">
+                      <LuMapPin  className="text-purple-500" size={18} />
+                      {user.user.address}
+                    </div>
+                  )}
+
+                  {/* Divider */}
+                  <div className="border-t my-1"></div>
+
+                  {/* Logout */}
+                  <div
+                    onClick={handleLogout}
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                  >
+                    <LuLogOut className="text-red-600" size={18} />
+                    {isLoading ? "Logging out..." : "Logout"}
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
+            /* Login Button */
             <button
               onClick={() => setOpenLogin(true)}
               className="flex items-center gap-2 bg-yellow-400 border border-[#851524] text-white px-4 py-2 rounded-full font-semibold hover:bg-yellow-500 transition"
@@ -119,7 +188,8 @@ const Navbar = () => {
               <FaUserLock className="text-[#851524]" /> Login
             </button>
           )}
-          {/* Mobile Toggle */}
+
+          {/* MOBILE TOGGLE */}
           <button
             className={`${isHeroPage && !scrolled ? "text-white" : "text-black"} md:hidden`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -127,6 +197,9 @@ const Navbar = () => {
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
+
+
+
 
       </div>
 

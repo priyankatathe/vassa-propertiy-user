@@ -156,7 +156,7 @@ const HouseDetails = () => {
   }
 
   return (
-    <div className="min-h-screen text-gray-800 font-manrope mt-10 md:mt-0 py-8 md:py-16 px-4 md:px-8 lg:px-25">
+    <div className="min-h-screen text-gray-800 font-manrope mt-10  pb-10 px-4 md:px-8 lg:px-25">
       {/* Header */}
       <div className="sticky max-w-10xl top-0 bg-black mx-0 md:mx-10 my-4 md:my-8 rounded-xl z-50">
         <Navbar />
@@ -178,7 +178,7 @@ const HouseDetails = () => {
             />
 
             {/* ARROWS */}
-            <div className="absolute top-4 right-4 flex gap-2 md:gap-3 z-50">
+            <div className="absolute top-4 right-4 flex gap-2 md:gap-3 z-10">
               <button
                 onClick={prevImage}
                 className="bg-white shadow-lg p-2 md:p-3 rounded-full hover:bg-gray-100 transition"
@@ -272,9 +272,6 @@ const HouseDetails = () => {
 
         </div>
 
-
-
-
         {/* Property Info */}
         <div className="flex flex-col md:flex-row justify-between gap-6 md:gap-10">
           <div>
@@ -299,98 +296,92 @@ const HouseDetails = () => {
         </div>
 
         {/* DETAILS SECTION */}
-      </main>
+        <div
+          ref={detailsRef}
+          className="flex flex-col md:flex-row items-start justify-between gap-6 md:gap-6 mt-6 md:mt-10 rounded-2xl"
+        >
+          {/* LEFT */}
+          <div className="flex-1 space-y-4 md:space-y-6 bg-[#D9D9D940] w-full sm:w-0 rounded-lg p-4 md:p-5">
+            <p className="border-b pb-4 md:pb-6 font-semibold border-[#D9D9D9] text-black">Property Description</p>
+            <p className="text-sm sm:text-base leading-relaxed text-gray-700">
+              {property.description || `Step into elegance with this beautifully designed ${property.specifications?.bedrooms} BHK ${getPropertyTypeText(property.propertyType)} located in ${property.location?.city}. The residence offers spacious interiors, premium finishes, and abundant natural light that enhances every corner.`}
+            </p>
 
-      <div
-        ref={detailsRef}
-        className="flex px-7 sm-3 flex-col md:flex-row justify-between gap-6 md:gap-6  mt-6 md:mt-10   rounded-2xl">
+            <div>
+              <p className="text-black pb-4 font-bold md:pb-6 border-b border-[#D9D9D9]">Property Features</p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-5 text-sm mt-4 md:mt-16 text-gray-600">
+                {[["Type:", getPropertyTypeText(property.propertyType)], ["Area:", `${property.specifications?.area || "N/A"} sqft`], ["Bedrooms:", property.specifications?.bedrooms || "N/A"], ["Bathrooms:", property.specifications?.bathrooms || "N/A"], ["Kitchen:", property.specifications?.kitchen || "N/A"], ["Hall:", property.specifications?.hall || "N/A"], ["Parking:", property.specifications?.parkingSpaces ? "Yes" : "No"], ["Furnishing:", property.specifications?.furnishingStatus || "N/A"]].map(([label, value], i) => (
+                  <li key={i} className="flex items-center gap-3 bg-white rounded-full shadow-sm w-full md:w-56">
+                    <div className="bg-[#851524] p-4 rounded-full">
+                      <FaHouse size={20} color="yellow" />
+                    </div>
+                    <div>
+                      <h1 className="text-black font-bold text-sm sm:text-base">{label}</h1>
+                      <span className="text-xs sm:text-sm">{value}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
 
-        {/* LEFT */}
-        <div className="flex-1 space-y-4 md:space-y-6 bg-[#D9D9D940] rounded-lg p-4 md:p-5">
+          {/* CONTACT FORM */}
+          <div className="w-full md:w-1/3 flex flex-col">
+            <form className="w-full flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+              <h3 className="text-md sm:text-lg font-semibold text-gray-800 mb-4">Contact Our Team</h3>
 
-          <p className="border-b pb-4 md:pb-6 font-semibold border-[#D9D9D9] text-black">Property Description</p>
-          <p className="text-sm sm:text-base leading-relaxed text-gray-700">
-            {property.description || `Step into elegance with this beautifully designed ${property.specifications?.bedrooms} BHK ${getPropertyTypeText(property.propertyType)} located in ${property.location?.city}. The residence offers spacious interiors, premium finishes, and abundant natural light that enhances every corner.`}
-          </p>
+              {/* Name */}
+              <label className="text-black text-sm mb-1 block">Name</label>
+              <input
+                type="text"
+                placeholder="Name"
+                className="w-full border border-gray-400 px-3 py-3 md:py-2 rounded-3xl mb-3"
+                {...register("Name", { required: true })}
+              />
+              {errors.Name && <span className="text-red-500 text-xs sm:text-sm mb-3 block">Name is required</span>}
 
-          <div>
-            <p className="text-black pb-4 font-bold md:pb-6 border-b border-[#D9D9D9]">Property Features</p>
+              {/* Email / Contact */}
+              <label className="text-black text-sm mb-1 block">Email / Contact</label>
+              <input
+                type="email"
+                placeholder="Email / Contact"
+                className="w-full border border-gray-400 px-3 py-3 md:py-2 rounded-3xl mb-3"
+                {...register("email_contact", { required: true })}
+              />
+              {errors.email_contact && <span className="text-red-500 text-xs sm:text-sm mb-3 block">Email / Contact is required</span>}
 
-            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-5 text-sm mt-4 md:mt-16 text-gray-600">
-              {[
-                ["Type:", getPropertyTypeText(property.propertyType)],
-                ["Area:", `${property.specifications?.area || "N/A"} sqft`],
-                ["Bedrooms:", property.specifications?.bedrooms || "N/A"],
-                ["Bathrooms:", property.specifications?.bathrooms || "N/A"],
-                ["Kitchen:", property.specifications?.kitchen || "N/A"],
-                ["Hall:", property.specifications?.hall || "N/A"],
-                ["Parking:", property.specifications?.parkingSpaces ? "Yes" : "No"],
-                ["Furnishing:", property.specifications?.furnishingStatus || "N/A"],
-              ].map(([label, value], i) => (
-                <li key={i} className="flex items-center gap-3 bg-white rounded-full shadow-sm w-full md:w-56 ">
-                  <div className="bg-[#851524] p-4 rounded-full">
-                    <FaHouse size={20} color="yellow" />
-                  </div>
-                  <div>
-                    <h1 className="text-black font-bold  text-sm sm:text-base">{label}</h1>
-                    <span className="text-xs sm:text-sm">{value}</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
+              {/* Message */}
+              <label className="text-black text-sm mb-1 block">Message</label>
+              <textarea
+                rows={3}
+                placeholder="Enter your message"
+                className="w-full border border-gray-400 px-3 py-3 md:py-2 rounded-3xl mb-3"
+                {...register("message", { required: true })}
+              />
+
+              {/* Inquiry Type */}
+              <label className="text-black text-sm mb-1 block">Inquiry Type</label>
+              <select
+                className="w-full border border-gray-400 px-3 py-3 md:py-2 rounded-3xl mb-4"
+                {...register("inquire_type", { required: true })}
+              >
+                <option value="">Select type</option>
+                <option value="Rent">Rent</option>
+                <option value="Buy">Buy</option>
+              </select>
+
+              <button
+                type="submit"
+                className="bg-[#F8CA13] text-black font-semibold px-4 md:px-6 py-2 md:py-3 rounded-3xl w-full hover:bg-yellow-500 transition text-sm sm:text-base"
+              >
+                Contact
+              </button>
+            </form>
           </div>
         </div>
+      </main>
 
-        {/* CONTACT FORM */}
-        <div className="w-full md:w-1/3 rounded-xl p-4 md:p-6">
-          <form className="space-y-3 md:space-y-4" onSubmit={handleSubmit(onSubmit)}>
-            <h3 className="text-md sm:text-lg font-semibold text-gray-800">Contact Our Team</h3>
 
-            <label className="text-black text-sm">Name</label>
-            <input
-              type="text"
-              placeholder="Name"
-              className="w-full border border-gray-400 px-3 sm- md:px-4 py-2 md:py-4 rounded-3xl"
-              {...register("Name", { required: true })}
-            />
-            {errors.Name && <span className="text-red-500 text-xs sm:text-sm">Name is required</span>}
-
-            <label className="text-black text-sm">Email / Contact</label>
-            <input
-              type="email"
-              placeholder="Email / Contact"
-              className="w-full border border-gray-400 px-3 sm- md:px-4 py-2 md:py-4 rounded-3xl"
-              {...register("email_contact", { required: true })}
-            />
-            {errors.email_contact && <span className="text-red-500 text-xs sm:text-sm">Email / Contact is required</span>}
-
-            <label className="text-black text-sm">Message</label>
-            <textarea
-              rows="3" sm:rows="4"
-              placeholder="Enter your message"
-              className="w-full border border-gray-400 px-3 sm- md:px-4 py-2 md:py-4 rounded-3xl"
-              {...register("message", { required: true })}
-            />
-            <label className="text-black text-sm">Inquiry Type</label>
-            <select
-              className="w-full border border-gray-400 px-3 sm-6 md:px-4 py-3 md:py-4 rounded-3xl"
-              {...register("inquire_type", { required: true })}
-            >
-              <option value="">select type</option>
-              <option value="Rent">Rent</option>
-              <option value="Buy">Buy</option>
-            </select>
-            {errors.message && <span className="text-red-500 text-xs sm:text-sm">Message is required</span>}
-
-            <button
-              type="submit"
-              className="bg-[#F8CA13] text-black font-semibold px-4 md:px-6 py-2 md:py-3 rounded-3xl w-full hover:bg-yellow-500 transition text-sm sm:text-base"
-            >
-              Contact
-            </button>
-          </form>
-        </div>
-      </div>
 
     </div>
   );

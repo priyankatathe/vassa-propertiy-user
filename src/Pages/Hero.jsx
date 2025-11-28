@@ -28,10 +28,10 @@ const HeroSection = () => {
       <div className="relative z-10 w-full h-full px-5 sm:px-10 md:px-20 lg:px-25 flex flex-col justify-center md:justify-start items-center md:items-start text-center md:text-left">
 
         {/* LEFT SECTION — HEADING */}
-        <div className="mt-10 sm:mt-10 md:mt-52 space-y-6 w-full md:w-[90%]">
+        <div className="mt-10 sm:mt-10 md:mt-52 space-y-2 w-full md:w-[90%]">
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-white leading-snug">
             Find Your Perfect{" "}
-            <span className="text-[#F8CA13] text-5xl sm:text-5xl md:text-7xl font-playfair">Home</span> with
+            <span className="text-[#F8CA13] text-4xl sm:text-5xl md:text-7xl font-playfair">Home</span> with
           </h1>
           <h1 className="text-4xl  sm:text-7xl md:text-8xl italic font-playfair">
             <span className="text-[#F8CA13] italic font-semibold">Vassa</span>{" "}

@@ -68,13 +68,7 @@ const Register = ({ closeModal, openLogin }) => {
                 grid grid-cols-1 md:grid-cols-2 
                 w-full h-[650px] max-w-5xl shadow-xl p-2 animate-fadeIn"
             >
-                <button
-                    onClick={closeModal}
-                    type="button"
-                    className="absolute top-3 right-3 bg-black text-white w-8 h-8 rounded-full flex items-center justify-center text-lg"
-                >
-                    ×
-                </button>
+               
 
                 {/* Left Image */}
                 <div className="hidden md:block p-1">
@@ -113,7 +107,7 @@ const Register = ({ closeModal, openLogin }) => {
                                 type="text"
                                 placeholder="Full Name"
                                 {...register("name")}
-                                className={`w-full px-4 py-3 rounded-full text-black outline-none border ${getInputBorder(
+                                className={`w-full px-4 py-3 rounded-2xl text-black outline-none border ${getInputBorder(
                                     "fullName"
                                 )}`}
                             />
@@ -128,7 +122,7 @@ const Register = ({ closeModal, openLogin }) => {
                                 type="text"
                                 placeholder="Contact No"
                                 {...register("contact")}
-                                className={`w-full px-4 py-3 rounded-full text-black outline-none border ${getInputBorder(
+                                className={`w-full px-4 py-3 rounded-2xl text-black outline-none border ${getInputBorder(
                                     "contact"
                                 )}`}
                             />
@@ -143,7 +137,7 @@ const Register = ({ closeModal, openLogin }) => {
                                 type="text"
                                 placeholder="Email"
                                 {...register("email")}
-                                className={`w-full px-4 py-3 rounded-full text-black outline-none border ${getInputBorder(
+                                className={`w-full px-4 py-3 rounded-2xl text-black outline-none border ${getInputBorder(
                                     "email"
                                 )}`}
                             />
@@ -167,13 +161,15 @@ const Register = ({ closeModal, openLogin }) => {
                         </div>
                     </div>
 
-                    <button
+                   <div className="text-center">
+                     <button
                         type="submit"
-                        className="mt-6   bg-yellow-400 text-black font-semibold py-3 rounded-full  disabled:opacity-50"
+                        className="mt-6  w-32 bg-[#F8CA13] text-black font-semibold py-2 rounded-full  disabled:opacity-50"
                         disabled={isLoading}
                     >
-                        {isLoading ? "Registering..." : "Register"}
+                        {isLoading ? "Registering..." : "Sign Up"}
                     </button>
+                   </div>
                 </div>
             </form>
         </div>

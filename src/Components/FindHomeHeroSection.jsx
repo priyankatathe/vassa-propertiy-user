@@ -27,7 +27,6 @@ const FindHomeHeroSection = ({ shrunk }) => {
                 propertyType === "Office" ? "Office" :
                   "";
 
-    // Map category to backend listingType enum ['Sale','Rent']
     const listingType =
       category === "On Rent" ? "Rent" :
         category === "On Sale" ? "Sale" :
@@ -42,19 +41,21 @@ const FindHomeHeroSection = ({ shrunk }) => {
     });
   };
 
-  // Check if all filters are selected to enable the button
   const isFormValid = location && category && propertyType;
 
   return (
     <div
       className={`
-        relative w-full 
-        ${shrunk ? "h-[35vh]" : "h-[90vh] sm:h-screen"}        
-        bg-cover bg-center 
-        rounded-bl-[60px] sm:rounded-bl-[90px]
-        transition-all duration-700 ease-in-out
-        ${isSticky ? "sticky top-0 left-0 z-50" : ""}
-      `}
+  relative w-full 
+  ${shrunk ? "h-[45vh]" : "h-[90vh] sm:h-screen"} 
+  sm:${shrunk ? "h-[35vh]" : "h-[90vh]"} /* force desktop height to 35vh */
+
+  bg-cover bg-center 
+  rounded-bl-[60px] sm:rounded-bl-[90px]
+  transition-all duration-700 ease-in-out
+  ${isSticky ? "sticky top-0 left-0 z-50" : ""}
+`}
+
       style={{ backgroundImage: `url('./findhome.webp')` }}
     >
       {/* Navbar */}
@@ -63,9 +64,15 @@ const FindHomeHeroSection = ({ shrunk }) => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center h-full px-4 md:px-20">
+      <div
+        className="
+          relative z-10 flex flex-col items-center text-center h-full px-4 md:px-20
+          justify-start sm:justify-center
+         pt-20 sm:pt-0
+        "
+      >
 
-        {/* Hide headline when shrunk */}
+        {/* Headline (hidden when shrunk) */}
         {!shrunk && (
           <h1 className="text-white font-bold leading-snug md:leading-tight text-3xl sm:text-4xl md:text-6xl transition-all">
             <span className="text-yellow-400 italic font-playfair">Discover </span>
@@ -75,17 +82,19 @@ const FindHomeHeroSection = ({ shrunk }) => {
         )}
 
         {/* Filter Bar */}
-        <div className={`
-          relative mt-10
-          w-full sm:w-[85%] md:w-[78%] lg:w-[65%]
-          bg-white/10 backdrop-blur-xl
-          rounded-2xl border border-white/40
-          flex flex-col sm:flex-row items-center justify-between
-          gap-5 sm:gap-3 shadow-[0_8px_40px_rgba(0,0,0,0.25)]
-          transition-all duration-700
-          py-4 px-5
-        `}>
-          <div className="flex flex-col sm:flex-row w-full gap-4 sm:gap-3">
+        <div
+          className={`
+            relative mt-10 sm:mt-10
+            w-full sm:w-[85%] md:w-[78%] lg:w-[65%]
+            bg-white/10 backdrop-blur-xl
+            rounded-2xl border border-white/40
+            flex flex-col sm:flex-row items-center justify-between
+            gap-5 sm:gap-3 shadow-[0_8px_40px_rgba(0,0,0,0.25)]
+            transition-all duration-700
+             py-4 sm:py-4 px-5
+          `}
+        >
+          <div className="flex flex-col sm:flex-row w-full gap-2 sm:gap-3">
 
             {/* Location */}
             <div className="flex flex-row items-center w-full gap-3">
@@ -136,12 +145,12 @@ const FindHomeHeroSection = ({ shrunk }) => {
           </div>
 
           {/* Mobile Button */}
-          <div className="sm:hidden mt-4 flex justify-center w-full">
+          <div className="sm:hidden mt-0 flex justify-center w-full">
             <button
               onClick={goToProperties}
               disabled={!isFormValid}
               className={`
-                w-14 h-14 rounded-full flex items-center justify-center 
+                w-8 h-8 rounded-full flex justify-center items-center 
                 text-black text-2xl shadow-[0_4px_15px_rgba(255,255,255,0.4)] 
                 transition
                 ${isFormValid ? "bg-yellow-400 hover:bg-yellow-500" : "bg-gray-400 cursor-not-allowed"}

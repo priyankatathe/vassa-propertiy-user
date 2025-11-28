@@ -9,14 +9,14 @@ const WhyChooseVassa = () => {
     <section className="w-full bg-white py-16  px-4  md:px-8 lg:px-16   font-manrope">
 
       {/* Title Section */}
-      <div className="text-center mb-12">
+      <div className="text-center mb-5 sm:mb-10 lg:mb-12">
         <h1 className="text-3xl md:text-5xl lg:text-6xl font-manrope leading-snug">
           Why Choose{" "}
           <span className="italic underline font-playfair text-yellow-500 mr-2">
             Vassa
           </span>
-          <br  />
-          <span className="italic underline font-playfair text-yellow-500 mt-4 inline-block">
+          <br />
+          <span className="italic underline font-playfair text-yellow-500 mt-0 sm:mt-2 lg:mt-4 inline-block">
             Properties ?
           </span>
         </h1>
@@ -24,7 +24,7 @@ const WhyChooseVassa = () => {
       </div>
 
       {/* Subtext */}
-      <p className="text-black font-semibold text-lg mb-10 text-start">
+      <p className="text-black font-semibold text-lg mb-5 sm:mb-7 lg:mb-10 text-start">
         The Smarter Way to Find, Buy & Own <br className="hidden md:block" />
         Your Dream Property.
       </p>

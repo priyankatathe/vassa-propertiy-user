@@ -28,12 +28,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import About4 from "./Components/About4";
 import HomeCarousell from "./Components/HomeCarousell";
+import ScrollToTop from "./Components/ScrollToTop";
 
 const App = () => {
   return (
     <Router>
       <Navbar />
-
+      <ScrollToTop />
       <Routes>
         <Route
           path="/"

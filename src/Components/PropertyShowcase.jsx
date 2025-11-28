@@ -14,41 +14,46 @@ const PropertyShowcase = () => {
 
       <div className="bg-gray-100 rounded-2xl p-10">
         {/* === TOP HEADLINE === */}
-        <div className="max-w-10xl   ">
-          {/* Wrapping both lines in a flex container */}
-          <div className=" mx-auto px-4 mb-5 ">
-            <div className="flex flex-col md:flex-row md:items-start justify-end">
+        <div className="max-w-10xl mx-auto px-4 mb-5">
+          {/* Desktop layout (unchanged) */}
+          <div className="hidden md:flex md:flex-row md:items-start justify-end">
+            <p
+              className="
+        text-lg
+        text-right 
+        mt-5 
+        sm:text-lg
+        md:text-sm 
+        font-medium 
+        text-gray-500 
+        mb-3 md:mb-0 
+        md:-mr-48 
+        leading-tight
+      "
+            >
+              Where design meets comfort, and <br className="hidden md:block" />
+              every corner tells a story.
+            </p>
 
-              {/* Left Small Text */}
-              <p
-                className="
-    text-lg                     /* 🔥 Mobile: बड़ा text */
-    text-right 
-    mt-5 
-    sm:text-lg                /* sm और ऊपर normal size */
-    md:text-sm 
-    font-medium 
-    text-gray-500 
-    mb-3 md:mb-0 
-    md:-mr-48 
-    leading-tight
-  "
-              >
-                Where design meets comfort, and <br className="hidden md:block" />
-                every corner tells a story.
-              </p>
+            <h1 className="font-manrope text-black leading-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-right">
+              Your dream home
+              <div className="h-4 sm:h-4"></div>
+              deserves all the{" "}
+              <span className="text-yellow-500 italic font-playfair">attention</span>
+            </h1>
+          </div>
 
-
-              {/* Right Big Heading */}
-              <h1 className="font-manrope  text-black leading-tight 
-                    text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-right">
-                Your dream home
-                <div className="h-4 sm:h-4"></div>   {/* ⭐ This adds space */}
-                deserves all the{" "}
-                <span className="text-yellow-500 italic font-playfair">attention</span>
-              </h1>
-
-            </div>
+          {/* Mobile layout */}
+          <div className="flex flex-col md:hidden items-center text-center gap-4">
+            <h1 className="font-manrope text-black leading-tight text-3xl sm:text-4xl">
+              Your dream home
+              <div className="h-2"></div>
+              deserves all the{" "}
+              <span className="text-yellow-500 italic font-playfair">attention</span>
+            </h1>
+            <p className="text-lg font-medium text-gray-500 leading-relaxed max-w-xs">
+              Where design meets comfort, and every corner tells a story.
+            </p>
           </div>
         </div>
 
@@ -85,19 +90,20 @@ const PropertyShowcase = () => {
           {/* MIDDLE: YELLOW CARD + PARAGRAPH */}
           <div className="lg:col-span-3 flex flex-col items-center">
             {/* Yellow Card */}
-            <div className="bg-[#F8CA13] rounded-2xl p-10 md:p-11 w-full max-w-sm text-center">
-              <h3 className="text-white text-lg md:text-xl font-bold mb-3">
+            <div className="bg-[#F8CA13] rounded-2xl p-10 md:p-11 w-full max-w-sm text-left md:text-left text-center md:text-left mx-auto">
+              <h3 className="text-white text-lg md:text-xl font-bold mb-3 text-center md:text-left">
                 Luxury that feels like home
               </h3>
-              <p className="text-white  text-sm md:text-sm leading-relaxed mb-4">
+              <p className="text-white text-sm md:text-sm leading-relaxed mb-4 text-center md:text-left">
                 Step into Vassa Heights, a modern residential project crafted for elegant living.
                 Spacious interiors, green surroundings, and world-class amenities designed to
                 match your aspirations.
               </p>
-              <button className="bg-white text-yellow-600 font-semibold px-6 py-2 rounded-full text-sm shadow-md hover:shadow-lg transition-shadow">
+              <button className="bg-white text-yellow-600 font-semibold px-6 py-2 rounded-full text-sm shadow-md hover:shadow-lg transition-shadow mx-auto md:mx-0 block">
                 More Info
               </button>
             </div>
+
 
             {/* Bottom Paragraph */}
             <p className="text-gray-600 text-sm md:text-sm leading-relaxed mt-6 text-start max-w-sm">

@@ -150,30 +150,26 @@ const Login = ({ closeModal, openRegister }) => {
 
 
             <div className="relative bg-white rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-2 w-full h-[650px] max-w-5xl shadow-xl p-2 animate__animated animate__zoomIn">
-                <button
-                    onClick={closeModal}
-                    className="absolute top-3 right-3 bg-black/30 hover:bg-black/50 p-2 rounded-full text-white"
-                >
-                    <X size={20} />
-                </button>
+               
 
                 <div className="hidden md:block p-1">
                     <img src="/home.webp" alt="login-left" className="w-full h-full rounded-2xl object-cover" />
                 </div>
 
-                <div className="bg-[#851524] text-white rounded-2xl flex flex-col justify-center p-8 md:p-12 overflow-y-auto">
+                <div className="bg-[#851524] text-white rounded-2xl flex flex-col justify-between p-8 md:p-12 overflow-y-auto">
                     <div className="flex flex-col items-center gap-2 mb-6">
                         <img src="/logo.webp" alt="logo" className="w-30 h-20" />
                     </div>
 
-                    <p className="text-sm text-center text-gray-300 mb-6">
-                        Don't Have an Account?{" "}
-                        <span className="text-yellow-400 cursor-pointer" onClick={openRegister}>
-                            SIGN UP
-                        </span>
-                    </p>
 
-                    <form onSubmit={formik.handleSubmit} className="flex flex-col gap-3">
+
+                    <form onSubmit={formik.handleSubmit} className="flex flex-col justify-center mb-16 gap-3">
+                        <p className="text-sm text-center text-gray-300 mb-6">
+                            Don't Have an Account?{" "}
+                            <span className="text-yellow-400 cursor-pointer" onClick={openRegister}>
+                                SIGN UP
+                            </span>
+                        </p>
                         {step === 1 && (
                             <>
                                 <input
@@ -182,7 +178,7 @@ const Login = ({ closeModal, openRegister }) => {
                                     value={formik.values.contact}
                                     onChange={formatContactInput}
                                     onBlur={formik.handleBlur}
-                                    className={`w-full px-4 py-3 rounded-full text-black outline-none border ${getInputBorder(
+                                    className={`w-full px-4 py-3 rounded-2xl text-black outline-none border ${getInputBorder(
                                         "contact"
                                     )}`}
                                 />
@@ -192,13 +188,15 @@ const Login = ({ closeModal, openRegister }) => {
                                 {!isUserExist && formik.values.contact && (
                                     <p className="text-red-400 text-sm ml-2">Contact does not exists!</p>
                                 )}
-                                <button
+                               <div className="text-center mt-20">
+                                 <button
                                     type="submit"
                                     disabled={isProcessing}
-                                    className="bg-yellow-400 text-black font-semibold py-3 rounded-full w-full"
+                                    className="bg-yellow-400 text-black font-semibold py-3 rounded-full w-36"
                                 >
                                     {isProcessing ? "Sending..." : "Send OTP"}
                                 </button>
+                               </div>
                             </>
                         )}
 
@@ -208,7 +206,7 @@ const Login = ({ closeModal, openRegister }) => {
                                     type="text"
                                     value={formik.values.contact}
                                     readOnly
-                                    className="w-full px-4 py-3 rounded-full text-black bg-gray-200 border border-gray-400"
+                                    className="w-full px-4 py-3 rounded-2xl text-black bg-gray-200 border border-gray-400"
                                 />
                                 <input
                                     type="text"
@@ -219,7 +217,7 @@ const Login = ({ closeModal, openRegister }) => {
                                     }
                                     onBlur={formik.handleBlur}
                                     maxLength={6}
-                                    className={`w-full px-4 py-3 rounded-full text-black outline-none border ${getInputBorder(
+                                    className={`w-full px-4 py-3 rounded-2xl text-black outline-none border ${getInputBorder(
                                         "otp"
                                     )}`}
                                     disabled={otpExpired || isProcessing}
@@ -228,7 +226,7 @@ const Login = ({ closeModal, openRegister }) => {
                                     <p className="text-red-400 text-sm ml-2">{formik.errors.otp}</p>
                                 )}
 
-                                <div className="flex justify-between text-xs text-gray-400">
+                                <div className="flex justify-between text-xs text-gray-400 ">
                                     <span>{!otpExpired ? `Time Left: ${timer}s` : "OTP expired!"}</span>
                                     <span
                                         className={clsx(
@@ -241,13 +239,15 @@ const Login = ({ closeModal, openRegister }) => {
                                     </span>
                                 </div>
 
-                                <button
-                                    type="submit"
-                                    disabled={isProcessing}
-                                    className="mt-2 bg-yellow-400 text-black font-semibold py-3 rounded-full w-full"
-                                >
-                                    {isProcessing ? "Logging in..." : "Login"}
-                                </button>
+                                <div className="text-center mt-20">
+                                    <button
+                                        type="submit"
+                                        disabled={isProcessing}
+                                        className="mt-2 bg-yellow-400  text-black font-semibold py-3 rounded-full w-32"
+                                    >
+                                        {isProcessing ? "Logging in..." : "Login"}
+                                    </button>
+                                </div>
                             </>
                         )}
                     </form>

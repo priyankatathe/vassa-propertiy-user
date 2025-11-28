@@ -5,6 +5,7 @@ import c2 from "../../public/c2.webp";
 import c3 from "../../public/c3.webp";
 import c4 from "../../public/c4.webp";
 import { MdArrowOutward } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const ModernCitySection = () => {
   const images = [c1, c2, c3, c4];
@@ -30,7 +31,7 @@ const ModernCitySection = () => {
               text-base
               sm:text-2xl
               sm:max-w-2xl
-              sm:text-gray-600
+              sm:text-[#737373]
               max-w-sm
               mx-auto
               mb-7
@@ -111,22 +112,22 @@ const ModernCitySection = () => {
               {/* 🔻 MOBILE: PARAGRAPH AFTER HEADING */}
               <p
                 className="
-          text-lg              /* bigger for mobile */
-          xl:text-base
-          sm:text-2xl
-          sm:max-w-2xl
-          sm:text-gray-600
-          max-w-sm
-          mx-auto
-          mb-7
-          md:ml-[440px] ml-0 md:-mb-32 lg:text-xs
-          text-center sm:text-left
-        "
+                mt-2
+    text-gray-600      
+    text-base            
+    sm:text-lg          
+    leading-relaxed     
+    max-w-xs            
+    mx-auto            
+    text-center        
+    mb-4
+  "
               >
                 Experience the perfect balance of comfort, style,
                 <br className="hidden sm:block" />
                 and smart living spaces designed for today's lifestyle
               </p>
+
 
               {/* 🔺 MOBILE: HEADING ABOVE PARAGRAPH */}
               <div>
@@ -276,12 +277,12 @@ const ModernCitySection = () => {
         </div>
 
         {/* FOOTER TEXT */}
-        <div className="text-right mt-6">
+        <div className="text-right  mt-6">
           <p className="text-black text-xl font-bold lg:text-2xl">
             <span className="font-playfair italic">Not in your city?</span>
-            <span className="underline ml-2 font-light cursor-pointer hover:text-black transition-colors">
+            <Link to="/contact" className="underline ml-2 font-light cursor-pointer hover:text-black transition-colors">
               Tell us where to expand next →
-            </span>
+            </Link>
           </p>
         </div>
 

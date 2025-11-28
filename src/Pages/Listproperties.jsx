@@ -287,7 +287,7 @@ const ListProperty = () => {
         <div className="flex items-center gap-2 sm:gap-4 w-full">
           {steps.map((step, i) => (
             <React.Fragment key={i}>
-              <div className={`flex-1 min-w-[30px] sm:min-w-[40px] h-10 rounded-full flex items-center justify-center text-white font-bold ${i <= currentStep ? 'bg-yellow-500' : 'bg-gray-400'}`}>
+              <div className={`flex-1 min-w-[30px] sm:min-w-[40px]  h-14 rounded-full flex items-center justify-center text-white font-bold ${i <= currentStep ? 'bg-yellow-500' : 'bg-gray-400'}`}>
                 {i + 1}
               </div>
               {i < steps.length - 1 && (
