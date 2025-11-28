@@ -45,36 +45,55 @@ const YourProperties = () => {
     return (
         <div className="p-6 max-w-10xl mx-auto mt-10 py-16  px-4  md:px-8 lg:px-[67px]   font-manrope">
 
-            {/* Dual Button Group */}
-            <div className="flex justify-center mb-10">
-                <div className="inline-flex bg-gray-100 rounded-full p-1 ">
-                    <button
-                        onClick={() => setActiveTab("rent")}
-                        className={`flex items-center gap-2 px-8 py-3 rounded-full font-medium transition-all ${activeTab === "rent"
-                            ? "bg-yellow-500 text-white shadow-lg"
-                            : "text-gray-600 hover:text-gray-900"
-                            }`}
-                    >
-                        For Rent
-                        <span className={`ml-2 px-3 py-1 rounded-full text-sm font-bold ${activeTab === "rent" ? "bg-white/30" : "bg-gray-200"}`}>
-                            {rentCount}
-                        </span>
-                    </button>
+            {/* Rent / Sale Toggle Button - Left Aligned, Premium Look */}
+                <div className="flex justify-start mb-10">
+                    <div className="inline-flex bg-gray-100 rounded-2xl   border border-gray-200">
 
-                    <button
-                        onClick={() => setActiveTab("sale")}
-                        className={`flex items-center gap-2 px-8 py-3 rounded-full font-medium transition-all ${activeTab === "sale"
-                            ? "bg-yellow-500 text-white shadow-lg"
-                            : "text-gray-600 hover:text-gray-900"
-                            }`}
-                    >
-                        For Sale
-                        <span className={`ml-2 px-3 py-1 rounded-full text-sm font-bold ${activeTab === "sale" ? "bg-white/30" : "bg-gray-200"}`}>
-                            {saleCount}
-                        </span>
-                    </button>
+                        {/* For Rent Button */}
+                        <button
+                            onClick={() => setActiveTab("rent")}
+                            className={`
+          flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-lg
+          transition-all duration-300 transform hover:scale-105
+          ${activeTab === "rent"
+                                    ? "bg-yellow-500 text-white shadow-xl"
+                                    : "text-gray-600 hover:text-gray-900 bg-transparent"
+                                }
+        `}
+                        >
+                            For Rent
+                            <span className={`
+          ml-3 px-4 py-1.5 rounded-full text-sm font-bold
+          ${activeTab === "rent" ? "bg-white text-yellow-600" : "bg-gray-300 text-gray-700"}
+        `}>
+                                {rentCount}
+                            </span>
+                        </button>
+
+                        {/* For Sale Button */}
+                        <button
+                            onClick={() => setActiveTab("sale")}
+                            className={`
+          flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-lg
+          transition-all duration-300 transform hover:scale-105
+          ${activeTab === "sale"
+                                    ? "bg-yellow-500 text-white shadow-xl"
+                                    : "text-gray-600 hover:text-gray-900 bg-transparent"
+                                }
+        `}
+                        >
+                            For Sale
+                            <span className={`
+          ml-3 px-4 py-1.5 rounded-full text-sm font-bold
+          ${activeTab === "sale" ? "bg-white text-yellow-600" : "bg-gray-300 text-gray-700"}
+        `}>
+                                {saleCount}
+                            </span>
+                        </button>
+
+                    </div>
                 </div>
-            </div>
+           
 
             {/* Grid with EXACT SAME CARD you showed */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
