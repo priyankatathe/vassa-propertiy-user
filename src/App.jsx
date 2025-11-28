@@ -29,6 +29,8 @@ import "react-toastify/dist/ReactToastify.css";
 import About4 from "./Components/About4";
 import HomeCarousell from "./Components/HomeCarousell";
 import ScrollToTop from "./Components/ScrollToTop";
+import YourProperties from "./Components/YourProperties";
+import AddedPropertyDetail from "./Components/AddedPropertyDetail";
 
 const App = () => {
   return (
@@ -70,6 +72,8 @@ const App = () => {
         <Route path="/list" element={<ListProperty />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/your-properties" element={<YourProperties />} />
+        <Route path="/addproperty-detail" element={<AddedPropertyDetail />} />
       </Routes>
 
       <Footer />

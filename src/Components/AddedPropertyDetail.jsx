@@ -1,15 +1,13 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
 import { IoArrowDownSharp } from "react-icons/io5";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
-import { useAddEnquiryMutation, useGetPropertiesByIdQuery } from "../redux/api/propertyFecthApi";
-import { useForm } from "react-hook-form";
+import { useGetPropertiesByIdQuery } from "../redux/api/propertyFecthApi";
 import { FaHouse } from "react-icons/fa6";
 import PropertiyOtherImg from "./PropertiyOtherImg";
 
-const HouseDetails = () => {
+const AddedPropertyDetail = () => {
   const location = useLocation();
   const propertyId = location.state?.propertyId;
   const detailsRef = useRef(null);
@@ -18,7 +16,6 @@ const HouseDetails = () => {
     skip: !propertyId
   });
 
-  const [addEquiry] = useAddEnquiryMutation();
   const property = apiResponse?.data;
 
   const [images, setImages] = useState(["/1.png", "/3.png", "/2.png", "/10.png"]);
@@ -61,15 +58,14 @@ const HouseDetails = () => {
 
   const formatPrice = (price) => {
     if (!price) return "Price on request";
-    if (price < 100000) return `₹${price.toLocaleString()}`; // show exact rupees
+    if (price < 100000) return `₹${price.toLocaleString()}`;
     const priceInLakhs = price / 100000;
     if (priceInLakhs >= 100) {
       const priceInCrores = priceInLakhs / 100;
       return `₹${priceInCrores.toFixed(2)} Cr`;
     }
-    return `₹${priceInLakhs.toFixed(2)} L`; // optional: keep 2 decimal places
+    return `₹${priceInLakhs.toFixed(2)} L`;
   };
-
 
   const getPropertyTypeText = (propertyType) => propertyType || "Property";
 
@@ -93,34 +89,12 @@ const HouseDetails = () => {
     setButtonIndex(btnIndex);
   }, [index, categoryNames]);
 
-
-  const [carouselOpen, setCarouselOpen] = useState(false); // modal open/close
-  const [carouselIndex, setCarouselIndex] = useState(0);   // modal में कौनसी image दिखानी है
+  const [carouselOpen, setCarouselOpen] = useState(false);
+  const [carouselIndex, setCarouselIndex] = useState(0);
 
   const openCarouselAt = (idx) => {
-    setCarouselIndex(idx); // clicked image index
-    setCarouselOpen(true); // modal open करें
-  };
-
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
-
-  const onSubmit = async (data) => {
-    if (!propertyId) return;
-    try {
-      await addEquiry({
-        propertyId,
-        Name: data.Name,
-        email_contact: data.email_contact,
-        message: data.message,
-        inquire_type: data.inquire_type
-      }).unwrap();
-
-      alert("Enquiry sent successfully!");
-      reset();
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong!");
-    }
+    setCarouselIndex(idx);
+    setCarouselOpen(true);
   };
 
   if (isLoading) {
@@ -156,7 +130,7 @@ const HouseDetails = () => {
   }
 
   return (
-    <div className="min-h-screen text-gray-800 font-manrope mt-16  pb-10 px-4 md:px-8 lg:px-25">
+    <div className="min-h-screen text-gray-800 font-manrope mt-16 pb-10 px-4 md:px-8 lg:px-25">
       {/* Header */}
       <div className="sticky max-w-10xl top-0 bg-black mx-0 md:mx-10 my-4 md:my-8 rounded-xl z-50">
         <Navbar />
@@ -199,12 +173,11 @@ const HouseDetails = () => {
               style={{
                 left: buttonRefs.current[index]
                   ? buttonRefs.current[index].offsetLeft +
-                  buttonRefs.current[index].offsetWidth / 1.6 +
-                  (window.innerWidth >= 768 ? 150 : 0) // md breakpoint ~768px
+                    buttonRefs.current[index].offsetWidth / 1.6 +
+                    (window.innerWidth >= 768 ? 150 : 0)
                   : "50%",
                 transform: "translateX(-50%)"
               }}
-
             >
               <img
                 src={images[index]}
@@ -220,12 +193,12 @@ const HouseDetails = () => {
                   ref={(el) => (buttonRefs.current[i] = el)}
                   onClick={() => setIndex(i)}
                   className={`
-            px-3 sm:px-4 md:px-6 py-1 sm:py-1.5 md:py-2 rounded-full text-xs sm:text-sm md:text-sm backdrop-blur-lg border transition
-            ${index === i
+                    px-3 sm:px-4 md:px-6 py-1 sm:py-1.5 md:py-2 rounded-full text-xs sm:text-sm md:text-sm backdrop-blur-lg border transition
+                    ${index === i
                       ? "bg-white/70 text-black border-white shadow-md font-semibold"
                       : "bg-white/30 text-black border-transparent hover:bg-white/50"
                     }
-          `}
+                  `}
                 >
                   {c}
                 </button>
@@ -236,7 +209,6 @@ const HouseDetails = () => {
 
           {/* RIGHT SIDE SMALL IMAGES */}
           <div className="flex flex-col gap-4 w-full md:w-1/3 mt-4 md:mt-20">
-
             <img
               src={property.specifications?.hallImage || "/Rectangle 134.png"}
               className="rounded-xl shadow-md h-36 sm:h-44 md:h-[250px] object-cover transition-all duration-300"
@@ -258,7 +230,6 @@ const HouseDetails = () => {
                 </div>
               </div>
             )}
-
           </div>
 
           {/* Carousel Modal */}
@@ -295,13 +266,12 @@ const HouseDetails = () => {
           </div>
         </div>
 
-        {/* DETAILS SECTION */}
+        {/* DETAILS SECTION - FULL WIDTH (Contact form removed) */}
         <div
           ref={detailsRef}
-          className="flex flex-col md:flex-row items-start justify-between gap-6 md:gap-6 mt-6 md:mt-10 rounded-2xl"
+          className="mt-6 md:mt-10 rounded-2xl"
         >
-          {/* LEFT */}
-          <div className="flex-1 space-y-4 md:space-y-6 bg-[#D9D9D940] w-full sm:w-0 rounded-lg p-4 md:p-5">
+          <div className="bg-[#D9D9D940] rounded-lg p-4 md:p-5 space-y-6 md:space-y-8">
             <p className="border-b pb-4 md:pb-6 font-semibold border-[#D9D9D9] text-black">Property Description</p>
             <p className="text-sm sm:text-base leading-relaxed text-gray-700">
               {property.description || `Step into elegance with this beautifully designed ${property.specifications?.bedrooms} BHK ${getPropertyTypeText(property.propertyType)} located in ${property.location?.city}. The residence offers spacious interiors, premium finishes, and abundant natural light that enhances every corner.`}
@@ -309,82 +279,34 @@ const HouseDetails = () => {
 
             <div>
               <p className="text-black pb-4 font-bold md:pb-6 border-b border-[#D9D9D9]">Property Features</p>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-5 text-sm mt-4 md:mt-16 text-gray-600">
-                {[["Type:", getPropertyTypeText(property.propertyType)], ["Area:", `${property.specifications?.area || "N/A"} sqft`], ["Bedrooms:", property.specifications?.bedrooms || "N/A"], ["Bathrooms:", property.specifications?.bathrooms || "N/A"], ["Kitchen:", property.specifications?.kitchen || "N/A"], ["Hall:", property.specifications?.hall || "N/A"], ["Parking:", property.specifications?.parkingSpaces ? "Yes" : "No"], ["Furnishing:", property.specifications?.furnishingStatus || "N/A"]].map(([label, value], i) => (
-                  <li key={i} className="flex items-center gap-3 bg-white rounded-full shadow-sm w-full md:w-56">
-                    <div className="bg-[#851524] p-4 rounded-full">
-                      <FaHouse size={20} color="yellow" />
+              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mt-6 text-sm text-gray-600">
+                {[
+                  ["Type:", getPropertyTypeText(property.propertyType)],
+                  ["Area:", `${property.specifications?.area || "N/A"} sqft`],
+                  ["Bedrooms:", property.specifications?.bedrooms || "N/A"],
+                  ["Bathrooms:", property.specifications?.bathrooms || "N/A"],
+                  ["Kitchen:", property.specifications?.kitchen || "N/A"],
+                  ["Hall:", property.specifications?.hall || "N/A"],
+                  ["Parking:", property.specifications?.parkingSpaces ? "Yes" : "No"],
+                  ["Furnishing:", property.specifications?.furnishingStatus || "N/A"]
+                ].map(([label, value], i) => (
+                  <li key={i} className="flex items-center gap-3 bg-white rounded-full shadow-sm py-3 px-4">
+                    <div className="bg-[#851524] p-3 rounded-full">
+                      <FaHouse size={18} color="yellow" />
                     </div>
                     <div>
-                      <h1 className="text-black font-bold text-sm sm:text-base">{label}</h1>
-                      <span className="text-xs sm:text-sm">{value}</span>
+                      <h1 className="text-black font-bold text-sm">{label}</h1>
+                      <span className="text-xs">{value}</span>
                     </div>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
-
-          {/* CONTACT FORM */}
-          <div className="w-full md:w-1/3 flex flex-col">
-            <form className="w-full flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-              <h3 className="text-md sm:text-lg font-semibold text-gray-800 mb-4">Contact Our Team</h3>
-
-              {/* Name */}
-              <label className="text-black text-sm mb-1 block">Name</label>
-              <input
-                type="text"
-                placeholder="Name"
-                className="w-full border border-gray-400 px-3 py-3 md:py-2 rounded-3xl mb-3"
-                {...register("Name", { required: true })}
-              />
-              {errors.Name && <span className="text-red-500 text-xs sm:text-sm mb-3 block">Name is required</span>}
-
-              {/* Email / Contact */}
-              <label className="text-black text-sm mb-1 block">Email / Contact</label>
-              <input
-                type="email"
-                placeholder="Email / Contact"
-                className="w-full border border-gray-400 px-3 py-3 md:py-2 rounded-3xl mb-3"
-                {...register("email_contact", { required: true })}
-              />
-              {errors.email_contact && <span className="text-red-500 text-xs sm:text-sm mb-3 block">Email / Contact is required</span>}
-
-              {/* Message */}
-              <label className="text-black text-sm mb-1 block">Message</label>
-              <textarea
-                rows={3}
-                placeholder="Enter your message"
-                className="w-full border border-gray-400 px-3 py-3 md:py-2 rounded-3xl mb-3"
-                {...register("message", { required: true })}
-              />
-
-              {/* Inquiry Type */}
-              <label className="text-black text-sm mb-1 block">Inquiry Type</label>
-              <select
-                className="w-full border border-gray-400 px-3 py-3 md:py-2 rounded-3xl mb-4"
-                {...register("inquire_type", { required: true })}
-              >
-                <option value="">Select type</option>
-                <option value="Rent">Rent</option>
-                <option value="Buy">Buy</option>
-              </select>
-
-              <button
-                type="submit"
-                className="bg-[#F8CA13] text-black font-semibold px-4 md:px-6 py-2 md:py-3 rounded-3xl w-full hover:bg-yellow-500 transition text-sm sm:text-base"
-              >
-                Contact
-              </button>
-            </form>
-          </div>
         </div>
       </main>
-
-
-
     </div>
   );
 };
 
-export default HouseDetails;
+export default AddedPropertyDetail;

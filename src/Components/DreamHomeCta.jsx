@@ -21,13 +21,16 @@ const DreamHomeCTA = () => {
             src={HouseImg}
             alt="Dream Home"
             className="
-              h-40 sm:h-48 md:h-60 
-              object-contain 
-              drop-shadow-xl 
-              z-20 
-              mb-10 md:mb-36
-            "
+    h-40 sm:h-48 md:h-60
+    object-contain
+    drop-shadow-xl
+    z-20
+    mb-10
+    sm:mb-0
+    md:mb-36
+  "
           />
+
         </div>
 
         {/* RIGHT — Text Area */}

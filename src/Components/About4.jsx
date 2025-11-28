@@ -11,7 +11,7 @@ const About4 = () => {
   ];
 
   return (
-    <section className="relative w-full  py-16 md:py-16 lg:pb-32 px-4 sm:px-6 md:px-16 lg:px-20 overflow-hidden">
+    <section className="relative w-full  py-10 sm:py-12  md:py-12 lg:pb-32 px-4 sm:px-6 md:px-16 lg:px-20 overflow-hidden">
       <div
         className="mx-auto w-full max-w-10xl h-[500px] md:h-[500px] lg:h-[650px]  rounded-lg overflow-hidden"
         style={{

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { ChevronDown, Phone, Menu, X } from "lucide-react";
+import { ChevronDown, Phone, Menu, X, LucideHome } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Logo from "../assets/logo2.svg";
 import whiteLog from "../assets/logo.svg";
@@ -160,10 +160,16 @@ const Navbar = () => {
                   {/* Address Display */}
                   {user.user.address && (
                     <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-default">
-                      <LuMapPin  className="text-purple-500" size={18} />
-                      {user.user.address}
+                      <LuMapPin className="text-purple-500" size={18} />
+                      <span className="font-medium">Address:</span> {user.user.address}
                     </div>
                   )}
+
+                  {/* Your Properties Option — SEPARATE LOOK */}
+                  <Link to="/your-properties" className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                    <LucideHome className="text-orange-500" size={18} />  {/* DIFFERENT ICON */}
+                    <span className="font-medium">Your Properties</span>
+                  </Link>
 
                   {/* Divider */}
                   <div className="border-t my-1"></div>
@@ -178,6 +184,7 @@ const Navbar = () => {
                   </div>
                 </div>
               )}
+
             </div>
           ) : (
             /* Login Button */

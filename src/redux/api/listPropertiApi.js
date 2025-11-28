@@ -6,7 +6,15 @@ export const listPropertiApi = createApi({
     tagTypes: ["user"],
     endpoints: (builder) => {
         return {
-
+            getAddedPropertie: builder.query({
+                query: () => {
+                    return {
+                        url: "/get/added/property",
+                        method: "GET"
+                    }
+                },
+                providesTags: ["user"]
+            }),
             addProperties: builder.mutation({
                 query: userData => {
                     return {
@@ -23,5 +31,6 @@ export const listPropertiApi = createApi({
 })
 
 export const {
-    useAddPropertiesMutation
+    useAddPropertiesMutation,
+    useGetAddedPropertieQuery
 } = listPropertiApi
