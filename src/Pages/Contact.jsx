@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 const ContactUs = () => {
-  const [addContact] = useAddContactMutation();
+  const [addContact, { isLoading }] = useAddContactMutation();
 
   // Validation Schema
   const schema = yup.object().shape({
@@ -131,10 +131,13 @@ const ContactUs = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-3 rounded-full transition"
+              disabled={isLoading}
+              className={`w-full bg-yellow-400 text-black font-semibold py-3 rounded-full transition 
+    ${isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-yellow-500"}`}
             >
-              Contact
+              {isLoading ? "Sending..." : "Contact"}
             </button>
+
           </form>
         </div>
       </div>

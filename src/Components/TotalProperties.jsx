@@ -176,7 +176,7 @@ const TotalProperties = () => {
           Total {filteredProperties.length} Properties
         </button>
 
-        <div className="relative">
+        <div className="relative ">
           <button
             onClick={() => {
               setTempFilters(filters); // जब खुले, tempFilters में current filters डाल दो
@@ -208,11 +208,10 @@ const TotalProperties = () => {
                       {filterKey.replace(/([A-Z])/g, " $1").trim()}
                     </label>
                     <div
-                      className={`grid ${
-                        filterKey === "furnishingStatus"
-                          ? "grid-cols-1"
-                          : "grid-cols-2"
-                      } gap-3`}
+                      className={`grid ${filterKey === "furnishingStatus"
+                        ? "grid-cols-1"
+                        : "grid-cols-2"
+                        } gap-3`}
                     >
                       {filterConfig[filterKey].map((item) => (
                         <FilterCheckbox
@@ -235,9 +234,9 @@ const TotalProperties = () => {
 
                 <RangeSlider
                   label="Price Range"
-                  min={0}
-                  max={100}
-                  step={0.5}
+                  min={0.01}         // starts from 1 thousand
+                  max={100}          // up to 100 L
+                  step={0.01}        // 0.01 L = 1 thousand
                   value={tempFilters.maxPrice}
                   unit="L"
                   onChange={(e) =>

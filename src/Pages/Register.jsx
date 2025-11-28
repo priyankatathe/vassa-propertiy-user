@@ -62,13 +62,13 @@ const Register = ({ closeModal, openLogin }) => {
         <div className="fixed inset-0 flex font-manrope items-center justify-center z-[999] p-4">
             <div className="absolute bg-black/70 backdrop-blur-md inset-0" onClick={closeModal} />
 
-            <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="relative bg-white rounded-3xl overflow-hidden 
-                grid grid-cols-1 md:grid-cols-2 
-                w-full h-[650px] max-w-5xl shadow-xl p-2 animate-fadeIn"
-            >
-               
+            <form onSubmit={handleSubmit(onSubmit)}
+    className="relative bg-white rounded-3xl overflow-hidden
+    grid grid-cols-1 md:grid-cols-2 
+    w-full max-w-[850px] h-auto md:h-[500px]
+    shadow-xl p-2 animate-fadeIn">
+
+
 
                 {/* Left Image */}
                 <div className="hidden md:block p-1">
@@ -161,15 +161,15 @@ const Register = ({ closeModal, openLogin }) => {
                         </div>
                     </div>
 
-                   <div className="text-center">
-                     <button
-                        type="submit"
-                        className="mt-6  w-32 bg-[#F8CA13] text-black font-semibold py-2 rounded-full  disabled:opacity-50"
-                        disabled={isLoading}
-                    >
-                        {isLoading ? "Registering..." : "Sign Up"}
-                    </button>
-                   </div>
+                    <div className="text-center">
+                        <button
+                            type="submit"
+                            className="mt-6  w-32 bg-[#F8CA13] text-black font-semibold py-2 rounded-full  disabled:opacity-50"
+                            disabled={isLoading}
+                        >
+                            {isLoading ? "Registering..." : "Sign Up"}
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>

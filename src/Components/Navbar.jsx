@@ -1,14 +1,15 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown, Phone, Menu, X, LucideHome } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Logo from "../assets/logo2.svg";
 import whiteLog from "../assets/logo.svg";
 import Login from "../Pages/Login";
 import RegisterUI from "../Pages/Register";
-import { FaUserLock } from "react-icons/fa6";
+import { FaUser, FaUserLock } from "react-icons/fa6";
 import { useLogoutUserMutation } from "../redux/api/userApi";
 import { LuLogOut, LuMail, LuMapPin, LuPhone } from "react-icons/lu";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [openRegister, setOpenRegister] = useState(false);
@@ -19,7 +20,7 @@ const Navbar = () => {
   const location = useLocation(); // <-- Get current page path
   const user = JSON.parse(localStorage.getItem("user"));
   const isHeroPage = location.pathname === "/"; // <-- check if we are on hero page
-
+  const dropdownRef = useRef();
   const [userDropdown, setUserDropdown] = useState(false);
   const [logoutUser, { isLoading }] = useLogoutUserMutation();
   useEffect(() => {
@@ -35,20 +36,31 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHeroPage]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setUserDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const handleLogout = async () => {
     try {
-      const res = await logoutUser().unwrap();  // API call
-      console.log("Logout success:", res);
+      const res = await logoutUser().unwrap(); // RTK Query logout
+      toast.success("Logged out successfully!");
 
       setUserDropdown(false);
 
-      window.location.reload(); // OR navigate("/")
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+
     } catch (error) {
-      console.error("Logout failed:", error);
+      toast.error("Logout failed!");
     }
   };
-
-
 
 
   return (
@@ -126,75 +138,100 @@ const Navbar = () => {
 
 
 
-        <div className="flex items-center gap-3 relative">
-          {/* USER DROPDOWN */}
+        <div className="flex items-center gap-3 relative" ref={dropdownRef}>
           {user?.user?.name ? (
             <div className="relative">
               {/* Username Button */}
               <div
                 onClick={() => setUserDropdown((prev) => !prev)}
-                className="flex items-center gap-2 bg-yellow-400 border border-[#851524] text-black px-4 py-2 rounded-full font-semibold cursor-pointer"
+                className="flex items-center gap-2 bg-yellow-400 border border-[#851524] 
+                 text-black px-4 py-2 rounded-full font-semibold cursor-pointer 
+                 hover:bg-yellow-300 transition"
               >
-                <FaUserLock className="text-[#851524]" /> {user.user.name}
+                <FaUser className="text-[#851524]" /> {user.user.name}
               </div>
 
+              {/* Dropdown */}
               {userDropdown && (
-                <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg overflow-hidden border shadow-lg z-[9999]">
+                <div className="absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border 
+                      border-gray-200 overflow-hidden z-[9999] p-4 animate-fadeIn">
 
-                  {/* Email Display */}
+                  {/* User Icon + Name Center */}
+                  <div className="flex justify-start gap-2 mb-4">
+                    <div className="w-10 h-10 bg-yellow-400 text-[#851524] rounded-full 
+                          flex items-center justify-center text-xl font-bold shadow-md">
+                      <FaUser />
+                    </div>
+
+                    <h3 className="text-lg  font-semibold text-gray-800 mt-1">
+                      {user.user.name}
+                    </h3>
+                  </div>
+
+                  <div className="border-t mb-3"></div>
+
+                  {/* Email */}
                   {user.user.email && (
-                    <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-default">
-                      <LuMail className="text-blue-500" size={18} />
-                      {user.user.email}
+                    <div className="flex items-center gap-3 px-2 py-2 text-sm 
+                          text-gray-700 hover:bg-gray-100 rounded-md cursor-default">
+                      <LuMail className="text-yellow-400" size={18} />
+                      <span>{user.user.email}</span>
                     </div>
                   )}
 
-                  {/* Contact Display */}
+                  {/* Contact */}
                   {user.user.contact && (
-                    <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-default">
-                      <LuPhone className="text-green-500" size={18} />
-                      {user.user.contact}
+                    <div className="flex items-center gap-3 px-2 py-2 text-sm 
+                          text-gray-700 hover:bg-gray-100 rounded-md cursor-default">
+                      <LuPhone className="text-yellow-400" size={18} />
+                      <span>{user.user.contact}</span>
                     </div>
                   )}
 
-                  {/* Address Display */}
+                  {/* Address */}
                   {user.user.address && (
-                    <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-default">
-                      <LuMapPin className="text-purple-500" size={18} />
-                      <span className="font-medium">Address:</span> {user.user.address}
+                    <div className="flex items-center gap-3 px-2 py-2 text-sm 
+                          text-gray-700 hover:bg-gray-100 rounded-md cursor-default">
+                      <LuMapPin className="text-yellow-400" size={18} />
+                      <span>{user.user.address}</span>
                     </div>
                   )}
 
-                  {/* Your Properties Option — SEPARATE LOOK */}
-                  <Link to="/your-properties" className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
-                    <LucideHome className="text-orange-500" size={18} />  {/* DIFFERENT ICON */}
-                    <span className="font-medium">Your Properties</span>
-                  </Link>
+                  <div className="border-t my-3"></div>
 
-                  {/* Divider */}
-                  <div className="border-t my-1"></div>
+                  {/* Your Properties */}
+                  <Link
+                    to="/your-properties"
+                    className="flex items-center gap-3 px-2 py-2 text-sm 
+                     text-gray-700 hover:bg-gray-100 rounded-md font-medium"
+                  >
+                    <LucideHome className="text-yellow-400" size={18} />
+                    Your Properties
+                  </Link>
 
                   {/* Logout */}
                   <div
                     onClick={handleLogout}
-                    className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    className="flex items-center gap-3 px-2 py-2 text-sm 
+                     text-gray-700 hover:bg-gray-100 rounded-md cursor-pointer font-medium mt-2"
                   >
-                    <LuLogOut className="text-red-600" size={18} />
+                    <LuLogOut className="text-red-500" size={18} />
                     {isLoading ? "Logging out..." : "Logout"}
                   </div>
                 </div>
               )}
-
             </div>
           ) : (
-            /* Login Button */
+            // Login Button
             <button
               onClick={() => setOpenLogin(true)}
-              className="flex items-center gap-2 bg-yellow-400 border border-[#851524] text-white px-4 py-2 rounded-full font-semibold hover:bg-yellow-500 transition"
+              className="flex items-center gap-2 bg-yellow-400 border border-[#851524] 
+               text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-300 transition"
             >
               <FaUserLock className="text-[#851524]" /> Login
             </button>
           )}
+
 
           {/* MOBILE TOGGLE */}
           <button

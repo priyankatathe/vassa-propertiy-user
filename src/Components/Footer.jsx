@@ -1,5 +1,6 @@
 import React from "react";
 import logo from "../assets/logo2.svg";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -50,11 +51,21 @@ const Footer = () => {
                 <div>
                   <h3 className="font-semibold text-lg mb-3 text-black">Quick Links</h3>
                   <ul className="space-y-3 text-gray-600">
-                    <li>Home</li>
-                    <li>About Us</li>
-                    <li>Why Choose</li>
-                    <li>Find Property</li>
-                    <li>Projects</li>
+                    <li>
+                      <Link to="/">Home</Link>
+                    </li>
+                    <li>
+                      <Link to="/about">About Us</Link>
+                    </li>
+                    <li>
+                      <Link to="/contact">Contact</Link>
+                    </li>
+                    <li>
+                      <Link to="/find-home">Find Property</Link>
+                    </li>
+                    <li>
+                      <Link to="/list">List Property</Link>
+                    </li>
                   </ul>
                 </div>
 

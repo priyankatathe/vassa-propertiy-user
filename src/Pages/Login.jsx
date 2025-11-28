@@ -149,8 +149,14 @@ const Login = ({ closeModal, openRegister }) => {
             />
 
 
-            <div className="relative bg-white rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-2 w-full h-[650px] max-w-5xl shadow-xl p-2 animate__animated animate__zoomIn">
-               
+            <div className="
+  relative bg-white rounded-3xl overflow-hidden
+  grid grid-cols-1 md:grid-cols-2 
+  w-[90%] sm:w-[80%] md:w-full 
+  max-w-[850px]
+  h-auto md:h-[500px]
+  shadow-xl p-2 animate__animated animate__zoomIn
+">
 
                 <div className="hidden md:block p-1">
                     <img src="/home.webp" alt="login-left" className="w-full h-full rounded-2xl object-cover" />
@@ -188,15 +194,15 @@ const Login = ({ closeModal, openRegister }) => {
                                 {!isUserExist && formik.values.contact && (
                                     <p className="text-red-400 text-sm ml-2">Contact does not exists!</p>
                                 )}
-                               <div className="text-center mt-20">
-                                 <button
-                                    type="submit"
-                                    disabled={isProcessing}
-                                    className="bg-yellow-400 text-black font-semibold py-3 rounded-full w-36"
-                                >
-                                    {isProcessing ? "Sending..." : "Send OTP"}
-                                </button>
-                               </div>
+                                <div className="text-center mt-20">
+                                    <button
+                                        type="submit"
+                                        disabled={isProcessing}
+                                        className="bg-yellow-400 text-black font-semibold py-3 rounded-full w-36"
+                                    >
+                                        {isProcessing ? "Sending..." : "Send OTP"}
+                                    </button>
+                                </div>
                             </>
                         )}
 
