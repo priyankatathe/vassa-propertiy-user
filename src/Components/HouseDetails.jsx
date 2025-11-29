@@ -287,12 +287,27 @@ const HouseDetails = () => {
           </div>
           <div
             onClick={() => detailsRef.current?.scrollIntoView({ behavior: "smooth" })}
-            className="bg-yellow-400 w-full md:w-36 h-10 flex items-center justify-center gap-4 md:gap-5 text-black py-2 md:py-3 rounded-full font-medium shadow-md hover:bg-yellow-500 cursor-pointer transition">
-            <p className="m-0 text-sm sm:text-base">More Info</p>
+            className="
+    bg-yellow-400 
+    w-28 h-9              /* Mobile small size */
+    sm:w-32 sm:h-10       /* Tablet */
+    md:w-36 md:h-10       /* Desktop normal size */
+
+    flex items-center justify-center 
+    gap-2 sm:gap-3 md:gap-5
+    text-black 
+    py-1 sm:py-2 md:py-3 
+    rounded-full font-medium shadow-md 
+    hover:bg-yellow-500 cursor-pointer transition
+  "
+          >
+            <p className="m-0 text-xs sm:text-sm md:text-base">More Info</p>
+
             <div className="bg-white p-1 rounded-full flex items-center justify-center">
-              <IoArrowDownSharp size={18} md:size={20} />
+              <IoArrowDownSharp className="text-black" size={16} />
             </div>
           </div>
+
         </div>
 
         {/* DETAILS SECTION */}

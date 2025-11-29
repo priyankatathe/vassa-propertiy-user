@@ -142,27 +142,35 @@ const Login = ({ closeModal, openRegister }) => {
     };
 
     return (
-        <div className="fixed inset-0 z-[9999] font-manrope flex items-center justify-center">
+        <div className="fixed inset-0 z-[9999] font-manrope flex items-center justify-center overflow-hidden">
             <div
-                className="absolute inset-0 bg-black/70 backdrop-blur-md"
+                className="absolute inset-0 bg-black/70 backdrop-blur-md overflow-hidden"
                 onClick={closeModal}
             />
 
 
             <div className="
-  relative bg-white rounded-3xl overflow-hidden
+  relative bg-white rounded-3xl  overflow-hidden
   grid grid-cols-1 md:grid-cols-2 
   w-[90%] sm:w-[80%] md:w-full 
   max-w-[850px]
   h-auto md:h-[500px]
-  shadow-xl p-2 animate__animated animate__zoomIn
+  shadow-xl p-2  animate__animated animate__zoomIn
 ">
 
-                <div className="hidden md:block p-1">
+                <div className="hidden md:block p-1 ">
                     <img src="/home.webp" alt="login-left" className="w-full h-full rounded-2xl object-cover" />
                 </div>
 
-                <div className="bg-[#851524] text-white rounded-2xl flex flex-col justify-between p-8 md:p-12 overflow-y-auto">
+
+                <div className={`
+  bg-[#851524] text-white rounded-2xl flex flex-col justify-between 
+  p-8 md:p-12 
+  ${step === 1 ? "overflow-hidden" : "overflow-y-auto md:overflow-hidden"}
+`}>
+
+
+                    {/* <div className="bg-[#851524] text-white rounded-2xl flex flex-col justify-between p-8 md:p-12 "> */}
                     <div className="flex flex-col items-center gap-2 mb-6">
                         <img src="/logo.webp" alt="logo" className="w-30 h-20" />
                     </div>
@@ -245,15 +253,17 @@ const Login = ({ closeModal, openRegister }) => {
                                     </span>
                                 </div>
 
-                                <div className="text-center mt-20">
+                                <div className="text-center mt-10 mb-6 md:mt-14 md:mb-16">
                                     <button
                                         type="submit"
                                         disabled={isProcessing}
-                                        className="mt-2 bg-yellow-400  text-black font-semibold py-3 rounded-full w-32"
+                                        className="mt-2 bg-yellow-400 text-black font-semibold py-3 rounded-full w-32"
                                     >
                                         {isProcessing ? "Logging in..." : "Login"}
                                     </button>
                                 </div>
+
+
                             </>
                         )}
                     </form>
