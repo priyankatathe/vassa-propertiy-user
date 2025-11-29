@@ -1,5 +1,6 @@
 import React from "react";
 import HouseImg from "/house.webp"; // <-- your house image
+import { Link } from "react-router-dom";
 
 const DreamHomeCTA = () => {
   return (
@@ -46,7 +47,7 @@ const DreamHomeCTA = () => {
 
           {/* Buttons */}
           <div className="flex flex-wrap gap-4 mt-6 justify-center md:justify-start">
-            <button
+            <Link to="/your-properties"
               className="
       bg-white text-gray-900 font-semibold 
       px-6 py-2 rounded-full shadow hover:shadow-md duration-200
@@ -54,9 +55,9 @@ const DreamHomeCTA = () => {
     "
             >
               Explore Properties
-            </button>
+            </Link>
 
-            <button
+            <Link to="/contact"
               className="
       border border-white text-gray-900 bg-yellow-300 font-semibold 
       px-6 py-2 rounded-full shadow hover:shadow-md duration-200
@@ -64,7 +65,7 @@ const DreamHomeCTA = () => {
     "
             >
               Contact Team
-            </button>
+            </Link>
           </div>
 
         </div>

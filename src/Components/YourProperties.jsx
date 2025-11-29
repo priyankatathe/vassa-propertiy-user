@@ -46,54 +46,54 @@ const YourProperties = () => {
         <div className="p-6 max-w-10xl mx-auto mt-10 py-16  px-4  md:px-8 lg:px-[67px]   font-manrope">
 
             {/* Rent / Sale Toggle Button - Left Aligned, Premium Look */}
-                <div className="flex justify-start mb-10">
-                    <div className="inline-flex bg-gray-100 rounded-2xl   border border-gray-200">
+            <div className="flex justify-start mb-10">
+                <div className="inline-flex bg-gray-100 rounded-2xl   border border-gray-200">
 
-                        {/* For Rent Button */}
-                        <button
-                            onClick={() => setActiveTab("rent")}
-                            className={`
+                    {/* For Rent Button */}
+                    <button
+                        onClick={() => setActiveTab("rent")}
+                        className={`
           flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-lg
-          transition-all duration-300 transform hover:scale-105
+          transition-all duration-300 transform 
           ${activeTab === "rent"
-                                    ? "bg-yellow-500 text-white shadow-xl"
-                                    : "text-gray-600 hover:text-gray-900 bg-transparent"
-                                }
+                                ? "bg-yellow-500 text-white "
+                                : "text-gray-600 hover:text-gray-900 bg-transparent"
+                            }
         `}
-                        >
-                            For Rent
-                            <span className={`
+                    >
+                        For Rent
+                        <span className={`
           ml-3 px-4 py-1.5 rounded-full text-sm font-bold
           ${activeTab === "rent" ? "bg-white text-yellow-600" : "bg-gray-300 text-gray-700"}
         `}>
-                                {rentCount}
-                            </span>
-                        </button>
+                            {rentCount}
+                        </span>
+                    </button>
 
-                        {/* For Sale Button */}
-                        <button
-                            onClick={() => setActiveTab("sale")}
-                            className={`
+                    {/* For Sale Button */}
+                    <button
+                        onClick={() => setActiveTab("sale")}
+                        className={`
           flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-lg
-          transition-all duration-300 transform hover:scale-105
+          transition-all duration-300 transform 
           ${activeTab === "sale"
-                                    ? "bg-yellow-500 text-white shadow-xl"
-                                    : "text-gray-600 hover:text-gray-900 bg-transparent"
-                                }
+                                ? "bg-yellow-500 text-white"
+                                : "text-gray-600 hover:text-gray-900 bg-transparent"
+                            }
         `}
-                        >
-                            For Sale
-                            <span className={`
+                    >
+                        For Sale
+                        <span className={`
           ml-3 px-4 py-1.5 rounded-full text-sm font-bold
           ${activeTab === "sale" ? "bg-white text-yellow-600" : "bg-gray-300 text-gray-700"}
         `}>
-                                {saleCount}
-                            </span>
-                        </button>
+                            {saleCount}
+                        </span>
+                    </button>
 
-                    </div>
                 </div>
-           
+            </div>
+
 
             {/* Grid with EXACT SAME CARD you showed */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">

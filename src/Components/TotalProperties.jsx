@@ -10,7 +10,7 @@ const TotalProperties = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  
+
   const [filters, setFilters] = useState({
     propertyType: "",
     bedrooms: "",
@@ -41,7 +41,11 @@ const TotalProperties = () => {
     { skip: !navFilters }
   );
 
-  const properties = apiResponse?.data || [];
+  const properties = (apiResponse?.data || []).map(p => ({
+    ...p,
+    price: Number(p.price)
+  }));
+
 
   // FILTERING USING ONLY > filters (NOT tempFilters)
   const filteredProperties = properties.filter(
@@ -61,11 +65,31 @@ const TotalProperties = () => {
   }, []);
 
   const formatPrice = (price) => {
-    if (!price) return "Price on request";
-    if (price >= 10000000) return `₹${(price / 10000000).toFixed(2)} Cr`;
-    if (price >= 100000) return `₹${(price / 100000).toFixed(0)} L`;
+    price = Number(price); // FIX 1
+
+    if (!price || price === 0) return "Price on request";
+
+    if (price >= 10000000) {
+      return `₹${(price / 10000000)
+        .toFixed(price % 10000000 === 0 ? 0 : 1)
+        .replace(".0", "")} Cr`;
+    }
+
+    if (price >= 100000) {
+      return `₹${(price / 100000)
+        .toFixed(price % 100000 === 0 ? 0 : 1)
+        .replace(".0", "")} L`;
+    }
+
+    if (price >= 10000) {
+      return `₹${(price / 1000)
+        .toFixed(price % 1000 === 0 ? 0 : 1)
+        .replace(".0", "")} K`;
+    }
+
     return `₹${price.toLocaleString()}`;
   };
+
 
   const handlePropertyClick = (property) =>
     navigate("/house-details", { state: { propertyId: property._id } });
@@ -233,19 +257,51 @@ const TotalProperties = () => {
                 ))}
 
                 <RangeSlider
-                  label="Price Range"
-                  min={0.01}         // starts from 1 thousand
-                  max={100}          // up to 100 L
-                  step={0.01}        // 0.01 L = 1 thousand
-                  value={tempFilters.maxPrice}
-                  unit="L"
-                  onChange={(e) =>
-                    setTempFilters((prev) => ({
-                      ...prev,
-                      maxPrice: e.target.value,
-                    }))
+                  label={`Price Range: ${!tempFilters.maxPrice || tempFilters.maxPrice === 0 ? "Any" :
+                      tempFilters.maxPrice < 100000
+                        ? Math.round(tempFilters.maxPrice / 1000) + " K"
+                        : tempFilters.maxPrice < 10000000
+                          ? (tempFilters.maxPrice / 100000).toFixed(1) + " L"
+                          : (tempFilters.maxPrice / 10000000).toFixed(1) + " Cr"
+                    }`}
+                  min={0}
+                  max={100}
+                  step={1}
+                  value={
+                    !tempFilters.maxPrice || tempFilters.maxPrice === 0 ? 0 :
+                      tempFilters.maxPrice < 100000
+                        ? (tempFilters.maxPrice / 100000) * 30  // 0-30% for K
+                        : tempFilters.maxPrice < 10000000
+                          ? 30 + ((tempFilters.maxPrice - 100000) / (10000000 - 100000)) * 40  // 30-70% for L
+                          : 70 + ((tempFilters.maxPrice - 10000000) / (100000000 - 10000000)) * 30  // 70-100% for Cr
                   }
+                  unit=""
+                  onChange={(e) => {
+                    const sliderValue = Number(e.target.value);
+                    let actualPrice;
+
+                    if (sliderValue === 0) {
+                      actualPrice = 0; // "Any" price
+                    } else if (sliderValue <= 30) {
+                      // K section: 0-30% = 1K to 1L
+                      actualPrice = Math.round((sliderValue / 30) * 100000);
+                    } else if (sliderValue <= 70) {
+                      // L section: 30-70% = 1L to 1Cr
+                      const progress = (sliderValue - 30) / 40;
+                      actualPrice = Math.round(100000 + progress * (10000000 - 100000));
+                    } else {
+                      // Cr section: 70-100% = 1Cr to 100Cr
+                      const progress = (sliderValue - 70) / 30;
+                      actualPrice = Math.round(10000000 + progress * (100000000 - 10000000));
+                    }
+
+                    setTempFilters(prev => ({
+                      ...prev,
+                      maxPrice: actualPrice,
+                    }));
+                  }}
                 />
+
 
                 <RangeSlider
                   label="Area Range"
