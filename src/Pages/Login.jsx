@@ -159,18 +159,16 @@ const Login = ({ closeModal, openRegister }) => {
 ">
 
 
-                <div className="hidden md:block p-1">
-                    <img
-                        src="/home.webp"
-                        alt="login-left"
-                        className="w-full h-full max-h-[500px] md:rounded-2xl object-cover"
-                    />
+                <div className="hidden md:block p-1 ">
+                    <img src="/home.webp" alt="login-left" className="w-full h-full rounded-2xl object-cover" />
                 </div>
 
 
-
-                <div className={`bg-[#851524] text-white rounded-2xl flex flex-col justify-between p-6 md:p-12 ${step === 1 ? "overflow-hidden" : "overflow-y-auto md:overflow-hidden"}`}>
-
+                <div className={`
+  bg-[#851524] text-white rounded-2xl flex flex-col justify-between 
+  p-8 md:p-12 
+  ${step === 1 ? "overflow-hidden" : "overflow-y-auto md:overflow-hidden"}
+`}>
 
 
                     {/* <div className="bg-[#851524] text-white rounded-2xl flex flex-col justify-between p-8 md:p-12 "> */}
@@ -205,7 +203,7 @@ const Login = ({ closeModal, openRegister }) => {
                                 {!isUserExist && formik.values.contact && (
                                     <p className="text-red-400 text-sm ml-2">Contact does not exists!</p>
                                 )}
-                                <div className="text-center md:mt-20">
+                                <div className="text-center mt-20">
                                     <button
                                         type="submit"
                                         disabled={isProcessing}
