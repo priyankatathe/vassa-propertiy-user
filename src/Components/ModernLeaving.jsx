@@ -71,7 +71,7 @@ const ModernCitySection = () => {
             </div>
 
             {/* CTA BUTTON */}
-            <div className="flex-shrink-0 border-l-0 sm:border-l-2 p-0 sm:p-4 w-full sm:w-auto flex justify-center">
+            <Link to="/find-home" className="flex-shrink-0 border-l-0 sm:border-l-2 p-0 sm:p-4 w-full sm:w-auto flex justify-center">
               <button
                 className="
                   bg-gradient-to-br from-red-900 to-red-800
@@ -97,7 +97,7 @@ const ModernCitySection = () => {
                   </div>
                 </div>
               </button>
-            </div>
+            </Link>
           </div>
         </div>
 
@@ -154,7 +154,7 @@ const ModernCitySection = () => {
             </div>
 
             {/* CTA BUTTON */}
-            <div className="flex-shrink-0 border-l-0 sm:border-l-2 p-0 sm:p-4 w-full sm:w-auto flex justify-center">
+            <Link to="/find-home" className="flex-shrink-0 border-l-0 sm:border-l-2 p-0 sm:p-4 w-full sm:w-auto flex justify-center">
               <button
                 className="
           bg-gradient-to-br from-red-900 to-red-800
@@ -180,7 +180,7 @@ const ModernCitySection = () => {
                   </div>
                 </div>
               </button>
-            </div>
+            </Link>
           </div>
         </div>
 
