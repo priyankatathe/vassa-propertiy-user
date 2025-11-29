@@ -10,7 +10,7 @@ const TotalProperties = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // MAIN FILTERS (Apply दबाने के बाद)
+  
   const [filters, setFilters] = useState({
     propertyType: "",
     bedrooms: "",
@@ -31,14 +31,14 @@ const TotalProperties = () => {
   const [shrinkHero, setShrinkHero] = useState(false);
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
 
-  const navFilters = location.state || {};
+  const navFilters = location.state
   const { data: apiResponse, isLoading, error } = useGetPropertiesQuery(
     {
       city: navFilters.city,
       property_type: navFilters.property_type,
       listingType: navFilters.listingType || "Sale",
     },
-    { skip: !navFilters.city }
+    { skip: !navFilters }
   );
 
   const properties = apiResponse?.data || [];
@@ -188,7 +188,7 @@ const TotalProperties = () => {
           </button>
 
           {showAdvancedFilter && (
-            <div className="absolute right-0 top-12 bg-white border border-gray-200 rounded-lg p-6 w-96 z-50">
+            <div className="absolute right-0 top-12 bg-white border mr-5 border-gray-200 rounded-lg p-6 w-72 lg:w-96 z-50">
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <h3 className="text-lg font-semibold text-gray-800">

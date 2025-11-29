@@ -8,6 +8,7 @@ import { useAddEnquiryMutation, useGetPropertiesByIdQuery } from "../redux/api/p
 import { useForm } from "react-hook-form";
 import { FaHouse } from "react-icons/fa6";
 import PropertiyOtherImg from "./PropertiyOtherImg";
+import { useSelector } from "react-redux";
 
 const HouseDetails = () => {
   const location = useLocation();
@@ -104,7 +105,23 @@ const HouseDetails = () => {
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
+  const validateEmailOrPhone = (value) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10}$/;
+
+    if (emailRegex.test(value) || phoneRegex.test(value)) {
+      return true;
+    }
+    return "Please enter a valid Email or 10-digit Contact Number";
+  };
+
+  const user = useSelector(state => state.auth.user)
   const onSubmit = async (data) => {
+    if (!user) {
+      alert("Please login ");
+      // navigate("/login");
+      return;
+    }
     if (!propertyId) return;
     try {
       await addEquiry({
@@ -357,13 +374,23 @@ const HouseDetails = () => {
 
               {/* Email / Contact */}
               <label className="text-black text-sm mb-1 block">Email / Contact</label>
+
               <input
-                type="email"
+                type="text"
                 placeholder="Email / Contact"
                 className="w-full border border-gray-400 px-3 py-3 md:py-2 rounded-3xl mb-3"
-                {...register("email_contact", { required: true })}
+                {...register("email_contact", {
+                  required: "Email or Contact Number is required",
+                  validate: validateEmailOrPhone,
+                })}
               />
-              {errors.email_contact && <span className="text-red-500 text-xs sm:text-sm mb-3 block">Email / Contact is required</span>}
+
+              {errors.email_contact && (
+                <span className="text-red-500 text-xs sm:text-sm mb-3 block">
+                  {errors.email_contact.message}
+                </span>
+              )}
+
 
               {/* Message */}
               <label className="text-black text-sm mb-1 block">Message</label>
