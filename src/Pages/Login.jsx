@@ -150,7 +150,7 @@ const Login = ({ closeModal, openRegister }) => {
 
 
             <div className="
-  relative bg-white rounded-3xl  overflow-hidden
+  relative bg-white rounded-3xl  overflow-auto
   grid grid-cols-1 md:grid-cols-2 
   w-[90%] sm:w-[80%] md:w-full 
   max-w-[850px]

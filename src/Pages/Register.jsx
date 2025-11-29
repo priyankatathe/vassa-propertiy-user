@@ -99,7 +99,7 @@ const Register = ({ closeModal, openLogin }) => {
                     </p>
 
                     {/* Inputs */}
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 px-6  ">
 
                         {/* Full Name */}
                         <div>
