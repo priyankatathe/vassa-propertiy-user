@@ -47,7 +47,7 @@ const FindHomeHeroSection = ({ shrunk }) => {
     <div
       className={`
   relative w-full 
-  ${shrunk ? "h-[45vh]" : "h-[90vh] sm:h-screen"} 
+  ${shrunk ? "h-[37vh]" : "h-[90vh] sm:h-screen"} 
   sm:${shrunk ? "h-[35vh]" : "h-[90vh]"} /* force desktop height to 35vh */
   bg-cover bg-center 
   rounded-bl-[60px] sm:rounded-bl-[90px]

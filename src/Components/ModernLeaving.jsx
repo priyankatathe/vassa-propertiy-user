@@ -19,7 +19,7 @@ const ModernCitySection = () => {
   }, []);
 
   return (
-    <section className="bg-white font-manrope overflow-hidden px-4 md:px-8 lg:px-16">
+    <section className="bg-white font-manrope overflow-hidden lg:mt-10 px-4 md:px-8 lg:px-16">
       <div className="max-w-10xl mx-auto py-16 lg:py-24">
 
         {/* TOP SECTION */}

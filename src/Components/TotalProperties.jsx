@@ -258,11 +258,11 @@ const TotalProperties = () => {
 
                 <RangeSlider
                   label={`Price Range: ${!tempFilters.maxPrice || tempFilters.maxPrice === 0 ? "Any" :
-                      tempFilters.maxPrice < 100000
-                        ? Math.round(tempFilters.maxPrice / 1000) + " K"
-                        : tempFilters.maxPrice < 10000000
-                          ? (tempFilters.maxPrice / 100000).toFixed(1) + " L"
-                          : (tempFilters.maxPrice / 10000000).toFixed(1) + " Cr"
+                    tempFilters.maxPrice < 100000
+                      ? Math.round(tempFilters.maxPrice / 1000) + " K"
+                      : tempFilters.maxPrice < 10000000
+                        ? (tempFilters.maxPrice / 100000).toFixed(1) + " L"
+                        : (tempFilters.maxPrice / 10000000).toFixed(1) + " Cr"
                     }`}
                   min={0}
                   max={100}
@@ -437,9 +437,10 @@ const TotalProperties = () => {
 
       {showAdvancedFilter && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-10 z-40"
+          className="fixed inset-0 bg-transparent z-40"
           onClick={() => setShowAdvancedFilter(false)}
         />
+
       )}
 
       <style>{`
