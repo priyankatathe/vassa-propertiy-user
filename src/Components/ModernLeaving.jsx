@@ -35,7 +35,7 @@ const ModernCitySection = () => {
               max-w-sm
               mx-auto
               mb-7
-              md:ml-[440px] ml-0 md:-mb-32 lg:text-xs
+              md:ml-[425px] ml-0 md:mb-[-134px] lg:text-base
               text-center sm:text-left
             "
           >

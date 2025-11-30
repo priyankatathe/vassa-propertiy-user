@@ -23,7 +23,7 @@ const PropertyShowcase = () => {
         text-right 
         mt-5 
         sm:text-lg
-        md:text-sm 
+        md:text-base 
         font-medium 
         text-gray-500 
         mb-3 md:mb-0 
@@ -90,7 +90,7 @@ const PropertyShowcase = () => {
           {/* MIDDLE: YELLOW CARD + PARAGRAPH */}
           <div className="lg:col-span-3 flex flex-col items-center">
             {/* Yellow Card */}
-            <div className="bg-[#F8CA13] rounded-2xl p-10 md:p-11 w-full max-w-sm text-left md:text-left text-center md:text-left mx-auto">
+            <div className="bg-[#F8CA13] rounded-2xl p-10 md:p-11 w-full max-w-sm text-center md:text-left mx-auto">
               <h3 className="text-white text-lg md:text-xl font-bold mb-3 text-center md:text-left">
                 Luxury that feels like home
               </h3>
@@ -99,7 +99,7 @@ const PropertyShowcase = () => {
                 Spacious interiors, green surroundings, and world-class amenities designed to
                 match your aspirations.
               </p>
-              <button className="bg-white text-yellow-600 font-semibold px-6 py-2 rounded-full text-sm shadow-md hover:shadow-lg transition-shadow mx-auto md:mx-0 block">
+              <button className="bg-white text-yellow-600 font-semibold px-6 py-2 rounded-full text-sm  mx-auto md:mx-0 block">
                 More Info
               </button>
             </div>

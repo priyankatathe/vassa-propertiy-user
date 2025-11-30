@@ -762,18 +762,24 @@ const ListProperty = () => {
                 </div>
               </div>
 
-              <div className="bg-gray-50 px-8 py-5 flex justify-between">
-                <button type="button" onClick={handlePrev} className="px-8 py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-full">
+              <div className="bg-gray-50 px-4 py-3 flex flex-col sm:flex-row justify-between gap-2">
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  className="w-full sm:w-auto px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-full text-sm transition"
+                >
                   Previous
                 </button>
+
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className={`px-12 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-full flex items-center gap-3 ${isLoading && "opacity-70 cursor-not-allowed"}`}
+                  className={`w-full sm:w-auto px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded-full text-sm flex items-center justify-center gap-2 transition ${isLoading ? "opacity-70 cursor-not-allowed" : ""}`}
                 >
-                  {isLoading ? "Submitting..." : "Submit Property"}
+                  {isLoading ? "Submitting..." : "Submit"}
                 </button>
               </div>
+
             </div>
           )}
 
