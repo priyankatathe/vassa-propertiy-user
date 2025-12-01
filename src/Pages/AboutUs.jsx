@@ -36,7 +36,7 @@ const AboutUs = () => {
         <div className="absolute inset-0 bg-black/60"></div>
 
         {/* DESKTOP BUTTON */}
-        <div className="hidden sm:block absolute left-1/2 transform -translate-x-1/2 top-24 sm:top-32 md:top-36 lg:top-56 z-20">
+        <div className="hidden sm:block absolute left-1/2 transform -translate-x-1/2 top-24 sm:top-32 md:top-36 lg:top-44 z-20">
           <button className="bg-yellow-400 text-white px-4 sm:px-8 py-3 rounded-full font-semibold shadow hover:bg-yellow-500 transition text-sm sm:text-base font-manrope">
             About Us
           </button>
@@ -46,7 +46,7 @@ const AboutUs = () => {
         <div className="relative z-10 text-center px-2 sm:px-4 mt-36 sm:mt-44 md:mt-48 lg:mt-52 flex flex-col items-center gap-4">
 
           {/* MOBILE ONLY: About Us button above heading */}
-          <button className="sm:hidden bg-yellow-400 text-white px-6 py-3 rounded-full font-semibold shadow hover:bg-yellow-500 transition text-base font-manrope">
+          <button className="sm:hidden  bg-yellow-400 text-white px-6 py-3 rounded-full font-semibold shadow hover:bg-yellow-500 transition text-base font-manrope">
             About Us
           </button>
 
