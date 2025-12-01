@@ -57,7 +57,7 @@ const HeroSection = () => {
                   rounded-full bg-[#D9D9D940] opacity-60 
                   flex items-center justify-center 
                   border border-white/20">
-          <span className="text-white text-sm sm:text-xl md:text-lg font-bold">
+          <span className="text-white text-center text-xs sm:text-xl md:text-lg font-bold">
             Scroll Down
           </span>
         </div>

@@ -88,7 +88,7 @@ const ProvidingExcellence = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-3xl sm:text-4xl md:text-6xl font-semibold text-black 
+          className="text-3xl sm:text-4xl md:text-5xl font-semibold text-black 
                      text-center md:text-left w-full md:w-auto"
         >
           Providing <span className="text-[#F8CA13] italic font-playfair">Excellence</span>

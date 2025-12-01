@@ -82,11 +82,11 @@ const Register = ({ closeModal, openLogin }) => {
                 {/* Right Box + SCROLL FIX */}
                 <div className="bg-[#851524] text-white rounded-2xl flex flex-col justify-center p-8 md:p-2 ">
                     <div className="flex flex-col items-center gap-2 mb-6">
-                        <img src="/logo.webp" alt="logo" className="w-30 h-20" />
+                        <img src="/logo.webp" alt="logo" className="w-[178px] h-[59px]" />
                     </div>
 
-                    <p className="text-sm text-center text-gray-300 mb-6">
-                        Already Have an Account?{" "}
+                    <p className="text-sm text-center text-white mb-6">
+                        Already Have an Account ? {" "}
                         <span
                             className="text-yellow-400 cursor-pointer"
                             onClick={() => {
@@ -107,7 +107,7 @@ const Register = ({ closeModal, openLogin }) => {
                                 type="text"
                                 placeholder="Full Name"
                                 {...register("name")}
-                                className={`w-full px-4 py-2 rounded-xl text-black outline-none border ${getInputBorder(
+                                className={`w-full px-4 py-2 rounded-lg text-black outline-none border ${getInputBorder(
                                     "fullName"
                                 )}`}
                             />
@@ -122,7 +122,7 @@ const Register = ({ closeModal, openLogin }) => {
                                 type="text"
                                 placeholder="Contact No"
                                 {...register("contact")}
-                                className={`w-full px-4 py-2 rounded-xl text-black outline-none border ${getInputBorder(
+                                className={`w-full px-4 py-2 rounded-lg text-black outline-none border ${getInputBorder(
                                     "contact"
                                 )}`}
                             />
@@ -137,7 +137,7 @@ const Register = ({ closeModal, openLogin }) => {
                                 type="text"
                                 placeholder="Email"
                                 {...register("email")}
-                                className={`w-full px-4 py-2 rounded-xl text-black outline-none border ${getInputBorder(
+                                className={`w-full px-4 py-2 rounded-lg text-black outline-none border ${getInputBorder(
                                     "email"
                                 )}`}
                             />
@@ -151,7 +151,7 @@ const Register = ({ closeModal, openLogin }) => {
                             <textarea
                                 placeholder="Address"
                                 {...register("address")}
-                                className={`w-full px-4 py-2 rounded-xl text-black outline-none h-16 resize-none border ${getInputBorder(
+                                className={`w-full px-4 py-2 rounded-lg text-black outline-none h-16 resize-none border ${getInputBorder(
                                     "address"
                                 )}`}
                             />
@@ -161,7 +161,7 @@ const Register = ({ closeModal, openLogin }) => {
                         </div>
                     </div>
 
-                    <div className="text-center">
+                    <div className="text-center  ">
                         <button
                             type="submit"
                             className="mt-6  w-32 bg-[#F8CA13] text-black font-semibold py-2 rounded-full  disabled:opacity-50"

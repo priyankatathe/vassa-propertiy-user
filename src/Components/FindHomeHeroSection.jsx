@@ -104,7 +104,7 @@ const FindHomeHeroSection = ({ shrunk }) => {
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="Enter city"
-                className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-sm outline-none w-full"
+                className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-base outline-none w-full"
               />
             </div>
 
@@ -116,7 +116,7 @@ const FindHomeHeroSection = ({ shrunk }) => {
               <select
                 value={propertyType}
                 onChange={(e) => setPropertyType(e.target.value)}
-                className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-sm outline-none w-full"
+                className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-base outline-none w-full"
               >
                 <option className="text-black" value="">
                   Select
@@ -154,7 +154,7 @@ const FindHomeHeroSection = ({ shrunk }) => {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-sm outline-none w-full"
+                className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-base outline-none w-full"
               >
                 <option className="text-black" value="">
                   Select

@@ -18,7 +18,7 @@ const WhatMakeUsDiffernt = ({ section1Ref, scrollToBottom }) => {
 
           <h1
             className="
-              text-3xl text-black sm:text-4xl md:-mt-14 md:text-5xl 
+              text-3xl text-black  font-semibold sm:text-4xl md:-mt-14 md:text-5xl 
                leading-tight  
               relative md:absolute md:top-[120px] md:left-0 md:w-[700px] z-30
             "
@@ -28,7 +28,7 @@ const WhatMakeUsDiffernt = ({ section1Ref, scrollToBottom }) => {
         </div>
 
         {/* CENTER IMAGE */}
-        <div className="relative flex justify-center z-10 lg:ml-10">
+        <div className="relative flex justify-center z-10 lg:ml-16">
           <img
             src={sampleImg}
             alt="building"

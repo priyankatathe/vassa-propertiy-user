@@ -172,15 +172,15 @@ const Login = ({ closeModal, openRegister }) => {
 
 
                     {/* <div className="bg-[#851524] text-white rounded-2xl flex flex-col justify-between p-8 md:p-12 "> */}
-                    <div className="flex flex-col items-center gap-2 mb-6">
-                        <img src="/logo.webp" alt="logo" className="w-30 h-20" />
+                    <div className="flex flex-col items-center justify-center gap-2 mb-6">
+                        <img src="/logo.webp" alt="logo" className="w-[178px] h-[59px]" />
                     </div>
 
 
 
                     <form onSubmit={formik.handleSubmit} className="flex flex-col justify-center mb-16 gap-3">
-                        <p className="text-sm text-center text-gray-300 mb-6">
-                            Don't Have an Account?{" "}
+                        <p className="text-sm text-center text-white mb-2">
+                            Don't Have an Account ? {" "}
                             <span className="text-yellow-400 cursor-pointer" onClick={openRegister}>
                                 SIGN UP
                             </span>
@@ -193,7 +193,7 @@ const Login = ({ closeModal, openRegister }) => {
                                     value={formik.values.contact}
                                     onChange={formatContactInput}
                                     onBlur={formik.handleBlur}
-                                    className={`w-full px-4 py-3 rounded-2xl text-black outline-none border ${getInputBorder(
+                                    className={`w-full px-4 py-3 rounded-xl text-black outline-none border ${getInputBorder(
                                         "contact"
                                     )}`}
                                 />
@@ -221,7 +221,7 @@ const Login = ({ closeModal, openRegister }) => {
                                     type="text"
                                     value={formik.values.contact}
                                     readOnly
-                                    className="w-full px-4 py-3 rounded-2xl text-black bg-gray-200 border border-gray-400"
+                                    className="w-full px-4 py-3 rounded-xl text-black bg-gray-200 border border-gray-400"
                                 />
                                 <input
                                     type="text"
@@ -232,7 +232,7 @@ const Login = ({ closeModal, openRegister }) => {
                                     }
                                     onBlur={formik.handleBlur}
                                     maxLength={6}
-                                    className={`w-full px-4 py-3 rounded-2xl text-black outline-none border ${getInputBorder(
+                                    className={`w-full px-4 py-3 rounded-xl text-black outline-none border ${getInputBorder(
                                         "otp"
                                     )}`}
                                     disabled={otpExpired || isProcessing}
