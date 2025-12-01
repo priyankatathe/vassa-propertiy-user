@@ -23,7 +23,7 @@ const PropertyShowcase = () => {
         text-right 
         mt-5 
         sm:text-lg
-        md:text-base 
+        md:text-sm 
         font-medium 
         text-gray-500 
         mb-3 md:mb-0 

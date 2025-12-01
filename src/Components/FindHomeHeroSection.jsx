@@ -83,7 +83,7 @@ const FindHomeHeroSection = ({ shrunk }) => {
         {/* Filter Bar */}
         <div
           className={`
-      relative mt-5 sm:mt-10 w-full sm:w-[85%] md:w-[78%] lg:w-[60%]
+      relative mt-5 sm:mt-10 w-full sm:w-[85%] md:w-[78%] lg:w-[65%]
       bg-white/10 backdrop-blur-xl
       rounded-2xl border border-white/40
       flex flex-col  gap-3 sm:flex-row items-center justify-between
@@ -96,7 +96,7 @@ const FindHomeHeroSection = ({ shrunk }) => {
           <div className="flex w-full  gap-3 flex-wrap sm:flex-nowrap">
             {/* City */}
             <div className="flex-1  lg:items-center flex flex-col sm:flex-row gap-1 sm:gap-3">
-              <label className="text-white text-[13px] text-start lg:text-center tracking-wide opacity-90 sm:w-16">
+              <label className="text-white text-[13px] text-start lg:text-center tracking-wide opacity-90 sm:w-24">
                 City
               </label>
               <input
@@ -104,19 +104,19 @@ const FindHomeHeroSection = ({ shrunk }) => {
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="Enter city"
-                className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-sm outline-none w-full lg:w-[170px]"
+                className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-sm outline-none w-full"
               />
             </div>
 
             {/* Property Type */}
             <div className="flex-1 lg:items-center flex flex-col sm:flex-row gap-1 sm:gap-3">
-              <label className="text-white text-[13px] text-start lg:text-center tracking-wide opacity-90 sm:w-16">
+              <label className="text-white text-[13px] text-start lg:text-center tracking-wide opacity-90 sm:w-24">
                 Category
               </label>
               <select
                 value={propertyType}
                 onChange={(e) => setPropertyType(e.target.value)}
-                className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-sm outline-none w-full lg:w-[170px]"
+                className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-sm outline-none w-full"
               >
                 <option className="text-black" value="">
                   Select
@@ -148,13 +148,13 @@ const FindHomeHeroSection = ({ shrunk }) => {
           <div className="flex w-full gap-3   flex-wrap sm:flex-nowrap items-center sm:items-stretch">
             {/* Category */}
             <div className="flex-1 lg:items-center flex flex-col sm:flex-row gap-1 sm:gap-2">
-              <label className="text-white text-[13px] text-start lg:text-center tracking-wide opacity-90 sm:w-16">
+              <label className="text-white text-[13px] text-start lg:text-center tracking-wide opacity-90 sm:w-24">
                 Property
               </label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-sm outline-none w-[150px] lg:lg:w-[170px]"
+                className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-sm outline-none w-full"
               >
                 <option className="text-black" value="">
                   Select

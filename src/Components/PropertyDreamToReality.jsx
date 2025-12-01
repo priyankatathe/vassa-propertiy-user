@@ -28,7 +28,7 @@ const PropertyDreamToReality = () => {
             </div>
 
             <div className="mt-10 flex justify-center  ">
-              <p className="text-gray-600 text-base sm:text-base md:text-base leading-relaxed max-w-xs text-center lg:text-start">
+              <p className="text-gray-600 text-base sm:text-base md:text-sm leading-relaxed max-w-xs text-center lg:text-start">
                 Vassa Properties is a trusted real estate company dedicated to helping you find homes that truly fit your lifestyle and budget.
               </p>
             </div>
