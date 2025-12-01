@@ -75,19 +75,18 @@ const ListProperty = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [addProperties, { isLoading, isError, error }] = useAddPropertiesMutation();
 
- const {
+  const {
     register,
     handleSubmit,
     setValue,
     trigger,
     watch,
-    formState: { errors, touchedFields },
+    formState: { errors },
     reset,
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onTouched",
   });
-
 
   // Image States
   const [bedroomPreview, setBedroomPreview] = useState(null);
@@ -716,19 +715,11 @@ const ListProperty = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <input {...register("ownerName")} placeholder="Name" className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors.ownerName ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"}`} />
-                    {touchedFields.ownerName && errors.ownerName && (
-                      <p className="text-red-600 text-sm mt-1">
-                        {errors.ownerName.message}
-                      </p>
-                    )}
+                    {errors.ownerName && <p className="text-red-600 text-sm mt-1">{errors.ownerName.message}</p>}
                   </div>
                   <div>
                     <input {...register("ownerEmail")} placeholder="Email" className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors.ownerEmail ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"}`} />
-                    {touchedFields.ownerEmail && errors.ownerEmail && (
-                      <p className="text-red-600 text-sm mt-1">
-                        {errors.ownerEmail.message}
-                      </p>
-                    )}
+                    {errors.ownerEmail && <p className="text-red-600 text-sm mt-1">{errors.ownerEmail.message}</p>}
                   </div>
                   <div className="sm:col-span-2">
                     <input
@@ -737,11 +728,7 @@ const ListProperty = () => {
                       maxLength={10}
                       className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors.ownerPhone ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"}`}
                     />
-                    {touchedFields.ownerPhone && errors.ownerPhone && (
-                      <p className="text-red-600 text-sm mt-1">
-                        {errors.ownerPhone.message}
-                      </p>
-                    )}
+                    {errors.ownerPhone && <p className="text-red-600 text-sm mt-1">{errors.ownerPhone.message}</p>}
                   </div>
                 </div>
               </div>
