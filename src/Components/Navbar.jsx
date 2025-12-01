@@ -82,7 +82,7 @@ const Navbar = () => {
           <img
             src={isHeroPage && !scrolled ? whiteLog : Logo}
             alt="Vassa Properties Logo"
-            className="h-14 object-cover"
+            className="h-14 object-contain"
           />
         </div>
 
