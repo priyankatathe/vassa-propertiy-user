@@ -144,7 +144,7 @@ const Login = ({ closeModal, openRegister }) => {
     return (
         <div className="fixed inset-0 z-[9999] font-manrope flex items-center justify-center">
             <div
-                className="absolute inset-0 bg-black/70 backdrop-blur-md"
+                className="absolute inset-0 bg-black/50 backdrop-blur-sm"
                 onClick={closeModal}
             />
 

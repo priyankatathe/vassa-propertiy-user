@@ -19,11 +19,11 @@ const WhatMakeUsDiffernt = ({ section1Ref, scrollToBottom }) => {
           <h1
             className="
               text-3xl text-black sm:text-4xl md:-mt-14 md:text-5xl 
-              italic leading-tight font-playfair 
+               leading-tight  
               relative md:absolute md:top-[120px] md:left-0 md:w-[700px] z-30
             "
           >
-            Where Trust, Technology, <br /> and Transparency <br /> Come Together
+            Where Trust, <span className="font-playfair text-[#F8CA13] italic">Technology,</span>  <br /> and Transparency <br /> Come Together
           </h1>
         </div>
 

@@ -21,6 +21,7 @@ const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const isHeroPage = location.pathname === "/"; // <-- check if we are on hero page
   const dropdownRef = useRef();
+  const closeDropdown = () => setUserDropdown(false);
   const [userDropdown, setUserDropdown] = useState(false);
   const [logoutUser, { isLoading }] = useLogoutUserMutation();
   useEffect(() => {
@@ -199,19 +200,23 @@ const Navbar = () => {
 
                   <div className="border-t my-3"></div>
 
-                  {/* Your Properties */}
                   <Link
                     to="/your-properties"
+                    onClick={closeDropdown}
                     className="flex items-center gap-3 px-2 py-2 text-sm 
-                     text-gray-700 hover:bg-gray-100 rounded-md font-medium"
+     text-gray-700 hover:bg-gray-100 rounded-md font-medium"
                   >
                     <LucideHome className="text-yellow-400" size={18} />
                     Your Properties
                   </Link>
 
+
                   {/* Logout */}
                   <div
-                    onClick={handleLogout}
+                    onClick={() => {
+                      closeDropdown();
+                      handleLogout();
+                    }}
                     className="flex items-center gap-3 px-2 py-2 text-sm 
                      text-gray-700 hover:bg-gray-100 rounded-md cursor-pointer font-medium mt-2"
                   >
@@ -249,7 +254,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed top-[72px] left-0 w-full bg-black/95 backdrop-blur-lg z-50 overflow-x-hidden">
+        <div className="md:hidden fixed top-[72px] left-0 w-full bg-[#851524] backdrop-blur-lg z-50 overflow-x-hidden">
           <div className="px-8 py-10 space-y-8 text-center">
             <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block text-xl font-semibold text-white hover:text-yellow-400 transition">
               About
@@ -264,7 +269,7 @@ const Navbar = () => {
               List Properties
             </Link>
 
-            {!user?.user?.name && (
+            {/* {!user?.user?.name && (
               <button
                 onClick={() => {
                   setOpenLogin(true);
@@ -275,7 +280,7 @@ const Navbar = () => {
                 <FaUserLock size={24} />
                 Login
               </button>
-            )}
+            )} */}
 
 
           </div>

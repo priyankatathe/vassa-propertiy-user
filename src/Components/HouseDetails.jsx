@@ -367,7 +367,7 @@ const HouseDetails = () => {
               <input
                 type="text"
                 placeholder="Name"
-                className="w-full border border-gray-400 px-3 py-3 md:py-2 rounded-3xl mb-3"
+                className="w-full border border-gray-400 px-4 py-3 md:py-2 rounded-3xl mb-3"
                 {...register("Name", { required: true })}
               />
               {errors.Name && <span className="text-red-500 text-xs sm:text-sm mb-3 block">Name is required</span>}
@@ -378,7 +378,7 @@ const HouseDetails = () => {
               <input
                 type="text"
                 placeholder="Email / Contact"
-                className="w-full border border-gray-400 px-3 py-3 md:py-2 rounded-3xl mb-3"
+                className="w-full border border-gray-400 px-4 py-3 md:py-2 rounded-3xl mb-3"
                 {...register("email_contact", {
                   required: "Email or Contact Number is required",
                   validate: validateEmailOrPhone,
@@ -397,14 +397,14 @@ const HouseDetails = () => {
               <textarea
                 rows={3}
                 placeholder="Enter your message"
-                className="w-full border border-gray-400 px-3 py-3 md:py-2 rounded-3xl mb-3"
+                className="w-full border border-gray-400 px-4 py-3 md:py-2 rounded-3xl mb-3"
                 {...register("message", { required: true })}
               />
 
               {/* Inquiry Type */}
               <label className="text-black text-sm mb-1 block">Inquiry Type</label>
               <select
-                className="w-full border border-gray-400 px-3 py-3 md:py-2 rounded-3xl mb-4"
+                className="w-full border border-gray-400 px-4 py-3 md:py-2 rounded-3xl mb-4"
                 {...register("inquire_type", { required: true })}
               >
                 <option value="">Select type</option>

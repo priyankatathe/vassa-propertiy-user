@@ -17,7 +17,7 @@ const HeroSection = () => {
     >
       {/* BORDER LINES — HIDDEN ON MOBILE */}
       <div className="hidden md:block absolute top-20 left-0 w-full h-[1px] bg-white/50 z-0"></div>
-      <div className="hidden md:block absolute bottom-20 left-0 w-full h-[1px] bg-white/50 z-0"></div>
+      <div className="hidden md:block absolute bottom-20 left-0 w-full h-[1px] bg-white/15 z-0"></div>
       <div className="hidden md:block absolute top-0 left-12 w-[1px] h-full bg-white/50 z-0"></div>
       <div className="hidden md:block absolute top-0 right-12 w-[1px] h-full bg-white/50 z-0"></div>
 
@@ -52,12 +52,12 @@ const HeroSection = () => {
       </div>
 
       {/* Scroll Down Circle — CENTERED ON MOBILE */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30">
-        <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 
+      <div className="absolute bottom-5  left-1/2 -translate-x-1/2 z-30">
+        <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 
                   rounded-full bg-[#D9D9D940] opacity-60 
                   flex items-center justify-center 
                   border border-white/20">
-          <span className="text-white text-sm sm:text-base md:text-lg font-medium">
+          <span className="text-white text-sm sm:text-xl md:text-lg font-bold">
             Scroll Down
           </span>
         </div>

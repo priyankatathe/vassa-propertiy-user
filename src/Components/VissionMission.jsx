@@ -9,8 +9,8 @@ const VisionMission = () => {
         <div className="md:hidden flex flex-col items-center text-center gap-4 mb-10">
 
           {/* Heading */}
-          <h2 className="text-3xl sm:text-4xl font-playfair leading-tight">
-            <span className="text-yellow-500 italic font-semibold">Our</span>{" "}
+          <h2 className="text-3xl sm:text-4xl  leading-tight">
+            <span className="text-yellow-500 italic font-playfair">Our</span>{" "}
             <span className="italic">Vision &</span> <br />
             <span className="italic">Mission</span>
           </h2>
@@ -45,14 +45,14 @@ const VisionMission = () => {
           <div className="relative mt-8">
             {/* Heading */}
             <h2
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-playfair leading-tight
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl  leading-tight
               text-left sm:text-left md:text-left lg:text-left
               ml-0 sm:ml-0 md:ml-0 lg:ml-0
               mt-0 sm:mt-0 md:mt-0 lg:-mt-16"
             >
-              <span className="text-yellow-500 italic font-semibold">Our</span>{" "}
-              <span className="italic">Vision &</span> <br />
-              <span className="italic">Mission</span>
+              <span className="text-yellow-500 italic font-playfair">Our</span>{" "}
+              <span >Vision &</span> <br />
+              <span >Mission</span>
             </h2>
 
             {/* Paragraph */}

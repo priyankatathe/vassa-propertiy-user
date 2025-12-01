@@ -47,8 +47,8 @@ const FindHomeHeroSection = ({ shrunk }) => {
     <div
       className={`
   relative w-full 
-  ${shrunk ? "h-[37vh]" : "h-[90vh] sm:h-screen"} 
-  sm:${shrunk ? "h-[35vh]" : "h-[90vh]"} /* force desktop height to 35vh */
+  ${shrunk ? "h-[33vh]" : "h-[90vh] sm:h-screen"} 
+  sm:${shrunk ? "h-[30vh]" : "h-[70vh] "} /* force desktop height to 35vh */
   bg-cover bg-center 
   rounded-bl-[60px] sm:rounded-bl-[90px]
   transition-all duration-700 ease-in-out
@@ -74,7 +74,7 @@ const FindHomeHeroSection = ({ shrunk }) => {
         {/* Headline (hidden when shrunk) */}
         {!shrunk && (
           <h1 className="text-white font-bold leading-snug md:leading-tight text-3xl sm:text-4xl md:text-6xl transition-all">
-            <span className="text-yellow-400 italic font-playfair">Discover</span>
+            <span className="text-yellow-400 italic font-playfair mr-2">Discover</span> 
             Spaces That Match <br className="hidden sm:block" />
             Your <span className="text-yellow-400 italic font-playfair">Lifestyle</span>
           </h1>
@@ -83,13 +83,13 @@ const FindHomeHeroSection = ({ shrunk }) => {
         {/* Filter Bar */}
         <div
           className={`
-      relative mt-5 sm:mt-10 w-full sm:w-[85%] md:w-[78%] lg:w-[65%]
+      relative mt-0 sm:mt-10 w-full sm:w-[85%] md:w-[78%] lg:w-[65%]
       bg-white/10 backdrop-blur-xl
       rounded-2xl border border-white/40
       flex flex-col  gap-3 sm:flex-row items-center justify-between
       shadow-[0_8px_40px_rgba(0,0,0,0.25)]
       transition-all duration-700
-      py-4 px-5
+      py-2 lg:py-4 px-5
     `}
         >
           {/* Row 1: City + Category */}
