@@ -50,7 +50,7 @@ const FindHomeHeroSection = ({ shrunk }) => {
   ${shrunk ? "h-[37vh]" : "h-[90vh] sm:h-screen"} 
   sm:${shrunk ? "h-[30vh]" : "h-[70vh] "} /* force desktop height to 35vh */
   bg-cover bg-center 
-  rounded-bl-[60px] sm:rounded-bl-[90px]
+  rounded-bl-[40px] sm:rounded-bl-[90px]
   transition-all duration-700 ease-in-out
   ${isSticky ? "sticky top-0 left-0 z-[999]" : ""}
 `}
