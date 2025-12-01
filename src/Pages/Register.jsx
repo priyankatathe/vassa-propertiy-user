@@ -60,7 +60,7 @@ const Register = ({ closeModal, openLogin }) => {
 
     return (
         <div className="fixed inset-0 flex font-manrope items-center justify-center z-[999] p-4">
-            <div className="absolute bg-black/70 backdrop-blur-md inset-0" onClick={closeModal} />
+            <div className="absolute bg-black/50 backdrop-blur-sm inset-0" onClick={closeModal} />
 
             <form onSubmit={handleSubmit(onSubmit)}
                 className="relative bg-white rounded-3xl overflow-hidden
