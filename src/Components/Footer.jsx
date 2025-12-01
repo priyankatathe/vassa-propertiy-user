@@ -6,45 +6,7 @@ import logo from "../assets/logo2.svg";
 import { Link } from "react-router-dom";
 import { useAddContactMutation } from "../redux/api/contactApi";
 
-// Yup validation schema
-const schema = yup.object().shape({
-  email_contact: yup
-    .string()
-    .required("Email or contact required")
-    .test(
-      "email-or-phone",
-      "Enter a valid email or 10-digit phone number",
-      (value) => {
-        if (!value) return false;
-        const phoneRegex = /^[0-9]{10}$/;
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return phoneRegex.test(value) || emailRegex.test(value);
-      }
-    ),
-});
-
 const Footer = () => {
-  const [addSubmit, { isLoading }] = useAddContactMutation();
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-
-  const onSubmit = async (data) => {
-    try {
-      await addSubmit(data).unwrap();
-      alert("Message sent successfully!");
-      reset();
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong!");
-    }
-  };
 
   return (
     <div className="p-2 overflow-x-hidden">
@@ -66,34 +28,11 @@ const Footer = () => {
             <div className="flex flex-col md:flex-row justify-between gap-12 py-10">
               {/* Left */}
               <div className="w-full md:w-1/2 max-w-5xl">
-                <p className="text-[#737373] text-sm mb-6 break-words">
+                <p className="text-[#737373] text-3xl  break-words">
                   We turn your property goals into <br /> reality with trust,
                   transparency,<br />
                   and expertise.
                 </p>
-
-                {/* React Hook Form */}
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 w-full">
-                  <div className="flex items-center bg-white border border-gray-300 rounded-full overflow-hidden w-full">
-                    <input
-                      type="text"
-                      placeholder="Enter Email / Contact No"
-                      {...register("email_contact")}
-                      className="flex-1 px-4 py-4 text-black outline-none placeholder-gray-600 text-sm rounded-l-full"
-                    />
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="bg-[#851524] mr-2 rounded-full text-white font-semibold px-5 sm:px-6 py-2 hover:bg-red-800 transition whitespace-nowrap"
-                    >
-                      {isLoading ? "Submitting..." : "Submit"}
-                    </button>
-                  </div>
-                  {errors.email_contact && (
-                    <div className="text-red-500 text-sm">{errors.email_contact.message}</div>
-                  )}
-                </form>
-                {/* Form End */}
               </div>
 
               {/* Right - Links */}
