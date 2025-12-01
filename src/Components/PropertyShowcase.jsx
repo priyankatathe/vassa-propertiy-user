@@ -99,7 +99,7 @@ const PropertyShowcase = () => {
                 Spacious interiors, green surroundings, and world-class amenities designed to
                 match your aspirations.
               </p>
-              <button className="bg-white text-yellow-600 font-semibold px-6 py-2 rounded-full text-sm  mx-auto md:mx-0 block">
+              <button className="bg-white  text-yellow-600 font-semibold px-6 py-2 rounded-full text-sm  mx-auto md:mx-0 block">
                 More Info
               </button>
             </div>
@@ -128,7 +128,7 @@ const PropertyShowcase = () => {
                 <span className="text-black">from ₹68 Lakhs</span>
               </p>
               <div className="text-center mt-4">
-                <button className="bg-[#F8CA13] text-black font-semibold px-6 py-2 rounded-full text-sm shadow-md hover:shadow-lg transition-shadow">
+                <button className="bg-[#F8CA13] text-black font-semibold px-6 py-2 rounded-full text-sm  transition-shadow">
                   Reserve For You
                 </button>
               </div>
