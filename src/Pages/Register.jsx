@@ -63,7 +63,7 @@ const Register = ({ closeModal, openLogin }) => {
             <div className="absolute bg-black/70 backdrop-blur-md inset-0" onClick={closeModal} />
 
             <form onSubmit={handleSubmit(onSubmit)}
-    className="relative bg-white rounded-3xl overflow-hidden
+                className="relative bg-white rounded-3xl overflow-hidden
     grid grid-cols-1 md:grid-cols-2 
     w-full max-w-[850px] h-auto md:h-[500px]
     shadow-xl p-2 animate-fadeIn">
@@ -80,7 +80,7 @@ const Register = ({ closeModal, openLogin }) => {
                 </div>
 
                 {/* Right Box + SCROLL FIX */}
-                <div className="bg-[#851524] text-white rounded-2xl flex flex-col justify-center p-8 md:p-2 ">
+                <div className="bg-[#851524] text-white rounded-2xl flex flex-col justify-center p-8 md:p-2 overflow-y-auto max-h-[90vh]">
                     <div className="flex flex-col items-center gap-2 mb-6">
                         <img src="/logo.webp" alt="logo" className="w-[178px] h-[59px]" />
                     </div>
