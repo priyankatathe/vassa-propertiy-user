@@ -191,7 +191,7 @@ const HouseDetails = () => {
             {/* Main Image */}
             <img
               src={images[index]}
-              className="rounded-2xl shadow-lg w-full h-64 sm:h-96 md:h-[480px] object-cover transition-all duration-300"
+              className="rounded-2xl w-full h-64 sm:h-96 md:h-[480px] object-cover transition-all duration-300"
             />
 
             {/* ARROWS */}
@@ -256,7 +256,7 @@ const HouseDetails = () => {
 
             <img
               src={property.specifications?.hallImage || "/Rectangle 134.png"}
-              className="rounded-xl shadow-md h-36 sm:h-44 md:h-[250px] object-cover transition-all duration-300"
+              className="rounded-xl  h-36 sm:h-44 md:h-[250px] object-cover transition-all duration-300"
             />
 
             {property.Other_images && property.Other_images.length > 0 && (
@@ -266,7 +266,7 @@ const HouseDetails = () => {
               >
                 <img
                   src={property.Other_images[0]}
-                  className="rounded-xl w-full shadow-md h-32 sm:h-40 md:h-[210px] object-cover transition-all duration-300"
+                  className="rounded-xl w-full  h-32 sm:h-40 md:h-[210px] object-cover transition-all duration-300"
                 />
                 <div className="absolute inset-0 bg-black/40 rounded-xl flex items-center justify-center">
                   <p className="text-white text-base sm:text-lg md:text-xl font-semibold">
