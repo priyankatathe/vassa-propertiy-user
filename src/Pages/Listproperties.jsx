@@ -75,18 +75,19 @@ const ListProperty = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [addProperties, { isLoading, isError, error }] = useAddPropertiesMutation();
 
-  const {
+ const {
     register,
     handleSubmit,
     setValue,
     trigger,
     watch,
-    formState: { errors },
+    formState: { errors, touchedFields },
     reset,
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onTouched",
   });
+
 
   // Image States
   const [bedroomPreview, setBedroomPreview] = useState(null);
