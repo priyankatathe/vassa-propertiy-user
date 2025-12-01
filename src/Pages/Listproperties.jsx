@@ -158,11 +158,6 @@ const ListProperty = () => {
     setValue("otherImage", updatedFiles, { shouldValidate: true });
   };
 
-  const removeImage = (setPreview, setFile, fieldName) => {
-    setPreview(null);
-    setFile(null);
-    setValue(fieldName, null, { shouldValidate: true });
-  };
   // ListProperty component च्या बाहेर किंवा onSubmit च्या आत हे टाका
   const getUserId = () => {
     const userData = localStorage.getItem("user");
@@ -503,15 +498,7 @@ const ListProperty = () => {
                             alt="Bedroom"
                             className="w-full h-full object-cover"
                           />
-                          <button
-                            type="button"
-                            onClick={() =>
-                              removeImage(setBedroomPreview, setBedroomFile, "bedroomImage")
-                            }
-                            className="absolute top-3 right-3 bg-white rounded-full p-2 hover:bg-gray-100"
-                          >
-                            <LuX className="w-6 h-6 text-red-600" />
-                          </button>
+
                         </div>
                       ) : (
                         <div className="flex flex-col items-center justify-center h-full text-center px-6">
@@ -562,15 +549,7 @@ const ListProperty = () => {
                             alt="Hall"
                             className="w-full h-full object-cover"
                           />
-                          <button
-                            type="button"
-                            onClick={() =>
-                              removeImage(setHallPreview, setHallFile, "hallImage")
-                            }
-                            className="absolute top-3 right-3 bg-white rounded-full p-2 hover:bg-gray-100"
-                          >
-                            <LuX className="w-6 h-6 text-red-600" />
-                          </button>
+
                         </div>
                       ) : (
                         <div className="flex flex-col items-center justify-center h-full text-center px-6">
@@ -619,15 +598,7 @@ const ListProperty = () => {
                             alt="Kitchen"
                             className="w-full h-full object-cover"
                           />
-                          <button
-                            type="button"
-                            onClick={() =>
-                              removeImage(setKitchenPreview, setKitchenFile, "kitchenImage")
-                            }
-                            className="absolute top-3 right-3 bg-white rounded-full p-2 hover:bg-gray-100"
-                          >
-                            <LuX className="w-6 h-6 text-red-600" />
-                          </button>
+
                         </div>
                       ) : (
                         <div className="flex flex-col items-center justify-center h-full text-center px-6">
@@ -744,11 +715,19 @@ const ListProperty = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <input {...register("ownerName")} placeholder="Name" className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors.ownerName ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"}`} />
-                    {errors.ownerName && <p className="text-red-600 text-sm mt-1">{errors.ownerName.message}</p>}
+                    {touchedFields.ownerName && errors.ownerName && (
+                      <p className="text-red-600 text-sm mt-1">
+                        {errors.ownerName.message}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <input {...register("ownerEmail")} placeholder="Email" className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors.ownerEmail ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"}`} />
-                    {errors.ownerEmail && <p className="text-red-600 text-sm mt-1">{errors.ownerEmail.message}</p>}
+                    {touchedFields.ownerEmail && errors.ownerEmail && (
+                      <p className="text-red-600 text-sm mt-1">
+                        {errors.ownerEmail.message}
+                      </p>
+                    )}
                   </div>
                   <div className="sm:col-span-2">
                     <input
@@ -757,7 +736,11 @@ const ListProperty = () => {
                       maxLength={10}
                       className={`w-full px-4 py-2 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 ${errors.ownerPhone ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:border-green-500 focus:ring-green-300"}`}
                     />
-                    {errors.ownerPhone && <p className="text-red-600 text-sm mt-1">{errors.ownerPhone.message}</p>}
+                    {touchedFields.ownerPhone && errors.ownerPhone && (
+                      <p className="text-red-600 text-sm mt-1">
+                        {errors.ownerPhone.message}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
