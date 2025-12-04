@@ -31,6 +31,7 @@ import HomeCarousell from "./Components/HomeCarousell";
 import ScrollToTop from "./Components/ScrollToTop";
 import YourProperties from "./Components/YourProperties";
 import AddedPropertyDetail from "./Components/AddedPropertyDetail";
+import Practice from "./Components/Practice";
 
 const App = () => {
   return (
@@ -74,6 +75,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/your-properties" element={<YourProperties />} />
         <Route path="/addproperty-detail" element={<AddedPropertyDetail />} />
+        <Route path="/practice" element={<Practice />} />
       </Routes>
 
       <Footer />

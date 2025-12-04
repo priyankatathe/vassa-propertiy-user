@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown, Phone, Menu, X, LucideHome } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import Logo from "../assets/logo2.svg";
-import whiteLog from "../assets/logo.svg";
+import Logo from "../assets/logo2.webp";
+import whiteLog from "../../public/logo.webp";
 import Login from "../Pages/Login";
 import RegisterUI from "../Pages/Register";
 import { FaUser, FaUserLock } from "react-icons/fa6";
