@@ -7,3 +7,13 @@
 
 
 
+/* iOS Safari select fix */
+@supports (-webkit-touch-callout: none) {
+  select,
+  input {
+    -webkit-appearance: none; /* Remove default iOS style */
+    -moz-appearance: none;
+    appearance: none;
+    font-size: 16px; /* iOS zoom fix for inputs/selects */
+  }
+}

@@ -4,7 +4,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import logo from "../assets/logo2.webp";
 import { Link } from "react-router-dom";
-import { useAddContactMutation } from "../redux/api/contactApi";
 
 const Footer = () => {
   return (
