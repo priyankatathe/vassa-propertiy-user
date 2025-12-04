@@ -2,12 +2,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import logo from "../assets/logo2.svg";
+import logo from "../assets/logo2.webp";
 import { Link } from "react-router-dom";
 import { useAddContactMutation } from "../redux/api/contactApi";
 
 const Footer = () => {
-
   return (
     <div className="p-2 overflow-x-hidden">
       <div className="bg-[#D9D9D929] rounded-lg px-4 md:px-8 lg:px-16 overflow-hidden">
