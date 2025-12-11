@@ -4,8 +4,9 @@ import Navbar from "./Navbar";
 import { IoArrowDownSharp } from "react-icons/io5";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
 import { useGetPropertiesByIdQuery } from "../redux/api/propertyFecthApi";
-import { FaHouse } from "react-icons/fa6";
+import { FaDollarSign, FaHouse, FaKey, FaRulerCombined } from "react-icons/fa6";
 import PropertiyOtherImg from "./PropertiyOtherImg";
+import { FaFileAlt, FaMapMarkerAlt, FaTools } from "react-icons/fa";
 
 const AddedPropertyDetail = () => {
   const location = useLocation();
@@ -27,25 +28,12 @@ const AddedPropertyDetail = () => {
       const propertyImages = [];
       const categories = [];
 
-      if (property.specifications?.mainImage) {
-        propertyImages.push(property.specifications.mainImage);
-        categories.push("Villa");
-      }
-      if (property.specifications?.kitchenImage) {
-        propertyImages.push(property.specifications.kitchenImage);
-        categories.push("Kitchen");
-      }
-      if (property.specifications?.bedroomImage) {
-        propertyImages.push(property.specifications.bedroomImage);
-        categories.push("Bedroom");
-      }
-      if (property.specifications?.hallImage) {
-        propertyImages.push(property.specifications.hallImage);
-        categories.push("Hall");
-      }
+      // ⭐ ADD ALL OTHER_IMAGES IN SLIDER
       if (property.Other_images && property.Other_images.length > 0) {
-        propertyImages.push(property.Other_images[0]);
-        categories.push("Gallery");
+        property.Other_images.forEach((img, i) => {
+          propertyImages.push(img);
+          categories.push(`Gallery ${i + 1}`);
+        });
       }
 
       setImages(propertyImages);
@@ -53,19 +41,55 @@ const AddedPropertyDetail = () => {
     }
   }, [property]);
 
+
   const nextImage = () => setIndex((prev) => (prev + 1) % images.length);
   const prevImage = () => setIndex((prev) => (prev - 1 + images.length) % images.length);
 
-  const formatPrice = (price) => {
-    if (!price) return "Price on request";
-    if (price < 100000) return `₹${price.toLocaleString()}`;
-    const priceInLakhs = price / 100000;
-    if (priceInLakhs >= 100) {
-      const priceInCrores = priceInLakhs / 100;
-      return `₹${priceInCrores.toFixed(2)} Cr`;
+ const formatPrice = (price) => {
+  if (!price) return "Price on request";
+
+  // Clean string and remove spaces
+  let p = String(price).trim();
+
+  // Handle "1 Lac", "2 Cr" format
+  if (p.match(/(\d+)\s*Lac/i)) {
+    const num = parseFloat(p);
+    return `₹${num} L`;
+  }
+
+  if (p.match(/(\d+)\s*Cr/i)) {
+    const num = parseFloat(p);
+    return `₹${num} Cr`;
+  }
+
+  // If numeric string, convert to number
+  let amount = Number(p);
+  if (!isNaN(amount)) {
+    // Assuming Lease fields are in Lakh by default
+    if (amount >= 10000000) {
+      let cr = amount / 10000000;
+      cr = cr % 1 === 0 ? cr.toFixed(0) : cr.toFixed(2);
+      return `₹${cr} Cr`;
     }
-    return `₹${priceInLakhs.toFixed(2)} L`;
-  };
+    if (amount >= 100000) {
+      let l = amount / 100000;
+      l = l % 1 === 0 ? l.toFixed(0) : l.toFixed(2);
+      return `₹${l} L`;
+    }
+    if (amount >= 1000) {
+      let k = amount / 1000;
+      k = k % 1 === 0 ? k.toFixed(0) : k.toFixed(2);
+      return `₹${k} K`;
+    }
+    return `₹${amount.toLocaleString()}`;
+  }
+
+  // Otherwise return original string
+  return p;
+};
+
+
+
 
   const getPropertyTypeText = (propertyType) => propertyType || "Property";
 
@@ -96,6 +120,15 @@ const AddedPropertyDetail = () => {
     setCarouselIndex(idx);
     setCarouselOpen(true);
   };
+
+  const address = property?.Address ? JSON.parse(property.Address) : {};
+  const area = property?.Area ? JSON.parse(property.Area) : {};
+  const features = property?.Feacture ? JSON.parse(property.Feacture) : {};
+  const lease = property?.Lease_Rent ? JSON.parse(property.Lease_Rent) : {};
+  const pricing = property?.pricing ? JSON.parse(property.pricing) : {};
+  const amenities = property?.Amential ? JSON.parse(property.Amential) : [];
+
+
 
   if (isLoading) {
     return (
@@ -147,7 +180,7 @@ const AddedPropertyDetail = () => {
 
             {/* Main Image */}
             <img
-              src={images[index]}
+              src={images[index] ?? "/gallery.jpg"}
               className="rounded-2xl shadow-lg w-full h-64 sm:h-96 md:h-[480px] object-cover transition-all duration-300"
             />
 
@@ -168,7 +201,7 @@ const AddedPropertyDetail = () => {
             </div>
 
             {/* MINI PREVIEW BOX */}
-            <div
+            {/* <div
               className="absolute bottom-14 sm:bottom-16 md:bottom-[100px] z-20 bg-white/80 backdrop-blur-xl shadow-xl rounded-2xl flex items-center px-1 py-1 border border-white transition-all duration-700 ease-in-out"
               style={{
                 left: buttonRefs.current[index]
@@ -183,10 +216,10 @@ const AddedPropertyDetail = () => {
                 src={images[index]}
                 className="w-16 sm:w-20 md:w-28 h-10 sm:h-14 md:h-16 rounded-xl object-cover border border-white transition-all duration-300"
               />
-            </div>
+            </div> */}
 
             {/* CATEGORY TABS */}
-            <div className="absolute bottom-4 sm:bottom-5 md:bottom-10 left-2 md:left-40 flex flex-wrap gap-5 sm:gap-9 md:gap-10">
+            {/* <div className="absolute bottom-4 sm:bottom-5 md:bottom-10 left-2 md:left-40 flex flex-wrap gap-5 sm:gap-9 md:gap-10">
               {categoryNames.map((c, i) => (
                 <button
                   key={i}
@@ -203,26 +236,38 @@ const AddedPropertyDetail = () => {
                   {c}
                 </button>
               ))}
-            </div>
+            </div> */}
 
           </div>
 
           {/* RIGHT SIDE SMALL IMAGES */}
           <div className="flex flex-col gap-4 w-full md:w-1/3 mt-4 md:mt-20">
+            {/* RIGHT SIDE SMALL IMAGE */}
             <img
-              src={property.specifications?.hallImage || "/Rectangle 134.png"}
+              src={
+                property.Other_images?.length > 0
+                  ? property.Other_images[property.Other_images.length === 1 ? 0 : 1]
+                  : property.specifications?.hallImage || "/gallery.jpg"
+              }
               className="rounded-xl shadow-md h-36 sm:h-44 md:h-[250px] object-cover transition-all duration-300"
             />
 
-            {property.Other_images && property.Other_images.length > 0 && (
+            {property.Other_images && (
               <div
                 className="relative cursor-pointer"
                 onClick={() => openCarouselAt(0)}
               >
                 <img
-                  src={property.Other_images[0]}
+                  src={
+                    property.Other_images.length === 0
+                      ? "/gallery.jpg"                                           // zero → show fallback
+                      : property.Other_images.length === 1
+                        ? property.Other_images[0]                               // one → show first
+                        : property.Other_images[property.Other_images.length - 1] // many → show last
+                  }
                   className="rounded-xl w-full shadow-md h-32 sm:h-40 md:h-[210px] object-cover transition-all duration-300"
                 />
+
                 <div className="absolute inset-0 bg-black/40 rounded-xl flex items-center justify-center">
                   <p className="text-white text-base sm:text-lg md:text-xl font-semibold">
                     +{property.Other_images.length}
@@ -230,6 +275,7 @@ const AddedPropertyDetail = () => {
                 </div>
               </div>
             )}
+
           </div>
 
           {/* Carousel Modal */}
@@ -247,14 +293,15 @@ const AddedPropertyDetail = () => {
         <div className="flex flex-col md:flex-row justify-between gap-6 md:gap-10">
           <div>
             <h2 className="text-xl sm:text-2xl font-semibold">
-              {property.title || `Luxury ${property.specifications?.bedrooms} BHK ${getPropertyTypeText(property.propertyType)}`}{" "}
-              <span className="text-gray-500 text-sm sm:text-lg">
-                ({property.location?.address}, {property.location?.city})
-              </span>
+              <h1 className="text-4xl md:text-2xl font-bold text-gray-900">
+                {property.Bedroom} • {property.property_type}
+              </h1>
             </h2>
-            <p className="text-2xl sm:text-4xl mt-2 sm:mt-4 font-semibold text-black">
-              {formatPrice(property.price)}
+            <p className="text-lg text-gray-600 mt-2">{address.locality}, {address.city} • {property.unique_feature}</p>
+            <p className="text-3xl font-bold text-yellow-600 mt-3">
+              {formatPrice(pricing.expected_price)}
             </p>
+
           </div>
           <div
             onClick={() => detailsRef.current?.scrollIntoView({ behavior: "smooth" })}
@@ -267,46 +314,183 @@ const AddedPropertyDetail = () => {
         </div>
 
         {/* DETAILS SECTION - FULL WIDTH (Contact form removed) */}
-        <div
-          ref={detailsRef}
-          className="mt-6 md:mt-10 rounded-2xl"
-        >
+        <div ref={detailsRef} className="mt-6 md:mt-10 rounded-2xl">
           <div className="bg-[#D9D9D940] rounded-lg p-4 md:p-5 space-y-6 md:space-y-8">
-            <p className="border-b pb-4 md:pb-6 font-semibold border-[#D9D9D9] text-black">Property Description</p>
+            <p className="border-b pb-4 md:pb-4 font-semibold border-[#D9D9D9] text-black">
+              Property Description
+            </p>
             <p className="text-sm sm:text-base leading-relaxed text-gray-700">
               {property.description || `Step into elegance with this beautifully designed ${property.specifications?.bedrooms} BHK ${getPropertyTypeText(property.propertyType)} located in ${property.location?.city}. The residence offers spacious interiors, premium finishes, and abundant natural light that enhances every corner.`}
             </p>
 
-            <div>
-              <p className="text-black pb-4 font-bold md:pb-6 border-b border-[#D9D9D9]">Property Features</p>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mt-6 text-sm text-gray-600">
+            {/* Basic Details */}
+            <div className="   ">
+              <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Basic Information</p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
                 {[
-                  ["Type:", getPropertyTypeText(property.propertyType)],
-                  ["Area:", `${property.specifications?.area || "N/A"} sqft`],
-                  ["Bedrooms:", property.specifications?.bedrooms || "N/A"],
-                  ["Bathrooms:", property.specifications?.bathrooms || "N/A"],
-                  ["Kitchen:", property.specifications?.kitchen || "N/A"],
-                  ["Hall:", property.specifications?.hall || "N/A"],
-                  ["Parking:", property.specifications?.parkingSpaces ? "Yes" : "No"],
-                  ["Furnishing:", property.specifications?.furnishingStatus || "N/A"]
-                ].map(([label, value], i) => (
-                  <li key={i} className="flex items-center gap-3 bg-white rounded-full shadow-sm py-3 px-4">
-                    <div className="bg-[#851524] p-3 rounded-full">
-                      <FaHouse size={18} color="yellow" />
+                  ["For", property.for],
+                  ["Transaction", property.transaction],
+                  ["Furnishing", property.Furnishing],
+                  ["Ownership", property.ownerShip],
+                  ["Unique Feature", property.unique_feature],
+                ].map(([label, value]) => value && (
+                  <li key={label} className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                    <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
+                      <FaHouse size={20} color="yellow" />
                     </div>
-                    <div>
-                      <h1 className="text-black font-bold text-sm">{label}</h1>
-                      <span className="text-xs">{value}</span>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-black">{label}</span>
+                      <span className="text-sm text-gray-700">{value}</span>
                     </div>
                   </li>
                 ))}
               </ul>
             </div>
+
+            {/* Area Details */}
+            <div className="">
+              <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Area Details</p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
+                {Object.entries(area).map(([key, value]) => value && (
+                  <li key={key} className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                    <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
+                      <FaRulerCombined size={20} color="yellow" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-black">{key.replace(/_/g, " ")}</span>
+                      <span className="text-sm text-gray-700">{value}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Property Features */}
+            <div className="">
+              <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Property Features</p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
+                {Object.entries(features).map(([key, value]) => value && (
+                  <li key={key} className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                    <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
+                      <FaKey size={20} color="yellow" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-black">{key.replace(/_/g, " ")}</span>
+                      <span className="text-sm text-gray-700">{value}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Lease & Pricing */}
+            {property.for === "Lease" && (
+              <div className="">
+                <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Lease & Pricing Details</p>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
+                  {[
+                    ["Monthly Rent", formatPrice(lease.monthly_rent)],
+                    ["Security Deposit", formatPrice(lease.security_deposit)],
+                    ["Lock-in Period", lease.lock_in_period],
+                    ["Maintenance", lease.maintenance],
+                    ["Lease Period", lease.lease_period],
+                    ["Price per sqft", formatPrice(pricing.price_per_sqft)],
+                    ["Tax & Charges", formatPrice(pricing.tax_govt_charges)],
+                  ].map(([label, value]) => value && (
+                    <li key={label} className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                      <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
+                        <FaDollarSign size={20} color="yellow" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-bold text-black">{label}</span>
+                        <span className="text-sm text-gray-700">{value}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Address */}
+            <div className="">
+              <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Full Address</p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
+                {Object.entries(address)
+                  .filter(([k, v]) => v && k !== "lat" && k !== "lng" && k !== "building" && k !== "state")
+                  .map(([key, value]) => (
+                    <li key={key} className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3 hover:shadow-md transition">
+                      <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
+                        <FaMapMarkerAlt size={20} color="yellow" />
+                      </div>
+                      <div className="flex flex-col truncate">
+                        <span className="font-bold text-black text-sm">
+                          {key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())}
+                        </span>
+                        <span className="text-sm text-gray-700 truncate block">
+                          {value}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+
+            {/* Amenities */}
+            {amenities.length > 0 && (
+              <div className="">
+                <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Amenities</p>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
+                  {amenities.map((item, i) => (
+                    <li key={i} className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                      <div className="bg-[#851524] p-3 rounded-full">
+                        <FaTools size={20} color="yellow" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-bold text-black">Amenity</span>
+                        <span className="text-sm text-gray-700">{item}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Documents & Video */}
+            {property.Documents && (
+              <div className=" text-start">
+                <a href={property.Documents} target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 bg-blue-600 text-white px-8 py-4 rounded-full font-bold hover:bg-blue-700">
+                  <FaFileAlt /> View Documents
+                </a>
+              </div>
+            )}
           </div>
         </div>
+
       </main>
     </div>
   );
 };
 
 export default AddedPropertyDetail;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -11,44 +11,101 @@ const FindHomeHeroSection = ({ shrunk }) => {
 
   // ⭐ STATES FOR FILTERS  
   const [location, setLocation] = useState("");
-  const [category, setCategory] = useState("");
+  const [propertyFor, setPropertyFor] = useState("");
   const [propertyType, setPropertyType] = useState("");
+
 
   const navigate = useNavigate();
 
   const goToProperties = () => {
-
-    const property_type =
-      propertyType === "Apartment" ? "Apartment" :
-        propertyType === "Villa" ? "Villa" :
-          propertyType === "House" ? "House" :
-            propertyType === "Commercial" ? "Commercial" :
-              propertyType === "Land" ? "Land" :
-                propertyType === "Office" ? "Office" :
-                  "";
-
-    const listingType =
-      category === "On Rent" ? "Rent" :
-        category === "On Sale" ? "Sale" :
-          "";
+    if (!isFormValid) return; // अगर form valid नहीं है तो button काम नहीं करेगा
 
     navigate("/total-properties", {
       state: {
         city: location,
         property_type: propertyType,
-        listingType
+        forType: propertyFor,
       },
     });
   };
 
-  const isFormValid = location && category && propertyType;
+  const forOptions = [
+    "Rent/Lease",
+    "Re-Development",
+    "Joint Ventures",
+    "Services",
+    "PG",
+    "Lease",
+    "Sale"
+  ];
+
+  const propertyTypeOptions = [
+    { label: "Residential Apartment", value: "Apartment" },
+    { label: "Residential House/Villa", value: "Villa" },
+    { label: "Residential independent/Builder Floor", value: "House" },
+    { label: "Residential Studio Apartment", value: "Apartment" },
+    { label: "Residential Farm House", value: "House" },
+    { label: "Guest house/banquest hall", value: "House" },
+    { label: "Residential Row House", value: "House" },
+    { label: "Ressidential Twin Bungalow", value: "House" },
+    { label: "Residential Twins Apartment", value: "Apartment" },
+    { label: "Residenital duplex", value: "House" },
+    { label: "Residenital terracee", value: "House" },
+    { label: "Residenital Tenement", value: "House" },
+    { label: "Residenital Triplex", value: "House" },
+    { label: "Residenital basement", value: "House" },
+    { label: "Residenital Row Villa", value: "Villa" },
+    { label: "Residential Building", value: "House" },
+    { label: "Commercial Services Apartment", value: "Commercial" },
+    { label: "Commercial Time share", value: "Commercial" },
+    { label: "Commercial Office in IT Park", value: "Office" },
+    { label: "Commercial Business center", value: "Commercial" },
+    { label: "Commercial Hotel/Resort", value: "Commercial" },
+    { label: "Commercial Financial Institution", value: "Commercial" },
+    { label: "Commercial Medical/Hospital Premise", value: "Commercial" },
+    { label: "Corporate House", value: "Commercial" },
+    { label: "Commercial Institutes", value: "Institutional" },
+    { label: "Commercial Restaurant", value: "Commercial" },
+    { label: "Cmmercial Flat", value: "Apartment" },
+    { label: "Commercial Education Institues", value: "Institutional" },
+    { label: "Commercial Built To suit", value: "Commercial" },
+    { label: "Home stay", value: "Other" },
+    { label: "Commercial Multiplex", value: "Commercial" },
+    { label: "Commercial basement", value: "Commercial" },
+    { label: "Commercial Shop Cum Flat(SCF)", value: "Commercial" },
+    { label: "Commercial Booth", value: "Commercial" },
+    { label: "Cloud Kitchen", value: "Commercial" },
+    { label: "Institutional Building", value: "Institutional" },
+    { label: "Corporate Building", value: "Commercial" },
+    { label: "Educational Building", value: "Institutional" },
+    { label: "Hostels", value: "Institutional" },
+    { label: "Industrial", value: "Industrial" },
+    { label: "Industrial Factory", value: "Industrial" },
+    { label: "Industrial Manufactuing", value: "Industrial" },
+    { label: "Industrial Building", value: "Industrial" },
+    { label: "Industrial Shed/Gala", value: "Industrial" },
+    { label: "Land/Plot", value: "Land" },
+    { label: "Resident Land/Plot", value: "Land" },
+    { label: "Commercial Land/Plot", value: "Land" },
+    { label: "Agricultural Farm/Land", value: "Land" },
+    { label: "Transfer of Development Right (TDR)", value: "Land" },
+    { label: "Party Plot", value: "Land" },
+    { label: "Amenity Land", value: "Land" },
+    { label: "Instititional Plot", value: "Institutional" },
+    { label: "Corporate Plots", value: "Commercial" },
+    { label: "Open Plot", value: "Land" },
+    { label: "Residential Twin Bungalow", value: "House" }
+  ];
+
+
+  const isFormValid = location && propertyFor && propertyType;
 
   return (
     <div
       className={`
   relative w-full 
   ${shrunk ? "h-[37vh]" : "h-[90vh] sm:h-screen"} 
-  sm:${shrunk ? "h-[30vh]" : "h-[70vh] "} /* force desktop height to 35vh */
+  sm:${shrunk ? "h-[30vh]" : "h-[80vh] "} /* force desktop height to 35vh */
   bg-cover bg-center 
   rounded-bl-[40px] sm:rounded-bl-[90px]
   transition-all duration-700 ease-in-out
@@ -74,7 +131,7 @@ const FindHomeHeroSection = ({ shrunk }) => {
         {/* Headline (hidden when shrunk) */}
         {!shrunk && (
           <h1 className="text-white font-bold leading-snug md:leading-tight text-3xl sm:text-4xl md:text-6xl transition-all">
-            <span className="text-yellow-400 italic font-playfair mr-2">Discover</span> 
+            <span className="text-yellow-400 italic font-playfair mr-2">Discover</span>
             Spaces That Match <br className="hidden sm:block" />
             Your <span className="text-yellow-400 italic font-playfair">Lifestyle</span>
           </h1>
@@ -104,41 +161,29 @@ const FindHomeHeroSection = ({ shrunk }) => {
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="Enter city"
-                className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-base outline-none w-full"
+                className="px-4 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-base outline-none w-full"
               />
             </div>
-
-            {/* Property Type */}
+            {/* forType */}
             <div className="flex-1 lg:items-center flex flex-col sm:flex-row gap-1 sm:gap-3">
               <label className="text-white text-[13px] text-start lg:text-center tracking-wide opacity-90 sm:w-24">
-                Category
+                For
               </label>
+
               <select
-                value={propertyType}
-                onChange={(e) => setPropertyType(e.target.value)}
+                value={propertyFor}
+                onChange={(e) => setPropertyFor(e.target.value)}
                 className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-base outline-none w-full"
               >
                 <option className="text-black" value="">
                   Select
                 </option>
-                <option className="text-black" value="Apartment">
-                  Apartment
-                </option>
-                <option className="text-black" value="Villa">
-                  Villa
-                </option>
-                <option className="text-black" value="House">
-                  House
-                </option>
-                <option className="text-black" value="Commercial">
-                  Commercial
-                </option>
-                <option className="text-black" value="Land">
-                  Land
-                </option>
-                <option className="text-black" value="Office">
-                  Office
-                </option>
+
+                {forOptions.map((item, index) => (
+                  <option key={index} className="text-black" value={item}>
+                    {item}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -151,18 +196,22 @@ const FindHomeHeroSection = ({ shrunk }) => {
               <label className="text-white text-[13px] text-start lg:text-center tracking-wide opacity-90 sm:w-24">
                 Property
               </label>
+
               <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-base outline-none w-full "
+                value={propertyType}
+                onChange={(e) => setPropertyType(e.target.value)}
+                className="px-3 py-3 sm:py-2 rounded-lg bg-white/15 text-white text-base outline-none w-full"
               >
-                <option className="text-black" value="">
-                  Select
-                </option>
-                <option className="text-black">On Rent</option>
-                <option className="text-black">On Sale</option>
+                <option value="" className="text-black">Select</option>
+                {propertyTypeOptions.map((item, index) => (
+                  <option key={index} value={item.value} className="text-black">
+                    {item.label}
+                  </option>
+                ))}
               </select>
+
             </div>
+
 
             {/* Mobile Button */}
             <div className="flex justify-center  mt-6 w-20 sm:hidden">

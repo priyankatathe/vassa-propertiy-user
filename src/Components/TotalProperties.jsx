@@ -31,15 +31,17 @@ const TotalProperties = () => {
   const [shrinkHero, setShrinkHero] = useState(false);
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
 
-  const navFilters = location.state
+  const navFilters = location.state || {}; // अगर state undefined है तो empty object
+
   const { data: apiResponse, isLoading, error } = useGetPropertiesQuery(
     {
-      city: navFilters.city,
-      property_type: navFilters.property_type,
-      listingType: navFilters.listingType || "Sale",
+      city: navFilters.city || "",
+      property_type: navFilters.property_type || "",
+      forType: navFilters.forType || "Sale", // default "Sale" अगर undefined हो
     },
-    { skip: !navFilters }
+    { skip: !navFilters.city } // तभी query run होगी अगर city मौजूद है
   );
+
 
   const properties = (apiResponse?.data || []).map(p => ({
     ...p,
@@ -48,16 +50,36 @@ const TotalProperties = () => {
 
 
   // FILTERING USING ONLY > filters (NOT tempFilters)
-  const filteredProperties = properties.filter(
-    (property) =>
-      (!filters.propertyType || property.propertyType === filters.propertyType) &&
-      (!filters.maxPrice || property.price <= filters.maxPrice * 100000) &&
-      (!filters.maxArea || property.specifications?.area <= filters.maxArea) &&
-      (!filters.furnishingStatus ||
-        property.specifications?.furnishingStatus === filters.furnishingStatus) &&
-      (!filters.bedrooms ||
-        property.specifications?.bedrooms === parseInt(filters.bedrooms))
-  );
+  // const filteredProperties = properties.filter(
+  //   (property) =>
+  //     (!filters.propertyType || property.propertyType === filters.propertyType) &&
+  //     (!filters.maxPrice || property.price <= filters.maxPrice * 100000) &&
+  //     (!filters.maxArea || property.specifications?.area <= filters.maxArea) &&
+  //     (!filters.furnishingStatus ||
+  //       property.specifications?.furnishingStatus === filters.furnishingStatus) &&
+  //     (!filters.bedrooms ||
+  //       property.specifications?.bedrooms === parseInt(filters.bedrooms))
+  // );
+
+  const filteredProperties = properties.filter((property) => {
+    return (
+      // Property Type
+      (!filters.propertyType || property.property_type === filters.propertyType) &&
+
+      // Max Price (backend में string में है, so number में convert करें)
+      (!filters.maxPrice || Number(property.pricing?.expected_price) <= filters.maxPrice * 100000) &&
+
+      // Max Area (builtup area, number में convert करें)
+      (!filters.maxArea || Number(property.Area?.builtup) <= filters.maxArea) &&
+
+      // Furnishing Status
+      (!filters.furnishingStatus || property.Furnishing === filters.furnishingStatus) &&
+
+      // Bedrooms
+      (!filters.bedrooms || Number(property.BedRoom?.bedrooms) === parseInt(filters.bedrooms))
+    );
+  });
+
 
   useEffect(() => {
     const timer = setTimeout(() => setShrinkHero(true), 200);
@@ -398,28 +420,24 @@ const TotalProperties = () => {
       <div className="px-6 md:px-12 py-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
           {filteredProperties.map((property) => (
-            <div key={property.id}>
+            <div key={property._id}>
               <div
                 onClick={() => handlePropertyClick(property)}
                 className="relative overflow-hidden rounded-xl cursor-pointer"
               >
                 <img
-                  src={
-                    property.specifications?.bedroomImage ||
-                    "./property-placeholder.jpg"
-                  }
-                  alt={`Property ${property.id}`}
+                  src={property.Other_images?.[0] || "./property-placeholder.jpg"}
+                  alt={`Property ${property._id}`}
                   className="w-full h-72 sm:h-80 lg:h-96 object-cover"
                 />
 
-                <div className="absolute bottom-0 m-3 rounded-lg inset-x-0 bg-black/5 backdrop-blur-sm p-4  flex items-start justify-between">
+                <div className="absolute bottom-0 m-3 rounded-lg inset-x-0 bg-black/30 backdrop-blur-sm p-4 flex items-start justify-between">
                   <div>
                     <h3 className="text-white text-lg md:text-xl font-semibold">
-                      {property.specifications?.bedrooms} BHK •{" "}
-                      {property?.location?.city}
+                      {property.BedRoom?.bedrooms} BHK • {property.Address?.city}
                     </h3>
                     <p className="text-white text-sm mt-1 leading-tight">
-                      {property.location?.address}
+                      {property.Address?.full_address}
                     </p>
                   </div>
                 </div>
@@ -427,7 +445,7 @@ const TotalProperties = () => {
 
               <div className="px-2 py-3">
                 <p className="text-gray-800 font-semibold text-xl">
-                  {formatPrice(property.price)}
+                  {formatPrice(property.pricing?.expected_price)}
                 </p>
               </div>
             </div>

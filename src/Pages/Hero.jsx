@@ -1,6 +1,9 @@
 
 import React from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { MdArrowRight } from "react-icons/md";
+import { FaArrowRight } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   const { scrollYProgress } = useScroll();
@@ -39,6 +42,24 @@ const HeroSection = () => {
           </h1>
 
         </div>
+
+        <div className="relative flex  items-center justify-center px-10 py-5">
+          <Link to="/find-home"
+            className="mt-4 px-8 py-3 bg-[#F8CA13] text-white font-semibold text-lg rounded-full 
+                 transition-all duration-300"
+          >
+            Get Started
+          </Link>
+
+          <Link
+            to="/find-home"
+            className="border border-white mt-5 ml-2 rounded-full h-14 w-14 flex items-center justify-center text-2xl"
+          >
+            <FaArrowRight className="text-white" />
+          </Link>
+
+        </div>
+
 
         {/* RIGHT SECTION DESCRIPTION — HIDDEN ON MOBILE */}
         <div className="hidden md:block absolute right-20 bottom-40 w-[28%]">

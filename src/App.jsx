@@ -32,6 +32,11 @@ import ScrollToTop from "./Components/ScrollToTop";
 import YourProperties from "./Components/YourProperties";
 import AddedPropertyDetail from "./Components/AddedPropertyDetail";
 import Practice from "./Components/Practice";
+import PropertyForm from "./Components/PropertyAdd";
+import AddedProjectDetail from "./Components/AddedProjectDetail";
+import ProjectHero from "./Components/ProjectHero";
+import ProjectSearch from "./Components/ProjectSearch";
+import ProjectsDetail from "./Components/ProjectsDetail";
 
 const App = () => {
   return (
@@ -67,6 +72,7 @@ const App = () => {
         />
 
         <Route path="/find-home" element={<FindHome />} />
+        <Route path="/find-project" element={<ProjectHero />} />
         <Route path="/total-properties" element={<TotalProperties />} />
         <Route path="/house-details" element={<HouseDetails />} />
         <Route path="/contact" element={<ContactUs />} />
@@ -75,7 +81,11 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/your-properties" element={<YourProperties />} />
         <Route path="/addproperty-detail" element={<AddedPropertyDetail />} />
+        <Route path="/addproject-detail" element={<AddedProjectDetail />} />
         <Route path="/practice" element={<Practice />} />
+        <Route path="/propertyadd" element={<PropertyForm />} />
+        <Route path="/project-search" element={<ProjectSearch />} />
+        <Route path="/project-detail/:id" element={<ProjectsDetail />} />
       </Routes>
 
       <Footer />

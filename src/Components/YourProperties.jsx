@@ -1,153 +1,153 @@
 import React, { useState } from "react";
-import { useGetAddedPropertieQuery } from "../redux/api/listPropertiApi";
 import { useNavigate } from "react-router-dom";
-import { GoArrowRight } from "react-icons/go";
+import { useBothGetQuery } from "../redux/api/propertyFecthApi";
 
-// Skeleton
-const PropertySkeleton = () => (
-    <div className="relative overflow-hidden rounded-xl bg-gray-200 animate-pulse">
-        <div className="w-full h-72 bg-gray-300" />
-        <div className="p-4">
-            <div className="h-6 bg-gray-400 rounded w-3/4 mb-2" />
-            <div className="h-4 bg-gray-400 rounded w-full" />
-        </div>
+// Skeleton UI
+const Skeleton = () => (
+  <div className="relative overflow-hidden rounded-xl bg-gray-200 animate-pulse">
+    <div className="w-full h-72 bg-gray-300" />
+  </div>
+);
+
+const PropertyCard = ({ item, navigate, getFirstImage, getPrice }) => (
+  <div
+    onClick={() =>
+      navigate("/addproperty-detail", { state: { propertyId: item._id } })
+    }
+    className="bg-white rounded-2xl overflow-hidden cursor-pointer transition-all duration-300"
+  >
+    <div className="relative">
+      <img src={getFirstImage(item)} className="w-full h-72 object-cover" alt="" />
+
+      <div className="absolute bottom-3 left-3 right-3 bg-black/30 backdrop-blur-md rounded-xl p-3 text-white">
+        <h3 className="text-lg font-semibold">
+          {item.BHK || item.title || "BHK"} • {item.city || "City"}
+        </h3>
+        <p className="text-sm opacity-80 mt-1">
+          {item.location?.address || item.address || "Address"}
+        </p>
+      </div>
     </div>
+
+    <div className="p-4">
+      <p className="text-yellow-600 font-bold text-xl">₹ {getPrice(item)}</p>
+    </div>
+  </div>
+);
+
+const ProjectCard = ({ item, navigate, getFirstImage, getPrice }) => (
+  <div
+    onClick={() =>
+      navigate("/addproject-detail", { state: { projectId: item._id } })
+    }
+    className="relative rounded-2xl overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-all duration-300"
+  >
+    <div className="relative">
+      <img src={getFirstImage(item)} className="w-full h-72 object-cover" alt="" />
+
+      <div className="absolute bottom-0 left-0 right-0 bg-black/50 backdrop-blur-md m-3 rounded-xl p-4 text-white">
+        <h3 className="text-xl font-bold">
+          {item.Project_Name || "Premium Project"}
+        </h3>
+
+        <p className="text-sm opacity-90">
+          {item.location?.address || item.address || "Main Road"}
+        </p>
+      </div>
+    </div>
+
+    
+  </div>
 );
 
 const YourProperties = () => {
-    const { data, isLoading } = useGetAddedPropertieQuery();
-    const [activeTab, setActiveTab] = useState("rent");
-    const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("property");
+  const navigate = useNavigate();
 
-    // Safe array
-    const properties = Array.isArray(data?.property) ? data.property : [];
+  const { data, isLoading } = useBothGetQuery();
 
-    // Counts
-    const rentCount = properties.filter(p => p.listingType?.toLowerCase() === "rent").length;
-    const saleCount = properties.filter(p => p.listingType?.toLowerCase() === "sale").length;
+  // Backend से data property और project अलग-अलग मिलता है
+  const properties = data?.property || [];
+  const projects = data?.project || [];
 
-    // Filtered
-    const filteredProperties = properties.filter(p =>
-        p.listingType?.toLowerCase() === activeTab
-    );
+  const activeData = activeTab === "property" ? properties : projects;
 
-    // First image
-    const getFirstImage = (p) => {
-        return (
-            p.Other_images?.[0] ||
-            p.specifications?.bedroomImage ||
-            p.specifications?.hallImage ||
-            p.specifications?.kitchenImage ||
-            "./property-placeholder.jpg"
-        );
-    };
+  const getFirstImage = (item) => {
+    if (item.Other_images?.length > 0) return item.Other_images[0];
+    if (item.specifications) {
+      return (
+        item.specifications.bedroomImage ||
+        item.specifications.hallImage ||
+        item.specifications.kitchenImage
+      );
+    }
+    return "/gallery.jpg";
+  };
 
-    return (
-        <div className="p-6 max-w-10xl mx-auto mt-10 py-16  px-4  md:px-8 lg:px-[67px]   font-manrope">
+  const getPrice = (item) => {
+    if (item.price) return item.price;
 
-            {/* Rent / Sale Toggle Button - Left Aligned, Premium Look */}
-            <div className="flex justify-start mb-10">
-                <div className="inline-flex bg-gray-100 rounded-2xl   border border-gray-200">
+    if (item.pricing) {
+      try {
+        const parsed = JSON.parse(item.pricing);
+        return parsed.expected_price || "N/A";
+      } catch {
+        return "N/A";
+      }
+    }
 
-                    {/* For Rent Button */}
-                    <button
-                        onClick={() => setActiveTab("rent")}
-                        className={`
-          flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-lg
-          transition-all duration-300 transform 
-          ${activeTab === "rent"
-                                ? "bg-yellow-500 text-white "
-                                : "text-gray-600 hover:text-gray-900 bg-transparent"
-                            }
-        `}
-                    >
-                        For Rent
-                        <span className={`
-          ml-3 px-4 py-1.5 rounded-full text-sm font-bold
-          ${activeTab === "rent" ? "bg-white text-yellow-600" : "bg-gray-300 text-gray-700"}
-        `}>
-                            {rentCount}
-                        </span>
-                    </button>
+    return "N/A";
+  };
 
-                    {/* For Sale Button */}
-                    <button
-                        onClick={() => setActiveTab("sale")}
-                        className={`
-          flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-lg
-          transition-all duration-300 transform 
-          ${activeTab === "sale"
-                                ? "bg-yellow-500 text-white"
-                                : "text-gray-600 hover:text-gray-900 bg-transparent"
-                            }
-        `}
-                    >
-                        For Sale
-                        <span className={`
-          ml-3 px-4 py-1.5 rounded-full text-sm font-bold
-          ${activeTab === "sale" ? "bg-white text-yellow-600" : "bg-gray-300 text-gray-700"}
-        `}>
-                            {saleCount}
-                        </span>
-                    </button>
+  return (
+    <div className="p-6 mt-16">
+      <div className="flex gap-4 mb-8">
+        <button
+          onClick={() => setActiveTab("property")}
+          className={`px-6 py-3 rounded-xl font-semibold ${activeTab === "property"
+              ? "bg-yellow-500 text-white"
+              : "bg-gray-200 text-gray-800"
+            }`}
+        >
+          Property ({properties.length})
+        </button>
 
-                </div>
-            </div>
+        <button
+          onClick={() => setActiveTab("project")}
+          className={`px-6 py-3 rounded-xl font-semibold ${activeTab === "project"
+              ? "bg-yellow-500 text-white"
+              : "bg-gray-200 text-gray-800"
+            }`}
+        >
+          Project ({projects.length})
+        </button>
+      </div>
 
-
-            {/* Grid with EXACT SAME CARD you showed */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-                {isLoading
-                    ? [...Array(6)].map((_, i) => <PropertySkeleton key={i} />)
-                    : filteredProperties.length === 0
-                        ? (
-                            <div className="col-span-full text-center py-20 text-gray-500">
-                                <p className="text-2xl">
-                                    No properties listed for <strong>{activeTab === "rent" ? "Rent" : "Sale"}</strong>
-                                </p>
-                            </div>
-                        )
-                        : filteredProperties.map((p) => (
-                            <div
-                                key={p._id}
-                                onClick={() =>
-                                    navigate("/addproperty-detail", {
-                                        state: { propertyId: p._id }
-                                    })
-                                }
-                                className="relative overflow-hidden rounded-xl group cursor-pointer shadow-lg hover:shadow-2xl transition-all"
-                            >
-                                {/* IMAGE */}
-                                <img
-                                    src={getFirstImage(p)}
-                                    alt={p.title}
-                                    className="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-105"
-                                />
-
-                                {/* HOVER OVERLAY – EXACT SAME AS YOU WANTED */}
-                                <div className="absolute inset-0 bg-black/50 flex items-end justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <div className="text-white">
-                                        <h3 className="text-lg font-semibold">
-                                            {p.title || "Untitled Property"}
-                                        </h3>
-                                        <p className="text-sm mt-2 leading-tight">
-                                            {p.description?.slice(0, 70) || p.location?.address || "No description"}...
-                                        </p>
-
-                                    </div>
-
-                                    {/* Arrow Button */}
-                                    <button className="bg-white text-black p-3 rounded-full hover:bg-yellow-500 transition">
-                                        <GoArrowRight size={22} />
-                                    </button>
-                                </div>
-
-
-                            </div>
-                        ))}
-            </div>
-        </div>
-    );
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {isLoading
+          ? [...Array(6)].map((_, i) => <Skeleton key={i} />)
+          : activeData.map((item) =>
+            activeTab === "property" ? (
+              <PropertyCard
+                key={item._id}
+                item={item}
+                navigate={navigate}
+                getFirstImage={getFirstImage}
+                getPrice={getPrice}
+              />
+            ) : (
+              <ProjectCard
+                key={item._id}
+                item={item}
+                navigate={navigate}
+                getFirstImage={getFirstImage}
+                getPrice={getPrice}
+              />
+            )
+          )}
+      </div>
+    </div>
+  );
 };
 
 export default YourProperties;

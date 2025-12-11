@@ -10,17 +10,28 @@ export const propertyApi = createApi({
     endpoints: (builder) => ({
 
         getProperties: builder.query({
-            query: ({ city, property_type, listingType }) => ({
+            query: ({ city, property_type, forType }) => ({
                 url: `/fetch/property`,
                 method: "GET",
                 params: {
                     city,
                     property_type,
-                    listingType
+                    forType
                 }
             }),
             providesTags: ["property"],
         }),
+        getProjectSearch: builder.query({
+            query: ({ city }) => ({
+                url: `/fetch/project`,
+                method: "GET",
+                params: {
+                    city
+                }
+            }),
+            providesTags: ["property"],
+        }),
+
         getPropertiesById: builder.query({
             query: (id) => ({
                 url: `/fetch/property/${id}`
@@ -30,6 +41,24 @@ export const propertyApi = createApi({
             query: () => {
                 return {
                     url: "/fetch/top",
+                    method: "GET"
+                }
+            },
+            providesTags: ["user"]
+        }),
+        getTopProject: builder.query({
+            query: () => {
+                return {
+                    url: "/fetch/project/top",
+                    method: "GET"
+                }
+            },
+            providesTags: ["user"]
+        }),
+        bothGet: builder.query({
+            query: () => {
+                return {
+                    url: "/get/added/property",
                     method: "GET"
                 }
             },
@@ -49,5 +78,11 @@ export const propertyApi = createApi({
 });
 
 export const {
-    useGetPropertiesQuery, useGetPropertiesByIdQuery, useAddEnquiryMutation, useGetAllPropertieQuery
+    useGetPropertiesQuery,
+    useGetPropertiesByIdQuery,
+    useAddEnquiryMutation,
+    useGetAllPropertieQuery,
+    useGetProjectSearchQuery,
+    useGetTopProjectQuery,
+    useBothGetQuery
 } = propertyApi;

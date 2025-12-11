@@ -109,7 +109,17 @@ const Navbar = () => {
         ${location.pathname === "/find-home" ? "text-yellow-400" : ""}
       `}
             >
-              Find Home
+              Find Property
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/find-project"
+              className={`hover:text-yellow-400 font-bold transition-colors duration-200
+        ${location.pathname === "/find-project" ? "text-yellow-400" : ""}
+      `}
+            >
+               Project
             </Link>
           </li>
 
@@ -260,7 +270,10 @@ const Navbar = () => {
               About
             </Link>
             <Link to="/find-home" onClick={() => setMobileMenuOpen(false)} className="block text-xl font-semibold text-white hover:text-yellow-400 transition">
-              Find Home
+              Find Property
+            </Link>
+            <Link to="/find-project" onClick={() => setMobileMenuOpen(false)} className="block text-xl font-semibold text-white hover:text-yellow-400 transition">
+               Project
             </Link>
             <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="block text-xl font-semibold text-white hover:text-yellow-400 transition">
               Contact
