@@ -21,6 +21,8 @@ const AddedProjectDetail = () => {
     const [images, setImages] = useState([]);
     const [categoryNames, setCategoryNames] = useState([]);
     const [index, setIndex] = useState(0);
+    const [showDocPreview, setShowDocPreview] = useState(false);
+
 
     useEffect(() => {
         if (property) {
@@ -167,7 +169,7 @@ const AddedProjectDetail = () => {
                             {property.Project_Name || "Untitled Project"}
                         </h1>
                         <p className="text-lg md:text-xl font-bold text-gray-900">
-                            {property.Launch_Date|| "Untitled Project"}
+                            {property.Launch_Date || "Untitled Project"}
                         </p>
                         {/* <p className="text-lg text-gray-600 mt-2">
                             {addressObj.address || addressObj.area_Locality || "Location not available"}
@@ -279,18 +281,64 @@ const AddedProjectDetail = () => {
                         )}
 
                         {/* Documents & Brochure */}
-                        {property.pdf_doc && (
-                            <div className="text-start">
+                        {property?.pdf_doc && (
+                            <div className="mt-6">
+                                <button
+                                    onClick={() => setShowDocPreview(true)}
+                                    className="inline-flex items-center gap-3 bg-green-600 text-white px-6 py-3 rounded-full font-bold hover:bg-green-700"
+                                >
+                                    <FaFileAlt /> Preview Document
+                                </button>
+
                                 <a
                                     href={property.pdf_doc}
                                     target="_blank"
-                                    rel="noreferrer"
-                                    className="inline-flex items-center gap-3 bg-blue-600 text-white px-8 py-4 rounded-full font-bold hover:bg-blue-700 transition"
+                                    rel="noopener noreferrer"
+                                    download
+                                    className="inline-flex items-center gap-3 bg-blue-600 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-700 ml-4"
                                 >
-                                    <FaFileAlt /> Download Brochure / Documents
+                                    <FaFileAlt /> Download
                                 </a>
                             </div>
                         )}
+
+                        {/* Full Screen Document Preview Modal */}
+                        {showDocPreview && (
+                            <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+                                <div className="bg-white rounded-xl w-[90%] h-[90%] p-4 relative">
+
+                                    {/* Close Button */}
+                                    <button
+                                        onClick={() => setShowDocPreview(false)}
+                                        className="absolute top-3 right-3 bg-red-600 text-white px-3 py-1 rounded"
+                                    >
+                                        ✕
+                                    </button>
+
+                                    {/* Detect file type and preview accordingly */}
+                                    {property.pdf_doc.match(/\.(jpg|jpeg|png|webp|gif)$/i) ? (
+                                        // ---- IMAGE PREVIEW ----
+                                        <img
+                                            src={property.pdf_doc}
+                                            className="w-full h-full object-contain rounded-lg"
+                                            alt="Document Preview"
+                                        />
+                                    ) : (
+                                        // ---- PDF / DOCX PREVIEW ----
+                                        <iframe
+                                            src={
+                                                property.pdf_doc.endsWith(".pdf")
+                                                    ? property.pdf_doc
+                                                    : `https://docs.google.com/gview?url=${property.pdf_doc}&embedded=true`
+                                            }
+                                            className="w-full h-full rounded-lg"
+                                            title="Document Preview"
+                                        ></iframe>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
 
                         {/* Video Links */}
                         {(property.Video_url || property.Virtual_video) && (

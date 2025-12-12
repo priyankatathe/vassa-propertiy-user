@@ -27,6 +27,7 @@ const ProjectsDetail = () => {
     const [images, setImages] = useState(["/1.png", "/3.png", "/2.png", "/10.png"]);
     const [categoryNames, setCategoryNames] = useState(["Villa", "Kitchen", "Bedroom", "Hall"]);
     const [index, setIndex] = useState(0);
+    const [showDocPreview, setShowDocPreview] = useState(false);
 
     useEffect(() => {
         if (property) {
@@ -407,27 +408,80 @@ const ProjectsDetail = () => {
                         )}
 
                         {/* Documents & Brochure */}
-                        {property.pdf_doc && (
-                            <div className="text-start">
+                        {property?.pdf_doc && (
+                            <div className="mt-6">
+                                <button
+                                    onClick={() => setShowDocPreview(true)}
+                                    className="inline-flex items-center gap-3 bg-green-600 text-white px-6 py-3 rounded-full font-bold hover:bg-green-700"
+                                >
+                                    <FaFileAlt /> Preview Document
+                                </button>
+
                                 <a
                                     href={property.pdf_doc}
                                     target="_blank"
-                                    rel="noreferrer"
-                                    className="inline-flex items-center gap-3 bg-blue-600 text-white px-8 py-4 rounded-full font-bold hover:bg-blue-700 transition"
+                                    rel="noopener noreferrer"
+                                    download
+                                    className="inline-flex items-center gap-3 bg-blue-600 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-700 ml-4"
                                 >
-                                    <FaFileAlt /> Download Brochure / Documents
+                                    <FaFileAlt /> Download
                                 </a>
                             </div>
                         )}
 
-                        {/* Video Links */}
+                        {/* Full Screen Document Preview Modal */}
+                        {showDocPreview && (
+                            <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+                                <div className="bg-white rounded-xl w-[90%] h-[90%] p-4 relative">
+
+                                    {/* Close Button */}
+                                    <button
+                                        onClick={() => setShowDocPreview(false)}
+                                        className="absolute top-3 right-3 bg-red-600 text-white px-3 py-1 rounded"
+                                    >
+                                        ✕
+                                    </button>
+
+                                    {/* Detect file type and preview accordingly */}
+                                    {property.pdf_doc.match(/\.(jpg|jpeg|png|webp|gif)$/i) ? (
+                                        // ---- IMAGE PREVIEW ----
+                                        <img
+                                            src={property.pdf_doc}
+                                            className="w-full h-full object-contain rounded-lg"
+                                            alt="Document Preview"
+                                        />
+                                    ) : (
+                                        // ---- PDF / DOCX PREVIEW ----
+                                        <iframe
+                                            src={
+                                                property.pdf_doc.endsWith(".pdf")
+                                                    ? property.pdf_doc
+                                                    : `https://docs.google.com/gview?url=${property.pdf_doc}&embedded=true`
+                                            }
+                                            className="w-full h-full rounded-lg"
+                                            title="Document Preview"
+                                        ></iframe>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+
+                        {/* Media Section */}
                         {(property.Video_url || property.Virtual_video) && (
                             <div className="space-y-4">
                                 <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Media</p>
                                 <div className="flex flex-wrap gap-4">
+
+                                    {/* Project Video */}
                                     {property.Video_url && property.Video_url !== "reeeeee.com" && (
                                         <a
-                                            href={property.Video_url}
+                                            href={
+                                                property.Video_url.includes("youtube.com") ||
+                                                    property.Video_url.includes("youtu.be")
+                                                    ? property.Video_url // open YouTube
+                                                    : property.Video_url // open any other site
+                                            }
                                             target="_blank"
                                             rel="noreferrer"
                                             className="bg-red-600 text-white px-6 py-3 rounded-full font-medium hover:bg-red-700 transition"
@@ -435,9 +489,16 @@ const ProjectsDetail = () => {
                                             Watch Project Video
                                         </a>
                                     )}
+
+                                    {/* Virtual Tour */}
                                     {property.Virtual_video && property.Virtual_video !== "ddffffffff.com" && (
                                         <a
-                                            href={property.Virtual_video}
+                                            href={
+                                                property.Virtual_video.includes("youtube.com") ||
+                                                    property.Virtual_video.includes("youtu.be")
+                                                    ? property.Virtual_video
+                                                    : property.Virtual_video
+                                            }
                                             target="_blank"
                                             rel="noreferrer"
                                             className="bg-purple-600 text-white px-6 py-3 rounded-full font-medium hover:bg-purple-700 transition"
@@ -448,6 +509,7 @@ const ProjectsDetail = () => {
                                 </div>
                             </div>
                         )}
+
                     </div>
 
                     {/* CONTACT FORM */}

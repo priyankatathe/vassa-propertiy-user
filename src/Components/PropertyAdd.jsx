@@ -203,7 +203,7 @@ export default function PropertyForm() {
         const formData = new FormData();
 
         // ---- Simple Fields ----
-        
+
         formData.append("Request_Date", data.requestDate || "");
         formData.append("for", data.for || "");
         formData.append("property_type", data.propertyType || "");
@@ -275,7 +275,7 @@ export default function PropertyForm() {
         formData.append("Lease_Rent[lock_in_period]", data.lockinPeriod ? `${data.lockinPeriod} months` : "");
         formData.append("Lease_Rent[maintenance]", data.maintenanceCharges || "");
         formData.append("Lease_Rent[lease_period]", data.leasePeriod ? `${data.leasePeriod} months` : "");
-
+        formData.append("status", "pending_review");
         // ---- Images ----
         if (data.projectImages?.length > 0) {
             [...data.projectImages].forEach((file) => {

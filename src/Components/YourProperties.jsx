@@ -23,7 +23,7 @@ const PropertyCard = ({ item, navigate, getFirstImage, getPrice }) => (
 
         <div className="absolute bottom-3 left-3 right-3 bg-black/20 backdrop-blur-sm rounded-xl p-3 text-white">
           <h3 className="text-lg font-semibold">
-            {item.BHK || item.title || "BHK"} • {item.city || "City"}
+            {item.Bedroom || item.title || "BHK"} 
           </h3>
           <p className="text-sm opacity-80 mt-1">
             {item?.Address?.city || item?.Address?.locality || "Address"}

@@ -22,6 +22,7 @@ const AddedPropertyDetail = () => {
   const [images, setImages] = useState(["/1.png", "/3.png", "/2.png", "/10.png"]);
   const [categoryNames, setCategoryNames] = useState(["Villa", "Kitchen", "Bedroom", "Hall"]);
   const [index, setIndex] = useState(0);
+  const [showDocPreview, setShowDocPreview] = useState(false);
 
   useEffect(() => {
     if (property) {
@@ -480,14 +481,64 @@ const AddedPropertyDetail = () => {
               </div>
             )}
 
-            {/* Documents & Video */}
-            {property.Documents && (
-              <div className=" text-start">
-                <a href={property.Documents} target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 bg-blue-600 text-white px-8 py-4 rounded-full font-bold hover:bg-blue-700">
-                  <FaFileAlt /> View Documents
-                </a>
-              </div>
-            )}
+           {property?.Documents && (
+  <div className="mt-6">
+    <button
+      onClick={() => setShowDocPreview(true)}
+      className="inline-flex items-center gap-3 bg-green-600 text-white px-6 py-3 rounded-full font-bold hover:bg-green-700"
+    >
+      <FaFileAlt /> Preview Document
+    </button>
+
+    <a
+      href={property.Documents}
+      target="_blank"
+      rel="noopener noreferrer"
+      download
+      className="inline-flex items-center gap-3 bg-blue-600 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-700 ml-4"
+    >
+      <FaFileAlt /> Download
+    </a>
+  </div>
+)}
+
+{/* Full Screen Document Preview Modal */}
+{showDocPreview && (
+  <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+    <div className="bg-white rounded-xl w-[90%] h-[90%] p-4 relative">
+
+      {/* Close Button */}
+      <button
+        onClick={() => setShowDocPreview(false)}
+        className="absolute top-3 right-3 bg-red-600 text-white px-3 py-1 rounded"
+      >
+        ✕
+      </button>
+
+      {/* Detect file type and preview accordingly */}
+      {property.Documents.match(/\.(jpg|jpeg|png|webp|gif)$/i) ? (
+        // ---- IMAGE PREVIEW ----
+        <img
+          src={property.Documents}
+          className="w-full h-full object-contain rounded-lg"
+          alt="Document Preview"
+        />
+      ) : (
+        // ---- PDF / DOCX PREVIEW ----
+        <iframe
+          src={
+            property.Documents.endsWith(".pdf")
+              ? property.Documents
+              : `https://docs.google.com/gview?url=${property.Documents}&embedded=true`
+          }
+          className="w-full h-full rounded-lg"
+          title="Document Preview"
+        ></iframe>
+      )}
+    </div>
+  </div>
+)}
+
           </div>
         </div>
 
