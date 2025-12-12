@@ -203,6 +203,7 @@ export default function PropertyForm() {
         const formData = new FormData();
 
         // ---- Simple Fields ----
+        
         formData.append("Request_Date", data.requestDate || "");
         formData.append("for", data.for || "");
         formData.append("property_type", data.propertyType || "");
@@ -672,7 +673,7 @@ export default function PropertyForm() {
                                     className={input}
                                     placeholder="Enter Owner Name"
                                     onInput={(e) => {
-                                        e.target.value = e.target.value.replace(/[^A-Za-z]/g, "");
+                                        e.target.value = e.target.value.replace(/[^A-Za-z ]/g, "");
                                     }}
                                 />
 
@@ -913,7 +914,7 @@ export default function PropertyForm() {
                         {/* MORE FIELDS */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {[
-                                { name: "flatUnit", label: "Flat/Office/Unit No.", type: "number" },
+                                { name: "flatUnit", label: "Flat/Office/Unit No.", type: "text" },
                                 { name: "surveyNumber", label: "Survey Number", type: "number" },
                                 { name: "surveyName", label: "Survey Name", type: "text" },
                                 { name: "developerName", label: "Developer Name", type: "text" },

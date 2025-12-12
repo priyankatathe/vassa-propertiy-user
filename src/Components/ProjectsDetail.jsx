@@ -14,11 +14,11 @@ import { useGetProjectByIdQuery } from "../redux/api/projectApi";
 
 const ProjectsDetail = () => {
     const { id } = useParams()
-    const projectId = id;
+    const propertyId = id;
     const detailsRef = useRef(null);
 
-    const { data: apiResponse, isLoading, error } = useGetProjectByIdQuery(projectId, {
-        skip: !projectId
+    const { data: apiResponse, isLoading, error } = useGetProjectByIdQuery(propertyId, {
+        skip: !propertyId
     });
 
     const [addEquiry] = useAddEnquiryMutation();
@@ -146,10 +146,10 @@ const ProjectsDetail = () => {
             // navigate("/login");
             return;
         }
-        if (!projectId) return;
+        if (!propertyId) return;
         try {
             await addEquiry({
-                projectId,
+                propertyId,
                 Name: data.Name,
                 email_contact: data.email_contact,
                 message: data.message,
@@ -501,8 +501,7 @@ const ProjectsDetail = () => {
                                 {...register("inquire_type", { required: true })}
                             >
                                 <option value="">Select type</option>
-                                <option value="Rent">Rent</option>
-                                <option value="Buy">Buy</option>
+                                <option value="project">Project</option>
                             </select>
 
                             <button

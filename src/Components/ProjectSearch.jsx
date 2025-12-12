@@ -27,7 +27,7 @@ const ProjectSearch = () => {
     );
 
     return (
-        <div className="p-10 mt-24">
+        <div className="p-10 mt-24 font-manrope">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {isLoading
                     ? // Show 6 skeleton cards while loading
@@ -39,7 +39,7 @@ const ProjectSearch = () => {
                                 onClick={() => handlePropertyClick(property)}
                                 className="cursor-pointer"
                             >
-                                <div className="relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition">
+                                <div className="relative rounded-2xl overflow-hidden  transition">
                                     {/* IMAGE */}
                                     <img
                                         src={
@@ -53,21 +53,24 @@ const ProjectSearch = () => {
 
                                     {/* OVERLAY */}
                                     <div
-                                        className="absolute bottom-0 left-0 right-0 m-3 mb-6 
+                                        className="absolute bottom-0 left-0 right-0 m-3 mb-3 
                                         bg-black/30 backdrop-blur-md 
                                         p-4 rounded-xl text-white"
                                     >
                                         <h3 className="text-lg font-semibold">
                                             {property.Project_Name}
                                         </h3>
-                                        <p className="text-sm opacity-90 mt-1">
-                                            {property.location?.address || property.address} ,{" "}
+                                        <p className="text-md opacity-90 mt-1">
+                                            {/* {property.location?.address || property.address} ,{" "} */}
                                             {property.location?.city || property.address}
                                         </p>
-                                        <p className="text-sm opacity-90 mt-1">
-                                            Launch Date: {property.Launch_Date || "N/A"}
-                                        </p>
+
                                     </div>
+                                </div>
+                                <div className="p-2">
+                                    <p className="text-sm opacity-90 mt-1">
+                                        <span className="font-bold">Launch Date :</span>  {property.Launch_Date || "N/A"}
+                                    </p>
                                 </div>
                             </div>
                         ))

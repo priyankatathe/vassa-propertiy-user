@@ -387,33 +387,64 @@ const HouseDetails = () => {
             </div>
 
             {/* Lease & Pricing */}
-            {property.for === "Lease" && (
+            {(property.for === "Lease" || pricing?.expected_price || pricing?.monthly_rent) && (
               <div className="">
                 <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Lease & Pricing Details</p>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
                   {[
-                    ["Monthly Rent", formatPrice(lease.monthly_rent)],
-                    ["Security Deposit", formatPrice(lease.security_deposit)],
-                    ["Lock-in Period", lease.lock_in_period],
-                    ["Maintenance", lease.maintenance],
-                    ["Lease Period", lease.lease_period],
-                    ["Price per sqft", formatPrice(pricing.price_per_sqft)],
-                    ["Tax & Charges", formatPrice(pricing.tax_govt_charges)],
-                  ].map(([label, value]) => value && (
-                    <li key={label} className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
-                      <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
-                        <FaDollarSign size={20} color="yellow" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="font-bold text-black">{label}</span>
-                        <span className="text-sm text-gray-700">{value}</span>
-                      </div>
-                    </li>
-                  ))}
+                    // ["Expected Price", formatPrice(pricing?.expected_price)],
+                    ["Monthly Rent", formatPrice(lease?.monthly_rent)],
+                    ["Security Deposit", formatPrice(lease?.security_deposit)],
+                    ["Lock-in Period", lease?.lock_in_period || "N/A"],
+                    ["Maintenance", lease?.maintenance || "N/A"],
+                    ["Lease Period", lease?.lease_period || "N/A"],
+                    // ["Price per sqft", formatPrice(pricing?.price_per_sqft)],
+                    ["Tax & Govt Charges", pricing?.tax_govt_charges || "Not Included"],
+                  ]
+                    .filter(([_, value]) => value && value !== "N/A" && value !== "Not Included")
+                    .map(([label, value]) => (
+                      <li key={label} className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                        <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
+                          <FaDollarSign size={20} color="yellow" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="font-bold text-black">{label}</span>
+                          <span className="text-sm text-gray-700">{value}</span>
+                        </div>
+                      </li>
+                    ))}
                 </ul>
               </div>
             )}
 
+            {/* Sale Price – Hamesha dikhe jab expected_price ho */}
+            {pricing?.expected_price && property.for !== "Lease" && (
+              <div className="">
+                <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Price Details</p>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
+                  <li className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                    <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
+                      <FaDollarSign size={20} color="yellow" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-black">Expected Price</span>
+                      <span className="text-lg font-bold text-yellow-600">{formatPrice(pricing.expected_price)}</span>
+                    </div>
+                  </li>
+                  {pricing.price_per_sqft && (
+                    <li className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                      <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
+                        <FaRulerCombined size={20} color="yellow" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-bold text-black">Price per sqft</span>
+                        <span className="text-sm text-gray-700">₹{pricing.price_per_sqft}</span>
+                      </div>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
             {/* Address */}
             <div className="">
               <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Full Address</p>
@@ -459,13 +490,20 @@ const HouseDetails = () => {
             )}
 
             {/* Documents & Video */}
-            {property.Documents && (
-              <div className=" text-start">
-                <a href={property.Documents} target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 bg-blue-600 text-white px-8 py-4 rounded-full font-bold hover:bg-blue-700">
-                  <FaFileAlt /> View Documents
+            {property?.Documents && (
+              <div className="text-start mt-4">
+                <a
+                  href={property.Documents}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download="property-document.pdf"
+                  className="inline-flex items-center gap-3 bg-blue-600 text-white px-8 py-4 rounded-full font-bold hover:bg-blue-700"
+                >
+                  <FaFileAlt /> View Document
                 </a>
               </div>
             )}
+
           </div>
 
           {/* CONTACT FORM */}

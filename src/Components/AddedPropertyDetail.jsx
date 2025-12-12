@@ -47,45 +47,21 @@ const AddedPropertyDetail = () => {
 
  const formatPrice = (price) => {
   if (!price) return "Price on request";
+  const p = String(price).trim();
 
-  // Clean string and remove spaces
-  let p = String(price).trim();
+  const lac = p.match(/([\d.]+)\s*Lac/i);
+  const cr = p.match(/([\d.]+)\s*Cr/i);
 
-  // Handle "1 Lac", "2 Cr" format
-  if (p.match(/(\d+)\s*Lac/i)) {
-    const num = parseFloat(p);
-    return `₹${num} L`;
-  }
+  if (lac) return `₹${parseFloat(lac[1]).toFixed(1).replace(/\.0$/, '')} L`;
+  if (cr) return `₹${parseFloat(cr[1]).toFixed(2).replace(/\.00$/, '')} Cr`;
 
-  if (p.match(/(\d+)\s*Cr/i)) {
-    const num = parseFloat(p);
-    return `₹${num} Cr`;
-  }
+  const num = parseFloat(p.replace(/[^0-9.]/g, ''));
+  if (isNaN(num)) return `₹${p}`;
 
-  // If numeric string, convert to number
-  let amount = Number(p);
-  if (!isNaN(amount)) {
-    // Assuming Lease fields are in Lakh by default
-    if (amount >= 10000000) {
-      let cr = amount / 10000000;
-      cr = cr % 1 === 0 ? cr.toFixed(0) : cr.toFixed(2);
-      return `₹${cr} Cr`;
-    }
-    if (amount >= 100000) {
-      let l = amount / 100000;
-      l = l % 1 === 0 ? l.toFixed(0) : l.toFixed(2);
-      return `₹${l} L`;
-    }
-    if (amount >= 1000) {
-      let k = amount / 1000;
-      k = k % 1 === 0 ? k.toFixed(0) : k.toFixed(2);
-      return `₹${k} K`;
-    }
-    return `₹${amount.toLocaleString()}`;
-  }
-
-  // Otherwise return original string
-  return p;
+  if (num >= 10000000) return `₹${(num / 10000000).toFixed(2).replace(/\.00$/, '')} Cr`;
+  if (num >= 100000) return `₹${(num / 100000).toFixed(1).replace(/\.0$/, '')} L`;
+  if (num >= 1000) return `₹${(num / 1000).toFixed(1)} K`;
+  return `₹${num.toLocaleString()}`;
 };
 
 
@@ -121,14 +97,30 @@ const AddedPropertyDetail = () => {
     setCarouselOpen(true);
   };
 
-  const address = property?.Address ? JSON.parse(property.Address) : {};
-  const area = property?.Area ? JSON.parse(property.Area) : {};
-  const features = property?.Feacture ? JSON.parse(property.Feacture) : {};
-  const lease = property?.Lease_Rent ? JSON.parse(property.Lease_Rent) : {};
-  const pricing = property?.pricing ? JSON.parse(property.pricing) : {};
-  const amenities = property?.Amential ? JSON.parse(property.Amential) : [];
+  // Safe JSON parser
+  const parseJSON = (data, fallback = {}) => {
+    if (!data) return fallback;
+    if (typeof data === "object" && !Array.isArray(data)) return data;
+    if (typeof data === "string") {
+      try {
+        return JSON.parse(data);
+      } catch (err) {
+        console.error("Invalid JSON received:", data);
+        return fallback;
+      }
+    }
+    return fallback;
+  };
 
-
+  // Use it safely
+  const address = parseJSON(property?.Address);
+  const area = parseJSON(property?.Area);
+  const features = parseJSON(property?.Feacture);
+  const lease = parseJSON(property?.Lease_Rent);
+  const pricing = parseJSON(property?.pricing);
+  const amenities = Array.isArray(property?.Amential)
+    ? property.Amential
+    : parseJSON(property?.Amential, []);
 
   if (isLoading) {
     return (
@@ -384,29 +376,62 @@ const AddedPropertyDetail = () => {
             </div>
 
             {/* Lease & Pricing */}
-            {property.for === "Lease" && (
+            {/* Lease & Pricing Section – Ab Hamesha Dikhega Jab Pricing Ho */}
+            {(property.for === "Lease" || pricing?.expected_price || pricing?.monthly_rent) && (
               <div className="">
                 <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Lease & Pricing Details</p>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
                   {[
-                    ["Monthly Rent", formatPrice(lease.monthly_rent)],
-                    ["Security Deposit", formatPrice(lease.security_deposit)],
-                    ["Lock-in Period", lease.lock_in_period],
-                    ["Maintenance", lease.maintenance],
-                    ["Lease Period", lease.lease_period],
-                    ["Price per sqft", formatPrice(pricing.price_per_sqft)],
-                    ["Tax & Charges", formatPrice(pricing.tax_govt_charges)],
-                  ].map(([label, value]) => value && (
-                    <li key={label} className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                    // ["Expected Price", formatPrice(pricing?.expected_price)],
+                    ["Monthly Rent", formatPrice(lease?.monthly_rent)],
+                    ["Security Deposit", formatPrice(lease?.security_deposit)],
+                    ["Lock-in Period", lease?.lock_in_period || "N/A"],
+                    ["Maintenance", lease?.maintenance || "N/A"],
+                    ["Lease Period", lease?.lease_period || "N/A"],
+                    // ["Price per sqft", formatPrice(pricing?.price_per_sqft)],
+                    ["Tax & Govt Charges", pricing?.tax_govt_charges || "Not Included"],
+                  ]
+                    .filter(([_, value]) => value && value !== "N/A" && value !== "Not Included")
+                    .map(([label, value]) => (
+                      <li key={label} className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                        <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
+                          <FaDollarSign size={20} color="yellow" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="font-bold text-black">{label}</span>
+                          <span className="text-sm text-gray-700">{value}</span>
+                        </div>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Sale Price – Hamesha dikhe jab expected_price ho */}
+            {pricing?.expected_price && property.for !== "Lease" && (
+              <div className="">
+                <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Price Details</p>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
+                  <li className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                    <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
+                      <FaDollarSign size={20} color="yellow" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-black">Expected Price</span>
+                      <span className="text-lg font-bold text-yellow-600">{formatPrice(pricing.expected_price)}</span>
+                    </div>
+                  </li>
+                  {pricing.price_per_sqft && (
+                    <li className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
                       <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
-                        <FaDollarSign size={20} color="yellow" />
+                        <FaRulerCombined size={20} color="yellow" />
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-bold text-black">{label}</span>
-                        <span className="text-sm text-gray-700">{value}</span>
+                        <span className="font-bold text-black">Price per sqft</span>
+                        <span className="text-sm text-gray-700">₹{pricing.price_per_sqft}</span>
                       </div>
                     </li>
-                  ))}
+                  )}
                 </ul>
               </div>
             )}

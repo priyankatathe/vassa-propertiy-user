@@ -143,10 +143,43 @@ export default function ProjectForm() {
   };
   const mapRef = useRef(null);
 
-  const { register, handleSubmit, formState: { errors, touchedFields }, trigger, getValues } = useForm({
+  // useForm में defaultValues दो (सिर्फ एक बार)
+  const { register, handleSubmit, formState: { errors, touchedFields }, trigger, getValues, reset } = useForm({
     mode: "onTouched",
+    defaultValues: {
+      projectOwner: "",
+      launchDate: "",
+      completionDate: "",
+      projectName: "",
+      developerName: "",
+      reraNumber: "",
+      publicCodeName: "",
+      lockingDuration: "",
+      projectArea: "",
+      projectAreaUnit: "",
+      possession: "",
+      possessionDate: "",
+      transactionType: "",
+      description: "",
+      approvedBy: "",
+      commencementCertificate: false,
+      occupancyCertificate: false,
+      openSpace: "",
+      videoUrl: "",
+      virtualTourUrl: "",
+      websiteKeywords: "",
+      specification: "",
+      document: null,
+      projectImages: null,
+      buildingPremises: "",
+      city: "",
+      area: "",
+      pincode: "",
+      landmark: "",
+      latitude: "",
+      longitude: "",
+    }
   });
-
   // Step-wise data save (हर Next पर)
 
   // Auto location
@@ -244,7 +277,7 @@ export default function ProjectForm() {
 
     if (!user) {
       alert("Please login first");
-      return; 
+      return;
     }
 
     const isValid = await trigger("projectOwner");
@@ -266,6 +299,10 @@ export default function ProjectForm() {
   };
   // Generic Next Handler → फक्त Step 2 आणि Step 3 साठी (Auto-save)
   const handleNext = async () => {
+    if (currentStep === 4) {
+      return;  // <-- VERY IMPORTANT
+    }
+
     let isValid = true;
     if (currentStep === 2) {
       isValid = await trigger(["launchDate", "completionDate", "projectName"]);
@@ -289,7 +326,11 @@ export default function ProjectForm() {
         Project_Area: formValues.projectArea && formValues.projectAreaUnit
           ? `${formValues.projectArea} ${formValues.projectAreaUnit.replace(/_/g, ' ')}`.trim()
           : undefined,
-        Possession: possession === "specify" ? formValues.possessionDate : (possession === "immediately" ? "Immediately" : ""),
+        Possession: possession === "specify"
+          ? formValues.possessionDate
+          : possession === "immediately"
+            ? "Immediately"
+            : undefined,   // ← removeEmpty हटा देगा
         Transaction_Type: formValues.transactionType,
         Desciption: formValues.description?.trim(),
         Approved_by: formValues.approvedBy?.trim(),
@@ -376,7 +417,9 @@ export default function ProjectForm() {
     }
     return obj;
   };
+
   // ← नवीन & FINAL onSubmit (हा paste करा)
+
   const onSubmit = async (data) => {
     if (!projectId) {
       alert("Project ID missing!");
@@ -447,6 +490,68 @@ export default function ProjectForm() {
     try {
       await idProject(finalPayload).unwrap();
       alert("Project submitted successfully!");
+      // RESET FORM + GO TO STEP 1
+
+      // FULL RESET — अब 101% काम करेगा
+      // सही तरीके से reset करो
+      reset({
+        projectOwner: "",
+        launchDate: "",
+        completionDate: "",
+        projectName: "",
+        developerName: "",
+        reraNumber: "",
+        publicCodeName: "",
+        lockingDuration: "",
+        projectArea: "",
+        projectAreaUnit: "",
+        possession: "",
+        possessionDate: "",
+        transactionType: "",
+        description: "",
+        approvedBy: "",
+        commencementCertificate: false,
+        occupancyCertificate: false,
+        openSpace: "",
+        videoUrl: "",
+        virtualTourUrl: "",
+        websiteKeywords: "",
+        specification: "",
+        document: null,
+        projectImages: null,
+        buildingPremises: "",
+        city: "",
+        area: "",
+        pincode: "",
+        landmark: "",
+      });
+
+      // बाकी सारे states reset करो
+      setCurrentStep(1);
+      setProjectId(null);                    // बहुत जरूरी
+      setSelectedOptions([]);
+      setPossession("");
+      setAddress("");
+      setPosition(null);
+      setLatLng({ lat: "", lng: "" });
+      setUploadedMedia({ pdfUrl: null, imageUrls: [] });
+      setPdfFile(null);
+      setIsOpen(false);
+
+      // File inputs clear
+      document.querySelectorAll('input[type="file"]').forEach(input => {
+        input.value = "";
+      });
+
+      // Map reset
+      if (mapRef.current) {
+        mapRef.current.setView([20.5937, 78.9629], 5.5);
+        mapRef.current.eachLayer(layer => {
+          if (layer instanceof L.Marker) {
+            mapRef.current.removeLayer(layer);
+          }
+        });
+      }
     } catch (err) {
       // console.error(err);
       alert("Failed: " + (err?.data?.message || "Server Error"));
@@ -686,7 +791,7 @@ export default function ProjectForm() {
 
                     <div className="flex flex-col sm:flex-row sm:items-center w-full">
                       <input
-                        type="text"
+                        type="number"
                         {...register("projectArea")}
                         placeholder="Enter area"
                         className="px-4 py-2 border border-gray-300 rounded-md sm:rounded-l-md sm:rounded-r-none w-full sm:w-1/2 mb-3 sm:mb-0"
@@ -859,7 +964,7 @@ export default function ProjectForm() {
                         <label className="block text-sm font-medium mb-2">Open Space(%)</label>
                         <input
                           {...register("openSpace")}
-                          type="text"
+                          type="number"
                           className="w-full px-4 py-2 border rounded-md "
                         />
                       </div>
@@ -951,24 +1056,41 @@ export default function ProjectForm() {
                         <input
                           {...register("websiteKeywords")}
                           type="text"
-                          placeholder="luxury, 3bhk, thane"
+                          placeholder="Enter Website Keyword"
                           className="w-full px-4 py-2 border rounded-md"
+                          onKeyDown={(e) => {
+                            if (/[0-9]/.test(e.key)) {
+                              e.preventDefault();
+                            }
+                          }}
                         />
                       </div>
+
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Project Images
                         </label>
-                        <input
-                          type="file"
-                          multiple
-                          accept="image/*"
-                          {...register("projectImages")}
-                          className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"
-                        />
-                        <p className="text-xs text-gray-500 mt-1">You can select multiple images </p>
+
+                        <div className="w-full border rounded-md px-3 py-2 bg-white">
+                          <input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            {...register("projectImages")}
+                            className="block w-full text-sm text-gray-700
+        file:mr-4 file:py-2 file:px-4
+        file:rounded-md file:border file:border-gray-300
+        file:bg-gray-100 file:text-gray-700
+        hover:file:bg-gray-200 cursor-pointer"
+                          />
+                        </div>
+
+                        <p className="text-xs text-gray-500 mt-1">
+                          You can select multiple images
+                        </p>
                       </div>
+
                     </div>
 
                     {/* Specification Textarea */}
@@ -1119,21 +1241,38 @@ export default function ProjectForm() {
                       {errors.area && <p className="text-red-500 text-sm mt-1">{errors.area.message}</p>}
                     </div>
 
-
                     <div>
-                      <label className="block mb-1 font-semibold">Pincode</label>
+                      <label className="block mb-1 font-semibold">
+                        Pincode
+                      </label>
+
                       <input
                         type="text"
+                        maxLength={6}
                         {...register("pincode", {
+                          required: "Pincode is required",
                           pattern: {
                             value: /^[0-9]{6}$/,
                             message: "Enter valid 6-digit pincode"
                           }
                         })}
-                        name="pincode"
-                        className="w-full border rounded px-3 py-2"
+                        onKeyDown={(e) => {
+                          // Allow only numbers, backspace, tab
+                          if (!/[0-9]/.test(e.key) && e.key !== "Backspace" && e.key !== "Tab") {
+                            e.preventDefault();
+                          }
+                        }}
+
+                        className={`w-full border rounded px-3 py-2 
+      ${errors.pincode ? "border-red-500" : "border-gray-300"} 
+      focus:ring-2 focus:ring-blue-500`}
                       />
+
+                      {errors.pincode && (
+                        <p className="text-red-500 text-sm mt-1">{errors.pincode.message}</p>
+                      )}
                     </div>
+
 
                     {/* Full width */}
                     <div className="md:col-span-2">

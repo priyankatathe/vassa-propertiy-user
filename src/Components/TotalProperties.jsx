@@ -86,30 +86,44 @@ const TotalProperties = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const formatPrice = (price) => {
-    price = Number(price); // FIX 1
+  const formatPrice = (priceInput) => {
+    let priceStr = String(priceInput || "").trim().toLowerCase();
 
-    if (!price || price === 0) return "Price on request";
-
-    if (price >= 10000000) {
-      return `₹${(price / 10000000)
-        .toFixed(price % 10000000 === 0 ? 0 : 1)
-        .replace(".0", "")} Cr`;
+    // On Request / Call वाले cases
+    if (!priceStr || priceStr.includes("request") || priceStr.includes("call") || priceStr === "na") {
+      return "Price on request";
     }
 
-    if (price >= 100000) {
-      return `₹${(price / 100000)
-        .toFixed(price % 100000 === 0 ? 0 : 1)
-        .replace(".0", "")} L`;
+    // "35 Lac", "2.5 Cr", " 50 Lakh " → number निकालो
+    const match = priceStr.match(/([\d.]+)/);
+    if (!match) return "Price on request";
+
+    let price = parseFloat(match[1]);
+    if (isNaN(price) || price <= 0) return "Price on request";
+
+    let finalPrice = price;
+
+    if (priceStr.includes("cr")) {
+      finalPrice = price * 10000000;
+    } else if (priceStr.includes("lac") || priceStr.includes("lakh")) {
+      finalPrice = price * 100000;
+    }
+    // अगर सिर्फ number है जैसे "3500000" तो वही
+
+    if (finalPrice >= 10000000) {
+      const cr = (finalPrice / 10000000).toFixed(finalPrice % 10000000 === 0 ? 0 : 1);
+      return `₹${cr.replace(".0", "")} Cr`;
+    }
+    if (finalPrice >= 100000) {
+      const lac = (finalPrice / 100000).toFixed(finalPrice % 100000 === 0 ? 0 : 1);
+      return `₹${lac.replace(".0", "")} L`;
+    }
+    if (finalPrice >= 1000) {
+      const k = (finalPrice / 1000).toFixed(finalPrice % 1000 === 0 ? 0 : 1);
+      return `₹${k.replace(".0", "")} K`;
     }
 
-    if (price >= 10000) {
-      return `₹${(price / 1000)
-        .toFixed(price % 1000 === 0 ? 0 : 1)
-        .replace(".0", "")} K`;
-    }
-
-    return `₹${price.toLocaleString()}`;
+    return `₹${finalPrice.toLocaleString()}`;
   };
 
 
@@ -421,6 +435,8 @@ const TotalProperties = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
           {filteredProperties.map((property) => (
             <div key={property._id}>
+
+              {/* Image Section */}
               <div
                 onClick={() => handlePropertyClick(property)}
                 className="relative overflow-hidden rounded-xl cursor-pointer"
@@ -431,27 +447,36 @@ const TotalProperties = () => {
                   className="w-full h-72 sm:h-80 lg:h-96 object-cover"
                 />
 
+                {/* Overlay */}
                 <div className="absolute bottom-0 m-3 rounded-lg inset-x-0 bg-black/30 backdrop-blur-sm p-4 flex items-start justify-between">
                   <div>
+                    {/* BHK + City */}
                     <h3 className="text-white text-lg md:text-xl font-semibold">
-                      {property.BedRoom?.bedrooms} BHK • {property.Address?.city}
+                      {property.Bedroom || property.BedRoom?.bedrooms || "N/A"} •{" "}
+                      {property.Address?.city || "City"}
                     </h3>
+
+                    {/* Address */}
                     <p className="text-white text-sm mt-1 leading-tight">
-                      {property.Address?.full_address}
+                      {property.Address?.flat_no}, {property.Address?.street},{" "}
+                      {property.Address?.landmark}, {property.Address?.city}
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="px-2 py-3">
-                <p className="text-gray-800 font-semibold text-xl">
+              {/* Price */}
+              <div className="p-4">
+                <p className="text-2xl font-bold text-gray-900">
                   {formatPrice(property.pricing?.expected_price)}
                 </p>
+                
               </div>
             </div>
           ))}
         </div>
       </div>
+
 
       {showAdvancedFilter && (
         <div

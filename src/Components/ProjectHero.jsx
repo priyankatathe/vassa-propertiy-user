@@ -103,7 +103,7 @@ const ProjectHero = () => {
                                 >
                                     {/* Project Image */}
                                     <img
-                                        src={p.Other_images?.[0] || "./property-placeholder.jpg"}
+                                        src={p.Other_images?.[0] || "./gallery.jpg"}
                                         alt={p.Project_Name || p.category}
                                         className="w-full h-72 object-cover transition-transform group-hover:scale-105"
                                     />
@@ -116,7 +116,7 @@ const ProjectHero = () => {
                                                 {p.Project_Name || p.category}
                                             </h3>
                                             <p className="text-white text-sm mt-2 leading-tight break-words">
-                                                {p.location?.address || p?.Desciption?.slice(0, 50)}...
+                                                {p.location?.city || p?.Desciption?.slice(0, 50)}...
                                             </p>
                                         </div>
 
