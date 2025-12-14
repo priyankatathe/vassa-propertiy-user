@@ -103,7 +103,7 @@ const ProjectHero = () => {
                                 >
                                     {/* Project Image */}
                                     <img
-                                        src={p.Other_images?.[0] || "./gallery.jpg"}
+                                        src={p.Other_images?.[0] || "./gallery.webp"}
                                         alt={p.Project_Name || p.category}
                                         className="w-full h-72 object-cover transition-transform group-hover:scale-105"
                                     />

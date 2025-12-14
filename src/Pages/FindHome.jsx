@@ -67,7 +67,7 @@ const FindHome = ({ shrunk = false }) => {
                 <img
                   src={
                     p.Other_images?.[0] ||
-                    "./gallery.jpg"
+                    "./gallery.webp"
                   }
                   alt={p.property_type}
                   className="w-full h-72 object-cover transition-transform group-hover:scale-105"

@@ -173,7 +173,7 @@ const AddedPropertyDetail = () => {
 
             {/* Main Image */}
             <img
-              src={images[index] ?? "/gallery.jpg"}
+              src={images[index] ?? "/gallery.webp"}
               className="rounded-2xl shadow-lg w-full h-64 sm:h-96 md:h-[480px] object-cover transition-all duration-300"
             />
 
@@ -240,7 +240,7 @@ const AddedPropertyDetail = () => {
               src={
                 property.Other_images?.length > 0
                   ? property.Other_images[property.Other_images.length === 1 ? 0 : 1]
-                  : property.specifications?.hallImage || "/gallery.jpg"
+                  : property.specifications?.hallImage || "/gallery.webp"
               }
               className="rounded-xl shadow-md h-36 sm:h-44 md:h-[250px] object-cover transition-all duration-300"
             />
@@ -253,7 +253,7 @@ const AddedPropertyDetail = () => {
                 <img
                   src={
                     property.Other_images.length === 0
-                      ? "/gallery.jpg"                                           // zero → show fallback
+                      ? "/gallery.webp"                                           // zero → show fallback
                       : property.Other_images.length === 1
                         ? property.Other_images[0]                               // one → show first
                         : property.Other_images[property.Other_images.length - 1] // many → show last

@@ -85,7 +85,7 @@ const YourProperties = () => {
         item.specifications.kitchenImage
       );
     }
-    return "/gallery.jpg";
+    return "/gallery.webp";
   };
 
   const formatPrice = (price) => {

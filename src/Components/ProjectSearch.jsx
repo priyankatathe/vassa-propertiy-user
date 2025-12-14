@@ -45,7 +45,7 @@ const ProjectSearch = () => {
                                         src={
                                             property.Other_images && property.Other_images.length > 0
                                                 ? property.Other_images[0]
-                                                : "/gallery.jpg"
+                                                : "/gallery.webp"
                                         }
                                         className="w-full h-72 object-cover"
                                         alt="Property"
