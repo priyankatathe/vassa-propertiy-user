@@ -145,48 +145,79 @@ export default function PropertyForm() {
     };
     const user = useSelector((state) => state.auth.user);
 
+   
     const goToNext = async () => {
-        if (!user) {
-            alert("Please login first");
-            return; // Stop further execution
-        }
-        let isValid = true;
+    if (!user) {
+        alert("Please login first");
+        return;
+    }
 
-        if (step === 1) {
-            isValid = await trigger(["owner", "requestDate", "for", "propertyType"]);
-            if (!isValid) return;
+    let fieldsToValidate = [];
+    let isValid = false;
 
-            // STEP 1 → Create draft property
-            try {
-                const step1Data = watch(); // current form values
-                const payload = {
-                    owner_name: step1Data.owner,
-                };
+    // Define required fields for each step
+    switch (step) {
+        case 1:
+            fieldsToValidate = ["owner"];
+            break;
+        case 2:
+            fieldsToValidate = ["requestDate", "for", "propertyType"];
+            break;
+        case 3:
+            fieldsToValidate = ["city", "locality", "pinCode"];
+            break;
+        case 4:
+            fieldsToValidate = ["area", "areaUnit"];
+            break;
+        case 5:
+            fieldsToValidate = ["expectedPrice"];
+            break;
+        case 6:
+            fieldsToValidate = [];
+            break;
+        default:
+            fieldsToValidate = [];
+    }
 
-                const response = await propertyadd(payload).unwrap();
+    // If no validation is needed, go to next step directly
+    if (fieldsToValidate.length === 0) {
+        if (step < 6) setStep(step + 1);
+        return;
+    }
 
-                if (response.success && response.propertyId) {
-                    setPropertyId(response.propertyId);
-                    // alert("Draft property created! Moving to next step...");
-                    setStep(2);
-                }
-            } catch (err) {
-                console.error("Property add failed:", err);
-                alert("Failed to create draft property. Please try again.");
+    // Trigger validation
+    isValid = await trigger(fieldsToValidate);
+
+    if (!isValid) {
+        // alert("Please fill all required fields correctly.");
+        return;
+    }
+
+    // ===== SPECIAL CASE FOR STEP 1: Create Draft Property =====
+    if (step === 1) {
+        try {
+            const step1Data = watch();
+            const payload = { owner_name: step1Data.owner };
+
+            const response = await propertyadd(payload).unwrap();
+
+            if (response.success && response.propertyId) {
+                setPropertyId(response.propertyId);
+                setStep(2);
             }
-            return;
+        } catch (err) {
+            console.error("Property add failed:", err);
+            alert("Failed to create draft property. Please try again.");
         }
+        return;
+    }
 
-        // Other steps validation
-        if (step === 2) isValid = await trigger(["city", "locality"]);
-        if (step === 3) isValid = await trigger(["area", "areaUnit"]);
+    // For remaining steps, move to next
+    if (step < 6) {
+        setStep(step + 1);
+    }
+};
 
-        if (!isValid && step <= 3) return;
-
-        if (step < 6) {
-            setStep(step + 1);
-        }
-    };
 
     const goToPrevious = () => {
         if (step > 1) setStep(step - 1);
@@ -744,7 +775,7 @@ export default function PropertyForm() {
                             {/* PROPERTY TYPE */}
                             <div>
                                 <label className="font-semibold block">Property Type *</label>
-                                <select {...register("propertyType")} className={input}>
+                                <select {...register("propertyType",{ required: "Property type is required" })} className={input}>
                                     <option value="">Select</option>
                                     {propertyTypeOptions.map((o) => (
                                         <option key={o}>{o}</option>

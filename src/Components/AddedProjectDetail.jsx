@@ -19,7 +19,6 @@ const AddedProjectDetail = () => {
     const property = apiResponse?.data;
 
     const [images, setImages] = useState([]);
-    const [categoryNames, setCategoryNames] = useState([]);
     const [index, setIndex] = useState(0);
     const [showDocPreview, setShowDocPreview] = useState(false);
 
@@ -41,7 +40,6 @@ const AddedProjectDetail = () => {
             }
 
             setImages(propertyImages);
-            setCategoryNames(categories);
         }
     }, [property]);
 
