@@ -282,7 +282,7 @@ const AddedProjectDetail = () => {
 
                         {/* Documents & Brochure */}
                         {property?.pdf_doc && (
-                            <div className="mt-6">
+                            <div className="mt-6 flex gap-1">
                                 <button
                                     onClick={() => setShowDocPreview(true)}
                                     className="inline-flex items-center gap-3 bg-green-600 text-white px-6 py-3 rounded-full font-bold hover:bg-green-700"
@@ -304,7 +304,7 @@ const AddedProjectDetail = () => {
 
                         {/* Full Screen Document Preview Modal */}
                         {showDocPreview && (
-                            <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+                            <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center  justify-center z-50">
                                 <div className="bg-white rounded-xl w-[90%] h-[90%] p-4 relative">
 
                                     {/* Close Button */}
