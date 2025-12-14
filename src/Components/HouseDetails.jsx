@@ -20,11 +20,10 @@ const HouseDetails = () => {
     skip: !propertyId
   });
 
-  const [addEquiry] = useAddEnquiryMutation();
+  const [addEquiry, { isLoading: enquiryLoading }] = useAddEnquiryMutation();
   const property = apiResponse?.data;
 
   const [images, setImages] = useState(["/1.png", "/3.png", "/2.png", "/10.png"]);
-  const [categoryNames, setCategoryNames] = useState(["Villa", "Kitchen", "Bedroom", "Hall"]);
   const [index, setIndex] = useState(0);
   const [showDocPreview, setShowDocPreview] = useState(false);
 
@@ -43,7 +42,6 @@ const HouseDetails = () => {
       }
 
       setImages(propertyImages);
-      setCategoryNames(categories);
     }
   }, [property]);
 
@@ -95,27 +93,6 @@ const HouseDetails = () => {
 
 
   const getPropertyTypeText = (propertyType) => propertyType || "Property";
-
-  const [miniBoxPosition, setMiniBoxPosition] = useState(0);
-  const buttonRefs = useRef([]);
-  const [buttonIndex, setButtonIndex] = useState(0);
-
-  useEffect(() => {
-    if (buttonRefs.current[index]) {
-      const button = buttonRefs.current[index];
-      const containerRect = button.parentElement.getBoundingClientRect();
-      const buttonRect = button.getBoundingClientRect();
-      const relativeLeft = buttonRect.left - containerRect.left;
-      const buttonCenter = relativeLeft + buttonRect.width / 2;
-      setMiniBoxPosition(buttonCenter);
-    }
-  }, [index, categoryNames]);
-
-  useEffect(() => {
-    const btnIndex = Math.min(index, categoryNames.length - 1);
-    setButtonIndex(btnIndex);
-  }, [index, categoryNames]);
-
 
   const [carouselOpen, setCarouselOpen] = useState(false); // modal open/close
   const [carouselIndex, setCarouselIndex] = useState(0);   // modal में कौनसी image दिखानी है
@@ -492,7 +469,7 @@ const HouseDetails = () => {
             )}
 
             {/* Document Section */}
-            {property?.Documents && (
+            {/* {property?.Documents && (
               <div className="mt-6">
                 <button
                   onClick={() => setShowDocPreview(true)}
@@ -511,13 +488,12 @@ const HouseDetails = () => {
                   <FaFileAlt /> Download
                 </a>
               </div>
-            )}
+            )} */}
             {/* Full Screen Document Preview Modal */}
-            {showDocPreview && (
+            {/* {showDocPreview && (
               <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
                 <div className="bg-white rounded-xl w-[90%] h-[90%] p-4 relative">
 
-                  {/* Close Button */}
                   <button
                     onClick={() => setShowDocPreview(false)}
                     className="absolute top-3 right-3 bg-red-600 text-white px-3 py-1 rounded"
@@ -525,7 +501,6 @@ const HouseDetails = () => {
                     ✕
                   </button>
 
-                  {/* Iframe supports PDF / Images / DOCX via Google Viewer */}
                   <iframe
                     src={
                       property.Documents.endsWith(".pdf")
@@ -537,7 +512,7 @@ const HouseDetails = () => {
                   ></iframe>
                 </div>
               </div>
-            )}
+            )} */}
 
 
 
@@ -600,9 +575,10 @@ const HouseDetails = () => {
 
               <button
                 type="submit"
+                disabled={enquiryLoading}
                 className="bg-[#F8CA13] text-black font-semibold px-4 md:px-6 py-2 md:py-3 rounded-3xl w-full hover:bg-yellow-500 transition text-sm sm:text-base"
               >
-                Contact
+                {enquiryLoading ? "Sending..." : "Contact"}
               </button>
             </form>
           </div>

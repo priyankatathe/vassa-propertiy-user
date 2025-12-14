@@ -21,100 +21,31 @@ const ProjectsDetail = () => {
         skip: !propertyId
     });
 
-    const [addEquiry] = useAddEnquiryMutation();
+    const [addEquiry, { isLoading: enquiryLoading }] = useAddEnquiryMutation();
     const property = apiResponse?.data;
 
     const [images, setImages] = useState(["/1.png", "/3.png", "/2.png", "/10.png"]);
-    const [categoryNames, setCategoryNames] = useState(["Villa", "Kitchen", "Bedroom", "Hall"]);
     const [index, setIndex] = useState(0);
     const [showDocPreview, setShowDocPreview] = useState(false);
+
 
     useEffect(() => {
         if (property) {
             const propertyImages = [];
-            const categories = [];
 
             // ⭐ ADD ALL OTHER_IMAGES IN SLIDER
             if (property.Other_images && property.Other_images.length > 0) {
                 property.Other_images.forEach((img, i) => {
                     propertyImages.push(img);
-                    categories.push(`Gallery ${i + 1}`);
                 });
             }
 
             setImages(propertyImages);
-            setCategoryNames(categories);
         }
     }, [property]);
 
     const nextImage = () => setIndex((prev) => (prev + 1) % images.length);
     const prevImage = () => setIndex((prev) => (prev - 1 + images.length) % images.length);
-
-    const formatPrice = (price) => {
-        if (!price) return "Price on request";
-
-        // Clean string and remove spaces
-        let p = String(price).trim();
-
-        // Handle "1 Lac", "2 Cr" format
-        if (p.match(/(\d+)\s*Lac/i)) {
-            const num = parseFloat(p);
-            return `₹${num} L`;
-        }
-
-        if (p.match(/(\d+)\s*Cr/i)) {
-            const num = parseFloat(p);
-            return `₹${num} Cr`;
-        }
-
-        // If numeric string, convert to number
-        let amount = Number(p);
-        if (!isNaN(amount)) {
-            // Assuming Lease fields are in Lakh by default
-            if (amount >= 10000000) {
-                let cr = amount / 10000000;
-                cr = cr % 1 === 0 ? cr.toFixed(0) : cr.toFixed(2);
-                return `₹${cr} Cr`;
-            }
-            if (amount >= 100000) {
-                let l = amount / 100000;
-                l = l % 1 === 0 ? l.toFixed(0) : l.toFixed(2);
-                return `₹${l} L`;
-            }
-            if (amount >= 1000) {
-                let k = amount / 1000;
-                k = k % 1 === 0 ? k.toFixed(0) : k.toFixed(2);
-                return `₹${k} K`;
-            }
-            return `₹${amount.toLocaleString()}`;
-        }
-
-        // Otherwise return original string
-        return p;
-    };
-
-
-
-    const [miniBoxPosition, setMiniBoxPosition] = useState(0);
-    const buttonRefs = useRef([]);
-    const [buttonIndex, setButtonIndex] = useState(0);
-
-
-    useEffect(() => {
-        if (buttonRefs.current[index]) {
-            const button = buttonRefs.current[index];
-            const containerRect = button.parentElement.getBoundingClientRect();
-            const buttonRect = button.getBoundingClientRect();
-            const relativeLeft = buttonRect.left - containerRect.left;
-            const buttonCenter = relativeLeft + buttonRect.width / 2;
-            setMiniBoxPosition(buttonCenter);
-        }
-    }, [index, categoryNames]);
-
-    useEffect(() => {
-        const btnIndex = Math.min(index, categoryNames.length - 1);
-        setButtonIndex(btnIndex);
-    }, [index, categoryNames]);
 
 
     const [carouselOpen, setCarouselOpen] = useState(false); // modal open/close
@@ -408,7 +339,7 @@ const ProjectsDetail = () => {
                         )}
 
                         {/* Documents & Brochure */}
-                        {property?.pdf_doc && (
+                        {/* {property?.pdf_doc && (
                             <div className="mt-6">
                                 <button
                                     onClick={() => setShowDocPreview(true)}
@@ -427,14 +358,13 @@ const ProjectsDetail = () => {
                                     <FaFileAlt /> Download
                                 </a>
                             </div>
-                        )}
+                        )} */}
 
                         {/* Full Screen Document Preview Modal */}
-                        {showDocPreview && (
+                        {/* {showDocPreview && (
                             <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
                                 <div className="bg-white rounded-xl w-[90%] h-[90%] p-4 relative">
 
-                                    {/* Close Button */}
                                     <button
                                         onClick={() => setShowDocPreview(false)}
                                         className="absolute top-3 right-3 bg-red-600 text-white px-3 py-1 rounded"
@@ -442,9 +372,7 @@ const ProjectsDetail = () => {
                                         ✕
                                     </button>
 
-                                    {/* Detect file type and preview accordingly */}
                                     {property.pdf_doc.match(/\.(jpg|jpeg|png|webp|gif)$/i) ? (
-                                        // ---- IMAGE PREVIEW ----
                                         <img
                                             src={property.pdf_doc}
                                             className="w-full h-full object-contain rounded-lg"
@@ -464,7 +392,7 @@ const ProjectsDetail = () => {
                                     )}
                                 </div>
                             </div>
-                        )}
+                        )} */}
 
 
                         {/* Media Section */}
@@ -568,9 +496,10 @@ const ProjectsDetail = () => {
 
                             <button
                                 type="submit"
+                                disabled={enquiryLoading}
                                 className="bg-[#F8CA13] text-black font-semibold px-4 md:px-6 py-2 md:py-3 rounded-3xl w-full hover:bg-yellow-500 transition text-sm sm:text-base"
                             >
-                                Contact
+                                {enquiryLoading ? "Sending..." : "Contact"}
                             </button>
                         </form>
                     </div>

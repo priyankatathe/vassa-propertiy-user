@@ -46,24 +46,24 @@ const AddedPropertyDetail = () => {
   const nextImage = () => setIndex((prev) => (prev + 1) % images.length);
   const prevImage = () => setIndex((prev) => (prev - 1 + images.length) % images.length);
 
- const formatPrice = (price) => {
-  if (!price) return "Price on request";
-  const p = String(price).trim();
+  const formatPrice = (price) => {
+    if (!price) return "Price on request";
+    const p = String(price).trim();
 
-  const lac = p.match(/([\d.]+)\s*Lac/i);
-  const cr = p.match(/([\d.]+)\s*Cr/i);
+    const lac = p.match(/([\d.]+)\s*Lac/i);
+    const cr = p.match(/([\d.]+)\s*Cr/i);
 
-  if (lac) return `₹${parseFloat(lac[1]).toFixed(1).replace(/\.0$/, '')} L`;
-  if (cr) return `₹${parseFloat(cr[1]).toFixed(2).replace(/\.00$/, '')} Cr`;
+    if (lac) return `₹${parseFloat(lac[1]).toFixed(1).replace(/\.0$/, '')} L`;
+    if (cr) return `₹${parseFloat(cr[1]).toFixed(2).replace(/\.00$/, '')} Cr`;
 
-  const num = parseFloat(p.replace(/[^0-9.]/g, ''));
-  if (isNaN(num)) return `₹${p}`;
+    const num = parseFloat(p.replace(/[^0-9.]/g, ''));
+    if (isNaN(num)) return `₹${p}`;
 
-  if (num >= 10000000) return `₹${(num / 10000000).toFixed(2).replace(/\.00$/, '')} Cr`;
-  if (num >= 100000) return `₹${(num / 100000).toFixed(1).replace(/\.0$/, '')} L`;
-  if (num >= 1000) return `₹${(num / 1000).toFixed(1)} K`;
-  return `₹${num.toLocaleString()}`;
-};
+    if (num >= 10000000) return `₹${(num / 10000000).toFixed(2).replace(/\.00$/, '')} Cr`;
+    if (num >= 100000) return `₹${(num / 100000).toFixed(1).replace(/\.0$/, '')} L`;
+    if (num >= 1000) return `₹${(num / 1000).toFixed(1)} K`;
+    return `₹${num.toLocaleString()}`;
+  };
 
 
 
@@ -192,44 +192,6 @@ const AddedPropertyDetail = () => {
                 <MdArrowForward size={20} />
               </button>
             </div>
-
-            {/* MINI PREVIEW BOX */}
-            {/* <div
-              className="absolute bottom-14 sm:bottom-16 md:bottom-[100px] z-20 bg-white/80 backdrop-blur-xl shadow-xl rounded-2xl flex items-center px-1 py-1 border border-white transition-all duration-700 ease-in-out"
-              style={{
-                left: buttonRefs.current[index]
-                  ? buttonRefs.current[index].offsetLeft +
-                    buttonRefs.current[index].offsetWidth / 1.6 +
-                    (window.innerWidth >= 768 ? 150 : 0)
-                  : "50%",
-                transform: "translateX(-50%)"
-              }}
-            >
-              <img
-                src={images[index]}
-                className="w-16 sm:w-20 md:w-28 h-10 sm:h-14 md:h-16 rounded-xl object-cover border border-white transition-all duration-300"
-              />
-            </div> */}
-
-            {/* CATEGORY TABS */}
-            {/* <div className="absolute bottom-4 sm:bottom-5 md:bottom-10 left-2 md:left-40 flex flex-wrap gap-5 sm:gap-9 md:gap-10">
-              {categoryNames.map((c, i) => (
-                <button
-                  key={i}
-                  ref={(el) => (buttonRefs.current[i] = el)}
-                  onClick={() => setIndex(i)}
-                  className={`
-                    px-3 sm:px-4 md:px-6 py-1 sm:py-1.5 md:py-2 rounded-full text-xs sm:text-sm md:text-sm backdrop-blur-lg border transition
-                    ${index === i
-                      ? "bg-white/70 text-black border-white shadow-md font-semibold"
-                      : "bg-white/30 text-black border-transparent hover:bg-white/50"
-                    }
-                  `}
-                >
-                  {c}
-                </button>
-              ))}
-            </div> */}
 
           </div>
 
@@ -481,7 +443,7 @@ const AddedPropertyDetail = () => {
               </div>
             )}
 
-           {property?.Documents && (
+            {/* {property?.Documents && (
   <div className="mt-6">
     <button
       onClick={() => setShowDocPreview(true)}
@@ -500,14 +462,13 @@ const AddedPropertyDetail = () => {
       <FaFileAlt /> Download
     </a>
   </div>
-)}
+)} */}
 
-{/* Full Screen Document Preview Modal */}
-{showDocPreview && (
+            {/* Full Screen Document Preview Modal */}
+            {/* {showDocPreview && (
   <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
     <div className="bg-white rounded-xl w-[90%] h-[90%] p-4 relative">
 
-      {/* Close Button */}
       <button
         onClick={() => setShowDocPreview(false)}
         className="absolute top-3 right-3 bg-red-600 text-white px-3 py-1 rounded"
@@ -515,16 +476,13 @@ const AddedPropertyDetail = () => {
         ✕
       </button>
 
-      {/* Detect file type and preview accordingly */}
       {property.Documents.match(/\.(jpg|jpeg|png|webp|gif)$/i) ? (
-        // ---- IMAGE PREVIEW ----
         <img
           src={property.Documents}
           className="w-full h-full object-contain rounded-lg"
           alt="Document Preview"
         />
       ) : (
-        // ---- PDF / DOCX PREVIEW ----
         <iframe
           src={
             property.Documents.endsWith(".pdf")
@@ -537,7 +495,7 @@ const AddedPropertyDetail = () => {
       )}
     </div>
   </div>
-)}
+)} */}
 
           </div>
         </div>

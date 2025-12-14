@@ -281,7 +281,7 @@ const AddedProjectDetail = () => {
                         )}
 
                         {/* Documents & Brochure */}
-                        {property?.pdf_doc && (
+                        {/* {property?.pdf_doc && (
                             <div className="mt-6 flex gap-1">
                                 <button
                                     onClick={() => setShowDocPreview(true)}
@@ -300,14 +300,13 @@ const AddedProjectDetail = () => {
                                     <FaFileAlt /> Download
                                 </a>
                             </div>
-                        )}
+                        )} */}
 
                         {/* Full Screen Document Preview Modal */}
-                        {showDocPreview && (
+                        {/* {showDocPreview && (
                             <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center  justify-center z-50">
                                 <div className="bg-white rounded-xl w-[90%] h-[90%] p-4 relative">
 
-                                    {/* Close Button */}
                                     <button
                                         onClick={() => setShowDocPreview(false)}
                                         className="absolute top-3 right-3 bg-red-600 text-white px-3 py-1 rounded"
@@ -315,16 +314,13 @@ const AddedProjectDetail = () => {
                                         ✕
                                     </button>
 
-                                    {/* Detect file type and preview accordingly */}
                                     {property.pdf_doc.match(/\.(jpg|jpeg|png|webp|gif)$/i) ? (
-                                        // ---- IMAGE PREVIEW ----
                                         <img
                                             src={property.pdf_doc}
                                             className="w-full h-full object-contain rounded-lg"
                                             alt="Document Preview"
                                         />
                                     ) : (
-                                        // ---- PDF / DOCX PREVIEW ----
                                         <iframe
                                             src={
                                                 property.pdf_doc.endsWith(".pdf")
@@ -337,7 +333,7 @@ const AddedProjectDetail = () => {
                                     )}
                                 </div>
                             </div>
-                        )}
+                        )} */}
 
 
                         {/* Video Links */}
