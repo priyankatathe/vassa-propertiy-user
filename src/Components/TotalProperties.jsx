@@ -442,8 +442,8 @@ const TotalProperties = () => {
                 className="relative overflow-hidden rounded-xl cursor-pointer"
               >
                 <img
-                  src={property.Other_images?.[0] || "./property-placeholder.jpg"}
-                  alt={`Property ${property._id}`}
+                  src={property.Other_images?.[0] || "./gallery.webp"}
+                  alt="error"
                   className="w-full h-72 sm:h-80 lg:h-96 object-cover"
                 />
 
@@ -470,7 +470,7 @@ const TotalProperties = () => {
                 <p className="text-2xl font-bold text-gray-900">
                   {formatPrice(property.pricing?.expected_price)}
                 </p>
-                
+
               </div>
             </div>
           ))}

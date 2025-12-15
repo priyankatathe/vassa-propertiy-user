@@ -141,7 +141,7 @@ export default function PropertyForm() {
             prev.includes(option)
                 ? prev.filter((o) => o !== option)
                 : [...prev, option]
-        );
+        );  
     };
     const user = useSelector((state) => state.auth.user);
 
