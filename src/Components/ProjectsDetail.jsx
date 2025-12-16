@@ -262,6 +262,7 @@ const ProjectsDetail = () => {
                             <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Project Overview</p>
                             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
                                 {[
+                                    ["Developer Name", property.Developer_Name],
                                     ["Transaction Type", property.Transaction_Type],
                                     ["Possession", property.Possession],
                                     ["Launch Date", property.Launch_Date],
