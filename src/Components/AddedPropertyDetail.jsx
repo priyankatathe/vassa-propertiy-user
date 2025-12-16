@@ -275,7 +275,7 @@ const AddedPropertyDetail = () => {
               Property Description
             </p>
             <p className="text-sm sm:text-base leading-relaxed text-gray-700">
-              {property.description || `Step into elegance with this beautifully designed ${property.specifications?.bedrooms} BHK ${getPropertyTypeText(property.propertyType)} located in ${property.location?.city}. The residence offers spacious interiors, premium finishes, and abundant natural light that enhances every corner.`}
+              {property.Description || `Step into elegance with this beautifully designed ${property.specifications?.bedrooms} BHK ${getPropertyTypeText(property.propertyType)} located in ${property.location?.city}. The residence offers spacious interiors, premium finishes, and abundant natural light that enhances every corner.`}
             </p>
 
             {/* Basic Details */}

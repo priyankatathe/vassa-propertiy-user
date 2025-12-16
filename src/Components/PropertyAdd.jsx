@@ -141,82 +141,82 @@ export default function PropertyForm() {
             prev.includes(option)
                 ? prev.filter((o) => o !== option)
                 : [...prev, option]
-        );  
+        );
     };
     const user = useSelector((state) => state.auth.user);
 
-   
+
     const goToNext = async () => {
-    if (!user) {
-        alert("Please login first");
-        return;
-    }
-
-    let fieldsToValidate = [];
-    let isValid = false;
-
-    // Define required fields for each step
-    switch (step) {
-        case 1:
-            fieldsToValidate = ["owner"];
-            break;
-        case 2:
-            fieldsToValidate = ["requestDate", "for", "propertyType"];
-            break;
-        case 3:
-            fieldsToValidate = ["city", "locality", "pinCode"];
-            break;
-        case 4:
-            fieldsToValidate = ["area", "areaUnit"];
-            break;
-        case 5:
-            fieldsToValidate = ["expectedPrice"];
-            break;
-        case 6:
-            fieldsToValidate = [];
-            break;
-        default:
-            fieldsToValidate = [];
-    }
-
-    // If no validation is needed, go to next step directly
-    if (fieldsToValidate.length === 0) {
-        if (step < 6) setStep(step + 1);
-        return;
-    }
-
-    // Trigger validation
-    isValid = await trigger(fieldsToValidate);
-
-    if (!isValid) {
-        // alert("Please fill all required fields correctly.");
-        return;
-    }
-
-    // ===== SPECIAL CASE FOR STEP 1: Create Draft Property =====
-    if (step === 1) {
-        try {
-            const step1Data = watch();
-            const payload = { owner_name: step1Data.owner };
-
-            const response = await propertyadd(payload).unwrap();
-
-            if (response.success && response.propertyId) {
-                setPropertyId(response.propertyId);
-                setStep(2);
-            }
-        } catch (err) {
-            console.error("Property add failed:", err);
-            alert("Failed to create draft property. Please try again.");
+        if (!user) {
+            alert("Please login first");
+            return;
         }
-        return;
-    }
 
-    // For remaining steps, move to next
-    if (step < 6) {
-        setStep(step + 1);
-    }
-};
+        let fieldsToValidate = [];
+        let isValid = false;
+
+        // Define required fields for each step
+        switch (step) {
+            case 1:
+                fieldsToValidate = ["owner"];
+                break;
+            case 2:
+                fieldsToValidate = ["requestDate", "for", "propertyType"];
+                break;
+            case 3:
+                fieldsToValidate = ["city", "locality", "pinCode"];
+                break;
+            case 4:
+                fieldsToValidate = ["area", "areaUnit"];
+                break;
+            case 5:
+                fieldsToValidate = ["expectedPrice"];
+                break;
+            case 6:
+                fieldsToValidate = [];
+                break;
+            default:
+                fieldsToValidate = [];
+        }
+
+        // If no validation is needed, go to next step directly
+        if (fieldsToValidate.length === 0) {
+            if (step < 6) setStep(step + 1);
+            return;
+        }
+
+        // Trigger validation
+        isValid = await trigger(fieldsToValidate);
+
+        if (!isValid) {
+            // alert("Please fill all required fields correctly.");
+            return;
+        }
+
+        // ===== SPECIAL CASE FOR STEP 1: Create Draft Property =====
+        if (step === 1) {
+            try {
+                const step1Data = watch();
+                const payload = { owner_name: step1Data.owner };
+
+                const response = await propertyadd(payload).unwrap();
+
+                if (response.success && response.propertyId) {
+                    setPropertyId(response.propertyId);
+                    setStep(2);
+                }
+            } catch (err) {
+                console.error("Property add failed:", err);
+                alert("Failed to create draft property. Please try again.");
+            }
+            return;
+        }
+
+        // For remaining steps, move to next
+        if (step < 6) {
+            setStep(step + 1);
+        }
+    };
 
 
     const goToPrevious = () => {
@@ -363,20 +363,21 @@ export default function PropertyForm() {
         "Ganda",
         "Lecha"
     ];
-    const forOptions = ["Rent/Lease", "Re-Development", "Joint Ventures", "Services", "PG", "Lease", "Sale"];
+    const forOptions = ["Rent/Lease", "Re-Development", "Joint Ventures", "Services", "PG", "Sale"];
 
     const propertyTypeOptions = [
-        "Residential Apartment", "Residential House/Villa", "Residential independent/Builder Floor", "Residential Studio Apartment", "Residential Farm House", "Guest house/banquest hall", "Residential Row House", "Guest house/banquest hall", "Residential Row house", "Ressidential  Twin Bungalow", "Residential Twins Apartment",
-        "Residenital duplex", "Residenital terracee", "Residenital Tenement", "Residenital Triplex", "Residenital basement", "Residenital Row Villa", "Residential Building", "Commercial Services Apartment", "Commercial Time share", "Commercial Office in IT Park", "Commercial Business center", "Commercial Hotel/Resort", "Commercial Financial Institution",
-        "Commercial Medical/Hospital Premise", "Corporate House", "Commercial Institutes", "Commercial Restaurant", "Cmmercial Flat", "Commercial Education Institues", "Commercial Built To suit", "Home stay", "Commercial Multiplex", "Commercial basement", "Commercial Shop Cum Flat(SCF)",
-        "Commercial Booth", "Cloud Kitchen", "Institutional Building", "Corporate Building", "Educational Building", "Hostels",
-        "Industrial", "Industrial Factory", "Industrial Manufactuing", "Industrial Building", "Industrial Shed/Gala", "Land/Plot", "Resident Land/Plot ", "Commercial Land/Plot", "Agricultural Farm/Land", "Transfer of Development Right (TDR)", "Party Plot", "Amenity Land ", "Instititional Plot", "Corporate Plots ", "OPen Plot", "Residential Twin Bungalow"];
+        "Residential Apartment", "Residential independent House/Villa", "Residential independent/Builder Floor", "Residential Studio Apartment", "Residential Farm House", "Guest house/banquest hall", "Residential Row House", "Ressidential  Twin Bungalow", "Residential Twins Apartment",
+        "Residential Duplex", "Residential Terrace", "Residential Penthouse", "Residential Tenement", "Residential Bungalow", "Residential Triplex", "Residential basement", "Residential Row Villa", "Weekend Villa", "Residential Building", "Sky Villa", "Commericial", "Commercial Services Apartment", "Commercial Shop", "Commercial Showroom", "Commercial Office/Space", "Commercial Time share", "Commercial Space in Retail Mall", "Commercial Office in Business Park", "Commercial Office in IT Park", "Commercial Business center", "Commercial Hotel/Resort", "Commercial Financial Institution",
+        "Commercial Medical/Hospital Premise", "Corporate House", "Commercial Institutes", "Commercial Labor Camp", "Commercial Chemical Zone", "Commercial Restaurant", "Commercial Flat", "Commercial Terrace Restaurant", "Commercial Education Institues", "Commercial Built To suit", "Home stay", "Commercial Multiplex", "Commercial basement", "Commercial bungalow", "Co-Working Office Spaces", "Commercial Shop Cum Office Spaces(SCO)  ", "Commercial Shop Cum Flat(SCF)",
+        "Commercial Booth", "Commercial Bay Shop", "Commercial Building", "PG", "Special Economic Zone (SEZ)", "Cloud Kitchen", "Institutional Building", "Corporate Building", "Educational Building", "Hostels",
+        "Industrial", "Industrial Factory", "Industrial Manufacturing", "Warehouse/Godown", "Industrial Building", "Industrial Shed/Gala", "Land/Plot", "Residential Land/Plot ", "Commercial Land/Plot", "Industrial Land/Plot", "Agricultural Farm/Land", "Transfer of Development Right (TDR)", "Party Plot", "Amenity Land ", "Institutional Plot", "Corporate Plots ", "OPen Plot"];
+
 
     const transactionOptions = [
-        "New", "Resale", "Pre Launch", "Individual", "Company", "Distress Sale", "Group Booking", "individual/Company"];
+        "New", "Resale", "Pre Launch", "Pre Lease/Pre Rented", "Individual", "Company", "Distress Sale", "Group Booking", "individual/Company"];
 
     const ownershipOptions = [
-        "Freehold", "Lease Hold", "Co-operative Society", "Power of Attomey", "Power of Attorney"
+        "Free Hold", "Lease Hold", "Co-operative Society", "Power of Attorney"
     ];
 
     const bedroomOptions = ["1 BHK", "1.5 BHK", "2 BHK", "2.5 BHK", "3 BHK", "3.5 BHK", "4 BHK", "4.5 BHK", "5 BHK", "5.5 BHK", "6 BHK", "6.5 BHK", "7 BHK", "7.5 BHK", "8 BHK", "8.5 BHK", "9 BHK", "9.5 BHK"];
@@ -387,18 +388,84 @@ export default function PropertyForm() {
         "Fully Furnished", "Ready to Furnished", "Bareshell", "Warmshell"
     ];
 
+
+
     const suitableForOptions = [
-        "Bank", "Cafe", "Cinema", "Clinic", "Corporate House"
+        "Bank",
+        "Cafe",
+        "Cinema",
+        "Clinic",
+        "Corporate House",
+        "Corporate Office",
+        "Farm House",
+        "Farming",
+        "Hospital",
+        "Hotel",
+        "Investment",
+        "Long term investment",
+        "Non-Vegetarian",
+        "Organic Farming",
+        "Own purpose",
+        "Petrol Pump",
+        "Pharmacy",
+        "Restaurant",
+        "Retail",
+        "Second Home",
+        "Vegetarian"
     ];
 
     const uniqueFeatureOptions = [
-        "Corner Property",
-        "Park Facing",
+        "24 X 7 working",
+        "24/7 Bore well Water",
+        "24/7 Water Supply",
+        "Attractive entrance gate",
+        "Common Cafeteria",
+        "Common Reception/Lobby",
+        "Door video call",
+        "Earthquake resistance",
+        "Easy Access to Project - Good Roads to connect",
+        "Easy Public transport",
+        "Environment Clearance Available",
+        "Gated community",
+        "Good Ceiling Height",
+        "Good Frontage",
+        "Good Natural Light in the unit",
+        "Good No. of Common/Visitor Parking",
+        "Good No. of Reserved Parking",
+        "High Quality Common Maintenance",
+        "Higher Carpet Area - Lower Loading/High efficiency",
+        "Highway Nearby",
+        "Immediate possession",
+        "Industrial Wear-house/Factory",
+        "Interlock Tiled Courtyard",
+        "Landscape Garden",
+        "Large window/Natural light",
+        "Low maintenance Cost",
+        "Low Traffic Area",
+        "Lush Green Location",
         "Main Road Facing",
-        "Sea View",
-        "Mountain View",
-        "Pool View"
+        "No Retail on Ground Floor",
+        "Occupied by well-known companies",
+        "Office Area Available",
+        "Open Well Water",
+        "Peaceful & Pollution free environment",
+        "Pillar less clean floor",
+        "Riverside Plots",
+        "Running Industry",
+        "Secured compound wall",
+        "Service Lift Available",
+        "Signage's Facility with High Visibility",
+        "Small Balcony/Terrace attached to the Unit",
+        "Study space or Office Space",
+        "Substation Nearby",
+        "Surrounded By Mountains",
+        "Surrounded with Education Institutes",
+        "Surrounded with Housing Societies",
+        "Surrounded with Offices & Commercial Space",
+        "Three sides open property",
+        "Title Clear"
     ];
+
     const mapRef = useRef(null);
 
 
@@ -775,7 +842,7 @@ export default function PropertyForm() {
                             {/* PROPERTY TYPE */}
                             <div>
                                 <label className="font-semibold block">Property Type *</label>
-                                <select {...register("propertyType",{ required: "Property type is required" })} className={input}>
+                                <select {...register("propertyType", { required: "Property type is required" })} className={input}>
                                     <option value="">Select</option>
                                     {propertyTypeOptions.map((o) => (
                                         <option key={o}>{o}</option>
@@ -953,7 +1020,7 @@ export default function PropertyForm() {
                                 { name: "landmark", label: "Landmark", type: "text" },
 
                                 // ⭐ Pin Code → only 6 digits
-                                { name: "pinCode", label: "Pin Code", type: "pincode" },
+                                { name: "pinCode", label: "Pin Code*" , type: "pincode" },
 
                                 { name: "building/Tower/Project", label: "Building / Tower / Project", type: "text" },
                             ].map((f) => (
