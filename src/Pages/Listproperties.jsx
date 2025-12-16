@@ -106,7 +106,6 @@ const options = [
   "Vaastu", "Valet Parking", "Vaastu Compliant", "Vegetation Strip", "Video Door Phone",
   "Viewing Gallery", "Visitor waiting area","Volleyball court","Waiting Lounge", "Wardrobe","Wardrobe T.V","Washing machine","Water connection","Water Conservation","Water softener","Water sky observatory","WiFi", "WiFi Zone", "Yoga", "Yoga Center","Yoga Pads",
 
-
 ];
 
 export default function ProjectForm() {

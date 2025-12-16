@@ -514,7 +514,6 @@ export default function PropertyForm() {
 
     // AMENITIES OPTIONS
     const options = [
-
         // ===== FIRST + SECOND IMAGE OPTIONS (Already Added Earlier) =====
         "24/7 Security",
         "Activity Area",
@@ -576,10 +575,10 @@ export default function PropertyForm() {
         "Street Light", "Sub Station", "Swimming Pool", "Temple", "Tennis Court",
         "Tennis Terrace", "Theatre Room", "Toilet", "Tree House", "Tree Planting", "UPS",
         "Vaastu", "Valet Parking", "Vaastu Compliant", "Vegetation Strip", "Video Door Phone",
-        "Viewing Gallery", "Waiting Lounge", "Wardrobe", "WiFi Zone", "Yoga", "Yoga Center",
-
+        "Viewing Gallery", "Visitor waiting area", "Volleyball court", "Waiting Lounge", "Wardrobe", "Wardrobe T.V", "Washing machine", "Water connection", "Water Conservation", "Water softener", "Water sky observatory", "WiFi", "WiFi Zone", "Yoga", "Yoga Center", "Yoga Pads",
 
     ];
+
 
     // ADVERTISEMENT OPTIONS
     const advertisementOptions = [
@@ -1020,7 +1019,7 @@ export default function PropertyForm() {
                                 { name: "landmark", label: "Landmark", type: "text" },
 
                                 // ⭐ Pin Code → only 6 digits
-                                { name: "pinCode", label: "Pin Code*" , type: "pincode" },
+                                { name: "pinCode", label: "Pin Code*", type: "pincode" },
 
                                 { name: "building/Tower/Project", label: "Building / Tower / Project", type: "text" },
                             ].map((f) => (
