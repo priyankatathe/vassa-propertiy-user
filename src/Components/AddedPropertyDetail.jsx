@@ -113,6 +113,22 @@ const AddedPropertyDetail = () => {
     return fallback;
   };
 
+  const formatMonthsToYears = (value) => {
+    if (!value) return "N/A";
+
+    const months = parseInt(value); // "660 months" → 660
+    if (isNaN(months)) return value;
+
+    const years = Math.floor(months / 12);
+    const remainingMonths = months % 12;
+
+    if (remainingMonths === 0) {
+      return `${years} years`;
+    }
+
+    return `${years} years ${remainingMonths} months`;
+  };
+
   // Use it safely
   const address = parseJSON(property?.Address);
   const area = parseJSON(property?.Area);
@@ -342,17 +358,23 @@ const AddedPropertyDetail = () => {
             {/* Lease & Pricing Section – Ab Hamesha Dikhega Jab Pricing Ho */}
             {(property.for === "Lease" || pricing?.expected_price || pricing?.monthly_rent) && (
               <div className="">
-                <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Lease & Pricing Details</p>
+                <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Lease Details</p>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
                   {[
                     // ["Expected Price", formatPrice(pricing?.expected_price)],
                     ["Monthly Rent", formatPrice(lease?.monthly_rent)],
                     ["Security Deposit", formatPrice(lease?.security_deposit)],
-                    ["Lock-in Period", lease?.lock_in_period || "N/A"],
+                    ["Lock-in Period", formatMonthsToYears(lease.lock_in_period)],
                     ["Maintenance", lease?.maintenance || "N/A"],
                     ["Lease Period", lease?.lease_period || "N/A"],
-                    // ["Price per sqft", formatPrice(pricing?.price_per_sqft)],
-                    ["Tax & Govt Charges", pricing?.tax_govt_charges || "Not Included"],
+                    ["Lease Hold Charges", formatPrice(lease.lease_hold_charges)],
+                    ["Commission (Landlord)", formatPrice(lease.commission_landlord)],
+                    ["Rent Free Days", lease.rent_free_days],
+                    ["Rent Start Date", lease.rent_start_date],
+                    ["MSEB Charges", formatPrice(lease.mseb_charges)],
+                    ["Rent Escalation", lease.rent_escalation && `${lease.rent_escalation}%`],
+                    ["Property Tax", formatPrice(lease.property_tax)],
+                    ["ROI", lease.roi && `${lease.roi}%`],
                   ]
                     .filter(([_, value]) => value && value !== "N/A" && value !== "Not Included")
                     .map(([label, value]) => (
@@ -372,18 +394,26 @@ const AddedPropertyDetail = () => {
 
             {/* Sale Price – Hamesha dikhe jab expected_price ho */}
             {pricing?.expected_price && property.for !== "Lease" && (
-              <div className="">
-                <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Price Details</p>
+              <div>
+                <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">
+                  Price Details
+                </p>
+
                 <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
+                  {/* Expected Price */}
                   <li className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
                     <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
                       <FaDollarSign size={20} color="yellow" />
                     </div>
                     <div className="flex flex-col">
                       <span className="font-bold text-black">Expected Price</span>
-                      <span className="text-lg font-bold text-yellow-600">{formatPrice(pricing.expected_price)}</span>
+                      <span className="text-lg font-bold text-yellow-600">
+                        {formatPrice(pricing.expected_price)}
+                      </span>
                     </div>
                   </li>
+
+                  {/* Price per sqft */}
                   {pricing.price_per_sqft && (
                     <li className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
                       <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
@@ -391,13 +421,55 @@ const AddedPropertyDetail = () => {
                       </div>
                       <div className="flex flex-col">
                         <span className="font-bold text-black">Price per sqft</span>
-                        <span className="text-sm text-gray-700">₹{pricing.price_per_sqft}</span>
+                        <span className="text-sm text-gray-700">
+                          ₹{pricing.price_per_sqft}
+                        </span>
                       </div>
                     </li>
                   )}
+
+                  {/* JV Ratio */}
+                  {pricing.jv_ratio && (
+                    <li className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                      <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
+                        <FaHouse size={20} color="yellow" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-bold text-black">JV Ratio</span>
+                        <span className="text-sm text-gray-700">{pricing.jv_ratio} %</span>
+                      </div>
+                    </li>
+                  )}
+
+                  {/* ✅ Dynamic Checkboxes */}
+                  {[
+                    { key: "negotiable_applicable", label: "Negotiable" },
+                    { key: "paid_by_licensor", label: "Paid by Licensor" },
+                    { key: "negotiable", label: "Negotiable (Flag)" },
+                    { key: "refundable", label: "Refundable" },
+                  ]
+                    .filter((item) => pricing[item.key]) // only selected
+                    .map((item) => (
+                      <li
+                        key={item.key}
+                        className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3"
+                      >
+                        <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
+                          <FaDollarSign size={20} color="yellow" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="font-bold text-black">{item.label}</span>
+                          <span className="text-sm text-gray-700">
+                            {Boolean(pricing[item.key]) ? "Yes" : "No"}
+                          </span>
+                        </div>
+                      </li>
+                    ))}
                 </ul>
               </div>
             )}
+
+
 
             {/* Address */}
             <div className="">
@@ -497,6 +569,34 @@ const AddedPropertyDetail = () => {
   </div>
 )} */}
 
+
+            {(property.Video_url || property.Virtual_video) && (
+              <div className="space-y-4">
+                <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Media</p>
+                <div className="flex flex-wrap gap-4">
+                  {property.Video_url && property.Video_url !== "reeeeee.com" && (
+                    <a
+                      href={property.Video_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="bg-red-600 text-white px-6 py-3 rounded-full font-medium hover:bg-red-700 transition"
+                    >
+                      Watch Property Video
+                    </a>
+                  )}
+                  {property.Virtual_video && property.Virtual_video !== "ddffffffff.com" && (
+                    <a
+                      href={property.Virtual_video}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="bg-purple-600 text-white px-6 py-3 rounded-full font-medium hover:bg-purple-700 transition"
+                    >
+                      Virtual Tour
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

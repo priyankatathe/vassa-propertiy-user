@@ -104,7 +104,7 @@ const options = [
   "Street Light", "Sub Station", "Swimming Pool", "Temple", "Tennis Court",
   "Tennis Terrace", "Theatre Room", "Toilet", "Tree House", "Tree Planting", "UPS",
   "Vaastu", "Valet Parking", "Vaastu Compliant", "Vegetation Strip", "Video Door Phone",
-  "Viewing Gallery", "Visitor waiting area","Volleyball court","Waiting Lounge", "Wardrobe","Wardrobe T.V","Washing machine","Water connection","Water Conservation","Water softener","Water sky observatory","WiFi", "WiFi Zone", "Yoga", "Yoga Center","Yoga Pads",
+  "Viewing Gallery", "Visitor waiting area", "Volleyball court", "Waiting Lounge", "Wardrobe", "Wardrobe T.V", "Washing machine", "Water connection", "Water Conservation", "Water softener", "Water sky observatory", "WiFi", "WiFi Zone", "Yoga", "Yoga Center", "Yoga Pads",
 
 ];
 
@@ -401,7 +401,7 @@ export default function ProjectForm() {
 
   // Yeh function recursively object se empty values hata deta hai
   const removeEmpty = (obj) => {
-    if (obj === null || obj === undefined || obj === '' || obj === false) return undefined;
+    if (obj === null || obj === undefined || obj === '') return undefined;
     if (Array.isArray(obj)) {
       const filtered = obj.map(removeEmpty).filter(v => v !== undefined);
       return filtered.length > 0 ? filtered : undefined;
@@ -416,6 +416,7 @@ export default function ProjectForm() {
     }
     return obj;
   };
+
 
   // ← नवीन & FINAL onSubmit (हा paste करा)
 
@@ -448,13 +449,6 @@ export default function ProjectForm() {
         : (possession === "immediately" ? "Immediately" : "Ready"),
       Transaction_Type: data.transactionType || undefined,
       Desciption: data.description?.trim() || undefined,
-      Approved_by: data.approvedBy?.trim() || undefined,
-
-      // Certificates - agar dono false hai to bhi bhej sakte ho, ya remove kar do
-      certificates: {
-        commencement: !!data.commencementCertificate,
-        occupancy: !!data.occupancyCertificate
-      },
 
       // Step 3
       Open_Space: data.openSpace ? `${data.openSpace}%` : undefined,
@@ -489,9 +483,7 @@ export default function ProjectForm() {
     try {
       await idProject(finalPayload).unwrap();
       alert("Project submitted successfully!");
-      // RESET FORM + GO TO STEP 1
-
-      // FULL RESET — अब 101% काम करेगा
+     
       // सही तरीके से reset करो
       reset({
         projectOwner: "",
@@ -508,9 +500,7 @@ export default function ProjectForm() {
         possessionDate: "",
         transactionType: "",
         description: "",
-        approvedBy: "",
-        commencementCertificate: false,
-        occupancyCertificate: false,
+      
         openSpace: "",
         videoUrl: "",
         virtualTourUrl: "",
@@ -684,8 +674,8 @@ export default function ProjectForm() {
                         type="date"
                         {...register("launchDate", { required: "Launch date is required" })}
                         className={`w-full px-4 py-2 border rounded-md pr-10 
-                        ${errors.launchDate ? "border-red-500" : touchedFields.launchDate ? "border-green-500" : "border-gray-300"}
-                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
+                          ${errors.launchDate ? "border-red-500" : touchedFields.launchDate ? "border-green-500" : "border-gray-300"}
+                          focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
                       />
                     </div>
 
@@ -705,8 +695,8 @@ export default function ProjectForm() {
                         type="date"
                         {...register("completionDate", { required: "Completion date is required" })}
                         className={`w-full px-4 py-2 border rounded-md pr-10 
-                        ${errors.completionDate ? "border-red-500" : touchedFields.completionDate ? "border-green-500" : "border-gray-300"}
-                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
+                          ${errors.completionDate ? "border-red-500" : touchedFields.completionDate ? "border-green-500" : "border-gray-300"}
+                          focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
                       />
                     </div>
 
@@ -725,8 +715,8 @@ export default function ProjectForm() {
                       type="text"
                       {...register("projectName", { required: "Project name is required" })}
                       className={`w-full px-4 py-2 border rounded-md
-                    ${errors.projectName ? "border-red-500" : touchedFields.projectName ? "border-green-500" : "border-gray-300"}
-                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
+                      ${errors.projectName ? "border-red-500" : touchedFields.projectName ? "border-green-500" : "border-gray-300"}
+                      focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
                     />
 
                     {errors.projectName && (
@@ -896,37 +886,7 @@ export default function ProjectForm() {
                     />
                   </div>
 
-                  {/* Approved by */}
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Approved by
-                    </label>
-                    <input
-                      type="text"
-                      {...register("approvedBy")}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    />
-                  </div>
-
-                  {/* Certificates */}
-                  <div className="md:col-span-2 flex items-center space-x-8">
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        {...register("commencementCertificate")}
-                        className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-                      />
-                      <span className="ml-2 text-gray-700">Commencement Certificate</span>
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        {...register("occupancyCertificate")}
-                        className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-                      />
-                      <span className="ml-2 text-gray-700">Occupancy Certificate</span>
-                    </label>
-                  </div>
+                  
                 </div>
 
                 <div className="mt-8 flex justify-between">
@@ -1078,10 +1038,10 @@ export default function ProjectForm() {
                             accept="image/*"
                             {...register("projectImages")}
                             className="block w-full text-sm text-gray-700
-        file:mr-4 file:py-2 file:px-4
-        file:rounded-md file:border file:border-gray-300
-        file:bg-gray-100 file:text-gray-700
-        hover:file:bg-gray-200 cursor-pointer"
+          file:mr-4 file:py-2 file:px-4
+          file:rounded-md file:border file:border-gray-300
+          file:bg-gray-100 file:text-gray-700
+          hover:file:bg-gray-200 cursor-pointer"
                           />
                         </div>
 
@@ -1218,8 +1178,8 @@ export default function ProjectForm() {
                         type="text"
                         {...register("city", { required: "City is required" })}
                         className={`w-full border rounded px-3 py-2
-        ${errors.city ? "border-red-500" : touchedFields.city ? "border-green-500" : "border-gray-300"}
-        focus:ring-2 focus:ring-blue-500`}
+          ${errors.city ? "border-red-500" : touchedFields.city ? "border-green-500" : "border-gray-300"}
+          focus:ring-2 focus:ring-blue-500`}
                       />
 
                       {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city.message}</p>}
@@ -1233,8 +1193,8 @@ export default function ProjectForm() {
                         type="text"
                         {...register("area", { required: "Area / Locality is required" })}
                         className={`w-full border rounded px-3 py-2
-        ${errors.area ? "border-red-500" : touchedFields.area ? "border-green-500" : "border-gray-300"}
-        focus:ring-2 focus:ring-blue-500`}
+          ${errors.area ? "border-red-500" : touchedFields.area ? "border-green-500" : "border-gray-300"}
+          focus:ring-2 focus:ring-blue-500`}
                       />
 
                       {errors.area && <p className="text-red-500 text-sm mt-1">{errors.area.message}</p>}
@@ -1263,8 +1223,8 @@ export default function ProjectForm() {
                         }}
 
                         className={`w-full border rounded px-3 py-2 
-      ${errors.pincode ? "border-red-500" : "border-gray-300"} 
-      focus:ring-2 focus:ring-blue-500`}
+        ${errors.pincode ? "border-red-500" : "border-gray-300"} 
+        focus:ring-2 focus:ring-blue-500`}
                       />
 
                       {errors.pincode && (
