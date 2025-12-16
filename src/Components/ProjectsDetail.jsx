@@ -287,15 +287,44 @@ const ProjectsDetail = () => {
 
                         {/* Location Details */}
                         <div>
-                            <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">Location Details</p>
+                            <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">
+                                Location Details
+                            </p>
+
                             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
                                 {Object.entries(addressObj).map(([key, value]) => {
                                     if (!value || key === "coordinates") return null;
+
                                     const label = key
                                         .replace(/_/g, " ")
                                         .replace(/\b\w/g, (l) => l.toUpperCase());
+
+                                    // Agar address bahut bada hai
+                                    if (key === "address" || key === "full_address") {
+                                        return (
+                                            <li
+                                                key={key}
+                                                className="col-span-1 sm:col-span-2 lg:col-span-3 bg-white rounded-full p-5 break-words"
+                                            >
+                                                <div className="flex items-start gap-4">
+                                                    <div className="bg-[#851524] p-4 rounded-full flex-shrink-0">
+                                                        <FaMapMarkerAlt size={24} color="yellow" />
+                                                    </div>
+                                                    <div className="flex flex-col">
+                                                        <span className="font-bold text-black text-lg mb-2">{label}</span>
+                                                        <span className="text-sm text-gray-700 break-words">{value}</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        );
+                                    }
+
+                                    // Default small card
                                     return (
-                                        <li key={key} className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                                        <li
+                                            key={key}
+                                            className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3"
+                                        >
                                             <div className="bg-[#851524] p-3 rounded-full flex-shrink-0">
                                                 <FaMapMarkerAlt size={20} color="yellow" />
                                             </div>
@@ -308,6 +337,7 @@ const ProjectsDetail = () => {
                                 })}
                             </ul>
                         </div>
+
 
                         {/* Amenities */}
                         {property.amenities && property.amenities.length > 0 && (
