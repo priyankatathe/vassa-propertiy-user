@@ -791,6 +791,7 @@ export default function ProjectForm() {
                         className="px-4 py-2 border border-gray-300 rounded-md sm:rounded-r-md sm:rounded-l-none bg-white focus:outline-none w-full sm:w-1/2"
                       >
                         <option value="">-- Select Unit --</option>
+                        <option value="sq_ft">Sq. ft</option>
                         <option value="sq_meters">Sq. Meters</option>
                         <option value="grounds">Grounds</option>
                         <option value="aankadam">Aankadam</option>

@@ -653,7 +653,7 @@ export default function PropertyForm() {
         "Viewing Gallery", "Visitor waiting area", "Volleyball court", "Waiting Lounge", "Wardrobe", "Wardrobe T.V", "Washing machine", "Water connection", "Water Conservation", "Water softener", "Water sky observatory", "WiFi", "WiFi Zone", "Yoga", "Yoga Center", "Yoga Pads",
 
     ];
-    ``
+    
 
     // ADVERTISEMENT OPTIONS
     const advertisementOptions = [
