@@ -263,6 +263,8 @@ const ProjectsDetail = () => {
                             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
                                 {[
                                     ["Developer Name", property.Developer_Name],
+                                    ["Project owner", property.Project_owner],
+                                    ["Public code Name", property.Public_code_Name],
                                     ["Transaction Type", property.Transaction_Type],
                                     ["Possession", property.Possession],
                                     ["Launch Date", property.Launch_Date],
