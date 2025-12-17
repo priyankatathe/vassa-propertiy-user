@@ -11,6 +11,19 @@ import PropertiyOtherImg from "./PropertiyOtherImg";
 import { useSelector } from "react-redux";
 import { FaFileAlt, FaMapMarkerAlt, FaTools } from "react-icons/fa";
 
+const parseJSON = (value, fallback = null) => {
+  if (!value) return fallback;
+  if (typeof value === "object") return value;
+
+  try {
+    return JSON.parse(value);
+  } catch (err) {
+    console.error("Invalid JSON:", value);
+    return fallback;
+  }
+};
+
+
 const HouseDetails = () => {
   const location = useLocation();
   const propertyId = location.state?.propertyId;
@@ -108,6 +121,7 @@ const HouseDetails = () => {
   const pricing = typeof property?.pricing === "string" ? JSON.parse(property.pricing) : property?.pricing || {};
   const amenities = typeof property?.Amential === "string" ? JSON.parse(property.Amential) : property?.Amential || [];
   const bedRoom = parseJSON(property?.BedRoom);
+
 
 
 
