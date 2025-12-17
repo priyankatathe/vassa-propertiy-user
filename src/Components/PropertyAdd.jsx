@@ -225,148 +225,6 @@ export default function PropertyForm() {
     };
 
 
-    // const onSubmit = async () => {
-    //     if (!propertyId) {
-    //         alert("Property ID missing!");
-    //         return;
-    //     }
-
-    //     const data = watch();
-    //     const formData = new FormData();
-
-    //     // ---- Simple Fields ----
-    //     formData.append("owner_name", data.owner || "");  
-    //     formData.append("Request_Date", data.requestDate || "");
-    //     formData.append("for", data.for || "");
-    //     formData.append("property_type", data.propertyType || "");
-    //     formData.append("transaction", data.transaction || "");
-    //     formData.append("ownerShip", data.ownership || "");
-    //     formData.append("Bedroom", data.bedroom || "");
-    //     formData.append("Furnishing", data.furnishing || "");
-    //     formData.append("suitable_feature", data.suitableFor || "");
-    //     formData.append("unique_feature", data.uniqueFeature || "");
-    //     formData.append("Description", data.description || "");
-    //     formData.append("Video_url", data.videoUrl || "");
-    //     formData.append("website_keywords", data.websiteKeyword || "");
-
-    //     // ---- Address Object ----
-    //     formData.append("Address[flat_no]", data.flatUnit || "");
-    //     formData.append("Address[building]", data.buildingProject || "");
-    //     formData.append("Address[street]", data.street || "");
-    //     formData.append("Address[landmark]", data.landmark || "");
-    //     formData.append("Address[city]", data.city || "");
-    //     formData.append("Address[locality]", data.locality || "");
-    //     formData.append("Address[pincode]", data.pinCode || "");
-    //     formData.append("Address[state]", "");
-    //     formData.append("Address[lat]", latLng.lat?.toString() || "");
-    //     formData.append("Address[lng]", latLng.lng?.toString() || "");
-
-    //     // ---- Area Object ----
-    //     formData.append("Area[super_builtup]", data.area ? `${data.area} ${data.areaUnit}` : "");
-    //     formData.append("Area[built_up]", data.builtUpArea ? `${data.builtUpArea} ${data.builtUpUnit}` : "");
-    //     formData.append("Area[carpet_area]", data.carpetArea ? `${data.carpetArea} ${data.carpetUnit}` : "");
-    //     formData.append("Area[plot_area]", data.plotArea && data.plotAreaUnit
-    //         ? `${data.plotArea} ${data.plotAreaUnit}`
-    //         : (data.plotArea ? data.plotArea : "")
-    //     );
-    //     formData.append("Area[terrace_area]",
-    //         data.terraceArea
-    //             ? `${data.terraceArea} ${data.terraceUnit || ''}`.trim()
-    //             : ""
-    //     );
-
-    //     formData.append("Area[area_range]",
-    //         data.areaRange
-    //             ? `${data.areaRange} ${data.areaRangeUnit || ''}`.trim()
-    //             : ""
-    //     );
-    //     formData.append("plot_length", data.plotLength || "");
-    //     formData.append("plot_width", data.plotWidth || "");
-    //     formData.append("property_width", data.propertyWidth || "");
-    //     formData.append("property_depth", data.propertyDepth || "");
-    //     formData.append("negotiable_amount", data.negotiableAmount || "");
-    //     formData.append("no_of_lifts", data.noLift || "");
-    //     formData.append("workstation", data.workstation || "");
-    //     formData.append("cabins", data.cabins || "");
-    //     formData.append("conference_room", data.conferenceRoom || "");
-    //     formData.append("power_kva", data.powerKVA || "");
-    //     formData.append("rent_escalation", data.rentEscalation || "");
-    //     formData.append("roi", data.roi || "");
-
-    //     // ---- Pricing Object ----
-    //     formData.append("pricing[expected_price]", data.expectedPrice || "");
-    //     formData.append("pricing[price_per_sqft]", pricePerUnit || "");
-    //     formData.append("pricing[tax_govt_charges]", "Not Included");
-
-    //     // ---- Amenities Array ----
-    //     if (selectedOptions?.length > 0) {
-    //         selectedOptions.forEach((opt, index) => {
-    //             formData.append(`Amential[${index}]`, opt);
-    //         });
-    //     }
-
-    //     // ---- BedRoom Object + Array ----
-    //     formData.append("BedRoom[bathrooms]", `${data.bathCommon || 0} Common + ${data.bathEnsuite || 0} Ensuite`);
-    //     formData.append("BedRoom[balcony]", "");
-
-    //     let additionalRooms = [
-    //         data.masterBedroom ? "Master Bedroom" : null,
-    //         data.guestRoom ? "Guest Room" : null,
-    //         data.childRoom ? "Child Room" : null,
-    //         data.otherRoom || null
-    //     ].filter(Boolean);
-
-    //     additionalRooms.forEach((room, index) => {
-    //         formData.append(`BedRoom[additional_rooms][${index}]`, room);
-    //     });
-
-    //     // ---- Features Object ----
-    //     formData.append("Feacture[floor_no]", data.propertyOnFloor || "");
-    //     formData.append("Feacture[total_floor]", data.totalFloor || "");
-    //     formData.append("Feacture[age_of_property]", data.ageProperty || "");
-    //     formData.append("Feacture[facing]", data.facing || "");
-    //     formData.append("Feacture[flooring]", data.flooring || "");
-
-    //     // ---- Lease_Rent Object ----
-    //     formData.append("Lease_Rent[monthly_rent]", data.rentPerMonth || "");
-    //     formData.append("Lease_Rent[security_deposit]", data.securityDeposit || "");
-    //     formData.append("Lease_Rent[lock_in_period]", data.lockinPeriod ? `${data.lockinPeriod} months` : "");
-    //     formData.append("Lease_Rent[maintenance]", data.maintenanceCharges || "");
-    //     formData.append("Lease_Rent[lease_period]", data.leasePeriod ? `${data.leasePeriod} months` : "");
-    //     formData.append("status", "pending_review");
-    //     // ---- Images ----
-    //     if (data.projectImages?.length > 0) {
-    //         [...data.projectImages].forEach((file) => {
-    //             formData.append("Other_images", file);
-    //         });
-    //     }
-
-    //     // ---- Document ----
-    //     if (data.document && data.document[0]) {
-    //         formData.append("Documents", data.document[0]);
-    //     }
-
-    //     // ---- API CALL ----
-    //     try {
-    //         await alldata({
-    //             id: propertyId,
-    //             formData
-    //         }).unwrap();
-
-    //         alert("Property submitted successfully!");
-    //         reset();
-    //         setStep(1);
-    //         setPropertyId(null);
-    //         setSelectedOptions([]);
-
-    //     } catch (err) {
-    //         console.error(err);
-    //         alert("Failed: " + (err?.data?.message || "Server error"));
-    //     }
-    // };
-
-
-
     const onSubmit = async () => {
         if (!propertyId) {
             alert("Property ID missing!");
@@ -390,10 +248,11 @@ export default function PropertyForm() {
         formData.append("Description", data.description || "");
         formData.append("Video_url", data.videoUrl || "");
         formData.append("website_keywords", data.websiteKeyword || "");
+        
 
         // ================= ADDRESS =================
         formData.append("Address[flat_no]", data.flatUnit || "");
-        formData.append("Address[building]", data.buildingProject || "");
+        formData.append("Address[buildingProject]", data.buildingProject || "");
         formData.append("Address[street]", data.street || "");
         formData.append("Address[landmark]", data.landmark || "");
         formData.append("Address[city]", data.city || "");
@@ -461,21 +320,15 @@ export default function PropertyForm() {
         }
 
         // ================= BEDROOM =================
-        formData.append(
-            "BedRoom[bathrooms]",
-            `${data.bathCommon || 0} Common + ${data.bathEnsuite || 0} Ensuite`
-        );
+        formData.append("BedRoom[master]", data.masterBedroom || 0);
+        formData.append("BedRoom[guest]", data.guestRoom || 0);
+        formData.append("BedRoom[child]", data.childRoom || 0);
+        formData.append("BedRoom[other]", data.otherRoom || 0);
 
-        const additionalRooms = [
-            data.masterBedroom ? "Master Bedroom" : null,
-            data.guestRoom ? "Guest Room" : null,
-            data.childRoom ? "Child Room" : null,
-            data.otherRoom || null
-        ].filter(Boolean);
+        // ================= BATHROOM COUNTS =================
+        formData.append("BedRoom[bathrooms][common]", data.bathCommon || 0);
+        formData.append("BedRoom[bathrooms][ensuite]", data.bathEnsuite || 0);
 
-        additionalRooms.forEach((room, index) => {
-            formData.append(`BedRoom[additional_rooms][${index}]`, room);
-        });
 
         // ================= LEASE / RENT =================
         formData.append("Lease_Rent[monthly_rent]", data.rentPerMonth || "");

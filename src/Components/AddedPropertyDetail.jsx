@@ -131,6 +131,7 @@ const AddedPropertyDetail = () => {
 
   // Use it safely
   const address = parseJSON(property?.Address);
+  const bedRoom = parseJSON(property?.BedRoom);
   const area = parseJSON(property?.Area);
   const features = parseJSON(property?.Feacture);
   const lease = parseJSON(property?.Lease_Rent);
@@ -317,6 +318,87 @@ const AddedPropertyDetail = () => {
                 ))}
               </ul>
             </div>
+            {bedRoom && (
+              <div className="">
+                <p className="border-b pb-5 font-bold text-xl border-[#D9D9D9]">
+                  Bedroom & Bathroom Details
+                </p>
+
+                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-3">
+
+                  {/* Master Bedroom */}
+                  {bedRoom.master > 0 && (
+                    <li className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                      <div className="bg-[#851524] p-3 rounded-full">
+                        <FaHouse size={20} color="yellow" />
+                      </div>
+                      <div>
+                        <span className="font-bold">Master Bedroom</span>
+                        <p className="text-sm text-gray-700">{bedRoom.master}</p>
+                      </div>
+                    </li>
+                  )}
+
+                  {/* Guest Room */}
+                  {bedRoom.guest > 0 && (
+                    <li className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                      <div className="bg-[#851524] p-3 rounded-full">
+                        <FaHouse size={20} color="yellow" />
+                      </div>
+                      <div>
+                        <span className="font-bold">Guest Room</span>
+                        <p className="text-sm text-gray-700">{bedRoom.guest}</p>
+                      </div>
+                    </li>
+                  )}
+
+                  {/* Child Room */}
+                  {bedRoom.child > 0 && (
+                    <li className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                      <div className="bg-[#851524] p-3 rounded-full">
+                        <FaHouse size={20} color="yellow" />
+                      </div>
+                      <div>
+                        <span className="font-bold">Child Room</span>
+                        <p className="text-sm text-gray-700">{bedRoom.child}</p>
+                      </div>
+                    </li>
+                  )}
+
+                  {/* Other Room */}
+                  {bedRoom.other > 0 && (
+                    <li className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                      <div className="bg-[#851524] p-3 rounded-full">
+                        <FaHouse size={20} color="yellow" />
+                      </div>
+                      <div>
+                        <span className="font-bold">Other Rooms</span>
+                        <p className="text-sm text-gray-700">{bedRoom.other}</p>
+                      </div>
+                    </li>
+                  )}
+
+                  {/* Bathrooms */}
+                  {(bedRoom?.bathrooms?.common || bedRoom?.bathrooms?.ensuite) && (
+                    <li className="flex items-start gap-4 bg-white rounded-full shadow-sm py-2 px-3">
+                      <div className="bg-[#851524] p-3 rounded-full">
+                        <FaTools size={20} color="yellow" />
+                      </div>
+                      <div>
+                        <span className="font-bold">Bathrooms</span>
+                        <p className="text-sm text-gray-700">
+                          {bedRoom.bathrooms.common || 0} Common
+                          {" • "}
+                          {bedRoom.bathrooms.ensuite || 0} Ensuite
+                        </p>
+                      </div>
+                    </li>
+                  )}
+
+                </ul>
+              </div>
+            )}
+
 
             {/* Area Details */}
             <div className="">
