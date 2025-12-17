@@ -86,7 +86,7 @@ const ProjectHero = () => {
                     </p>
 
                     <h2 className="text-3xl md:text-4xl font-semibold whitespace-nowrap">
-                        <span className="text-yellow-500 italic">Featured</span> Projects
+                        <span className="text-yellow-500 font-playfair italic">Featured</span> Projects
                     </h2>
                 </div>
 
